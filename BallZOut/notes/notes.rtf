@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf460
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;}
+\deftab720
+\pard\pardeftab720\ql\qnatural
+
+\f0\fs20 \cf0 //\
+// Project notes\
+//\
+\
+This works in 2.1 onwards but the AudioSession must have already been\
+initialised.\
+\
+UInt32 isPlaying;\
+UInt32 varSize = sizeof(isPlaying);\
+AudioSessionGetProperty (kAudioSessionProperty_OtherAudioIsPlaying,\
+&varSize, &isPlaying);\
+if (isPlaying != 0) \{\
+	NSLog(@">>> Audio is playing <<<");\
+\}\
+\
+What sound engine are you using?\
+\
+floating point comparisons:\
+\
+http://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_representation.html\
+http://www.cygnus-software.com/papers/comparingfloats/Comparing%20floating%20point%20numbers.htm\
+http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm}
