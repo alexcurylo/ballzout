@@ -1,0 +1,30 @@
+//
+//  TWProjectRelease.xcconfig
+//
+//  Copyright Trollwerks Inc 2009. All rights reserved.
+//
+
+TW_CONFIGURATION_GCC_PREPROCESSOR_DEFINITIONS = NDEBUG=1
+
+GCC_OPTIMIZATION_LEVEL = s
+GCC_WARN_UNINITIALIZED_AUTOS = YES
+
+//GCC_FAST_MATH = YES; -- may affect rounding
+//GCC_THUMB_SUPPORT = NO; -- makes larger, faster on floating point/3D?
+
+GCC_TREAT_WARNINGS_AS_ERRORS = YES
+
+GCC_GENERATE_DEBUGGING_SYMBOLS = NO
+DEPLOYMENT_POSTPROCESSING = YES
+COPY_PHASE_STRIP = YES
+DEAD_CODE_STRIPPING = YES
+STRIP_STYLE = all
+
+// ASSERT going away in release tends to create unused vars.
+//TW_CONFIGURATION_WARNING_CFLAGS = -Wno-unused-variable -Winit-self -Wno-extra
+
+// -Wno-unused-parameter needed because of "unused parameter 'value'" garbage from @synthesize in gcc 4.0
+// init-self can only be turned on when optimizations are on
+TW_CONFIGURATION_WARNING_CFLAGS = -Wno-unused-parameter -Winit-self
+
+#include "TWProjectBase.xcconfig"

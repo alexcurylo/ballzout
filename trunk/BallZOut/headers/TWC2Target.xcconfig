@@ -1,0 +1,19 @@
+//
+//  TWC2Target.xcconfig
+//
+//  Copyright 2009 Trollwerks Inc. All rights reserved.
+//
+
+PRODUCT_NAME = BallZOut
+
+GCC_PREFIX_HEADER = headers/TWProjectPrefix.h
+INFOPLIST_FILE = resources/TWC2ApplicationInfo.plist
+//INFOPLIST_PREFIX_HEADER = resources/version.h
+//INFOPLIST_PREPROCESS = YES
+
+TW_TARGET_GCC_PREPROCESSOR_DEFINITIONS = COCOSLOG=0
+
+// Cocos2d has lots of no-float-equal, we won't worry about it for now
+TW_TARGET_WARNING_CFLAGS = -Wno-float-equal
+// SoundEngine.cpp has a stl_tree initialization warning which we won't bother working around
+TW_TARGET_OTHER_CPLUSPLUSFLAGS = -Wno-effc++
