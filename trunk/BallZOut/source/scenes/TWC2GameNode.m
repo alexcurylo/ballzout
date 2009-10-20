@@ -74,14 +74,14 @@ enum {
 const float	kSapusTongueLength = 80.0f;
  */
 const float kPinballRadius = 13.f; // 26 x 26 .png
-const float kPinballMass = 1.f;
+const float kPinballMass = 0.5f;
 const float kPinballElasticity = 0.7f;
-const float kPinballFriction = 0.1f;
+const float kPinballFriction = 0.f;
 
-const float kWallElasticity = 0.9f;
-const float kWallFriction = 0.1f;
+const float kWallElasticity = 0.6f;
+const float kWallFriction = 0.f;
 
-const float kAccelerometerForceMultiplier = 450.0f;
+const float kAccelerometerForceMultiplier = 1800.f;
 
 /*
 const float kSapusElasticity = 0.99f;
@@ -234,6 +234,18 @@ static int collisionSapusFloor(
 	if( cpvlength(sapus->body->v) > 250 )
 		[[SoundEngineManager sharedManager] playSound:@"snd-gameplay-boing.caf"];
 	*/
+   
+   /* from forum post
+    ParticleSystem* emitter = [ParticleExplosion node];
+    emitter.position = cpv(contacts->p.x, contacts->p.y);
+    emitter.life = 0.5f;
+    emitter.duration = 0.5f;
+    emitter.lifeVar = 0.5f;
+    emitter.totalParticles = abs(a->body->v.y)*0.05;
+    
+    //	[layer addChild:emitter];  //emitter for particle system effect
+    (not used at this time)
+    */
    
 	// TIP:
 	// return 1 means: "engine treat this collision as normal collision"
@@ -1127,7 +1139,8 @@ twlog("ccTouchesEnded!");
 	
 	_accelValsRecieved = YES;
 
-#define kFilterFactor 0.05f
+#define kFilterFactor 0.05f // lower this number for slower change of direction
+//#define kFilterFactor 0.3
 	
    switch (state)
    {
@@ -1143,6 +1156,11 @@ twlog("ccTouchesEnded!");
          
          // landscape mode
          accelerometerForce = cpv( (float)-acceleration.y, (float)acceleration.x);			
+
+         // a portrait version
+         //cpVect v = cpv( accelX, accelY);
+         //cpVect v2 = cpvperp(v); //rotate vector 90 degrees since we are in portrait!
+         //space->gravity = cpvmult(v2, 2000);
          }
          break;
       /*

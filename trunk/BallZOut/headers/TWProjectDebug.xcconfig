@@ -4,6 +4,10 @@
 //  Copyright Trollwerks Inc 2009. All rights reserved.
 //
 
+// http://robnapier.net/blog/build-system-1-build-panel-360#more-360
+// ONLY_ACTIVE_ARCH = YES
+// GCC_DYNAMIC_NO_PIC = NO
+
 TW_CONFIGURATION_GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1
 
 GCC_OPTIMIZATION_LEVEL = 0
