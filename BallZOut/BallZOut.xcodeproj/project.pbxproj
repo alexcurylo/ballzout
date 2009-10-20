@@ -69,6 +69,8 @@
 		FA1159EB0FDAE54B00174369 /* btn-playagain-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1159E90FDAE54B00174369 /* btn-playagain-normal.png */; };
 		FA1159EC0FDAE54B00174369 /* btn-playagain-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1159EA0FDAE54B00174369 /* btn-playagain-selected.png */; };
 		FA1159F60FDAEA6700174369 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1159F50FDAEA6700174369 /* fire.png */; };
+		FA2F5331105B4301000633CF /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2F5330105B4301000633CF /* libisimulate.a */; };
+		FA2F533B105B439A000633CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2F533A105B439A000633CF /* CoreLocation.framework */; };
 		FAB7D16C0FA6BF1800CBDED9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB7D1670FA6BF1800CBDED9 /* Default.png */; };
 		FAB7D16D0FA6BF1800CBDED9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB7D1680FA6BF1800CBDED9 /* Icon.png */; };
 		FAB7D17D0FA6BF1F00CBDED9 /* TWC2Main.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB7D1730FA6BF1F00CBDED9 /* TWC2Main.m */; };
@@ -186,6 +188,8 @@
 		FA1159E90FDAE54B00174369 /* btn-playagain-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-playagain-normal.png"; sourceTree = "<group>"; };
 		FA1159EA0FDAE54B00174369 /* btn-playagain-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-playagain-selected.png"; sourceTree = "<group>"; };
 		FA1159F50FDAEA6700174369 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
+		FA2F5330105B4301000633CF /* libisimulate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libisimulate.a; sourceTree = "<group>"; };
+		FA2F533A105B439A000633CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FAB7D15E0FA6BEFF00CBDED9 /* notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = notes.rtf; sourceTree = "<group>"; };
 		FAB7D1620FA6BF0900CBDED9 /* TWC2Target.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = TWC2Target.xcconfig; sourceTree = "<group>"; };
 		FAB7D1670FA6BF1800CBDED9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -323,6 +327,8 @@
 				FAEE73730FD99A17003A225E /* OpenAL.framework in Frameworks */,
 				FAEE73FC0FD9A655003A225E /* OpenGLES.framework in Frameworks */,
 				FAEE741A0FD9A898003A225E /* QuartzCore.framework in Frameworks */,
+				FA2F5331105B4301000633CF /* libisimulate.a in Frameworks */,
+				FA2F533B105B439A000633CF /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +361,7 @@
 			children = (
 				FAEE73670FD99A06003A225E /* AudioToolbox.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				FA2F533A105B439A000633CF /* CoreLocation.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				FAEE73720FD99A17003A225E /* OpenAL.framework */,
 				FAEE73FB0FD9A655003A225E /* OpenGLES.framework */,
@@ -432,6 +439,7 @@
 		FAB7D1720FA6BF1F00CBDED9 /* application */ = {
 			isa = PBXGroup;
 			children = (
+				FA2F5330105B4301000633CF /* libisimulate.a */,
 				FAB7D1730FA6BF1F00CBDED9 /* TWC2Main.m */,
 				FAB7D1740FA6BF1F00CBDED9 /* TWC2AppDelegate.h */,
 				FAB7D1750FA6BF1F00CBDED9 /* TWC2AppDelegate.m */,
@@ -881,6 +889,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAB7D1620FA6BF0900CBDED9 /* TWC2Target.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/source/application\"",
+				);
 			};
 			name = Debug;
 		};
@@ -888,6 +900,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FAB7D1620FA6BF0900CBDED9 /* TWC2Target.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/source/application\"",
+				);
 			};
 			name = Release;
 		};
