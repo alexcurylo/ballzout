@@ -1,0 +1,9 @@
+//
+//  TWProjectAppStore.xcconfig
+//
+//  Copyright 2010 Trollwerks Inc. All rights reserved.
+//
+
+TW_CONFIGURATION_GCC_PREPROCESSOR_DEFINITIONS = NDEBUG=1 NS_BLOCK_ASSERTIONS=1 APPSTORE=1
+
+#include "TWProjectRelease.xcconfig"

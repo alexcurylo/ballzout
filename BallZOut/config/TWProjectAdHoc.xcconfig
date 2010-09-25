@@ -1,0 +1,11 @@
+//
+//  TWProjectAdHoc.xcconfig
+//
+//  Copyright 2010 Trollwerks Inc. All rights reserved.
+//
+
+CODE_SIGN_ENTITLEMENTS = resources/Entitlements.plist
+
+TW_CONFIGURATION_GCC_PREPROCESSOR_DEFINITIONS = NDEBUG=1 NS_BLOCK_ASSERTIONS=1 ADHOC=1
+
+#include "TWProjectRelease.xcconfig"
