@@ -1,0 +1,23 @@
+//
+//  TWTargetBallZOut.xcconfig
+//
+//  Copyright 2009 Trollwerks Inc. All rights reserved.
+//
+
+PRODUCT_NAME = BallZOut
+
+// note that this will pick up the Project settings in $(inherited)
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) BALLZOUT=1
+
+// might as well just set these in build panel
+//TW_CODE_SIGN_IDENTITY = "iPhone Distribution: Trollwerks Inc.";
+//TW_ADHOC_PROVISIONING_PROFILE = "33CF9AFA-F61A-4CC7-ACA4-D896AD1CDE90";
+//TW_APPSTORE_PROVISIONING_PROFILE = "6906C5A2-C360-41C2-BE88-CADE1A43E018";
+//"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trollwerks Inc.";
+//"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6906C5A2-C360-41C2-BE88-CADE1A43E018";
+
+GCC_PREFIX_HEADER = config/TWProjectPrefix.pch
+INFOPLIST_FILE = resources/TWApplicationInfo.plist
+//INFOPLIST_PREFIX_HEADER = resources/version.h
+
+TW_CONFIGURATION_HEADER_SEARCH_PATHS = source/support/cocos2d-libs-0.99.5b3

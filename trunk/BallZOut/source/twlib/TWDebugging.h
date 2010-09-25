@@ -1,7 +1,7 @@
 //
 //  TWDebugging.h
 //
-//  Copyright 2009 Trollwerks Inc. All rights reserved.
+//  Copyright 2010 Trollwerks Inc. All rights reserved.
 //
 
 #pragma mark -
@@ -30,16 +30,21 @@ typedef char twcompileassertsymbol(__LINE__, msg) [ ((test) ? 1 : -1) ]
 #undef DEBUG_ASSERT_PRODUCTION_CODE
 #define DEBUG_ASSERT_PRODUCTION_CODE 0
 
+#define twrelease(x) do { [x release]; if (!NSZombieEnabled) x = 0xDEADBEEF; } while (0)
+
 // note for Objective-C only we could simplify like
 // #define ALog(format, ...) NSLog(@"%s:%@", __PRETTY_FUNCTION__,[NSString stringWithFormat:format, ## __VA_ARGS__]);
 // http://www.alexcurylo.com/blog/2009/04/17/snippet-debug-macros/
 
 #define twlog TWLog
 #define twlogif(assertion, ...) do { if (twunlikely(assertion)) TWLog(__VA_ARGS__); } while (0)
+#define twwin(x) ((x) ? "WIN" : "FAIL")
 #define twlogtouchset TWLogTouchSet
 #define twmark	TWLog("MARK: %s", __PRETTY_FUNCTION__);  
+#define twunimplemented	TWLog("IMPLEMENT: %s", __PRETTY_FUNCTION__);
 #define twtimerstart NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate]
-#define twtimerend(msg) NSTimeInterval stop = [NSDate timeIntervalSinceReferenceDate]; TWLog("%s -- time: %f", msg, stop-start)
+#define twtimerend(msg) NSTimeInterval stop = [NSDate timeIntervalSinceReferenceDate]; if (msg) TWLog("%s -- time: %f", msg, stop-start)
+#define twtimerduration (stop - start)
 
 #define twcheck(assertion)                          \
    do                                               \
@@ -58,12 +63,17 @@ typedef char twcompileassertsymbol(__LINE__, msg) [ ((test) ? 1 : -1) ]
 
 #else
 
+#define twrelease(x) [x release], x = nil
+
 #define twlog(...)
 #define twlogif(...)
+#define twwin(...)
 #define twlogtouchset(...)
 #define twmark
+#define twunimplemented
 #define twtimerstart
 #define twtimerend(...)
+#define twtimerduration 0
 
 #define twcheck(...)
 #define twcheck_noerr(x) (void)(x)

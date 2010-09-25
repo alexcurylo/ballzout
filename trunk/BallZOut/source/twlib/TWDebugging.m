@@ -1,7 +1,7 @@
 //
 //  TWDebugging.m
 //
-//  Copyright 2009 Trollwerks Inc. All rights reserved.
+//  Copyright 2010 Trollwerks Inc. All rights reserved.
 //
 
 // some more comments;
