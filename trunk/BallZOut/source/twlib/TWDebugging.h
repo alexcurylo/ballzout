@@ -30,7 +30,7 @@ typedef char twcompileassertsymbol(__LINE__, msg) [ ((test) ? 1 : -1) ]
 #undef DEBUG_ASSERT_PRODUCTION_CODE
 #define DEBUG_ASSERT_PRODUCTION_CODE 0
 
-#define twrelease(x) do { [x release]; if (!NSZombieEnabled) x = 0xDEADBEEF; } while (0)
+#define twrelease(x) do { [x release]; if (!getenv("NSZombieEnabled")) x = (id)0xDEADBEEF; } while (0)
 
 // note for Objective-C only we could simplify like
 // #define ALog(format, ...) NSLog(@"%s:%@", __PRETTY_FUNCTION__,[NSString stringWithFormat:format, ## __VA_ARGS__]);

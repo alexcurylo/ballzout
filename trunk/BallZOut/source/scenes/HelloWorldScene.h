@@ -6,6 +6,7 @@
 //  Copyright Trollwerks Inc. 2010. All rights reserved.
 //
 
+//#error HelloWorldScene is obsolete
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"

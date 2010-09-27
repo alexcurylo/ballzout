@@ -6,6 +6,7 @@
 //  Copyright Trollwerks Inc. 2010. All rights reserved.
 //
 
+//#error HelloWorldScene is obsolete
 
 // Import the interfaces
 #import "HelloWorldScene.h"
@@ -71,7 +72,7 @@ enum {
 		
 		// Debug Draw functions
 		m_debugDraw = new GLESDebugDraw( PTM_RATIO );
-		world->SetDebugDraw(m_debugDraw);
+		//world->SetDebugDraw(m_debugDraw);
 		
 		uint32 flags = 0;
 		flags += b2DebugDraw::e_shapeBit;
@@ -237,6 +238,11 @@ enum {
 	prevX = accelX;
 	prevY = accelY;
 	
+	// multiply the gravity by 10
+   // it comes in portrait
+   b2Vec2 gravity( accelX * 10, accelY * 10);
+
+   /*
 #if GAME_AUTOROTATION == kGameAutorotationNone
    // added because we want it to be portrait not landscape like template ...alex
 	// multiply the gravity by 10
@@ -246,7 +252,8 @@ enum {
 	// multiply the gravity by 10
 	b2Vec2 gravity( -accelY * 10, accelX * 10);
 #endif GAME_AUTOROTATION == kGameAutorotationNone
-	
+	*/
+   
 	world->SetGravity( gravity );
 }
 
