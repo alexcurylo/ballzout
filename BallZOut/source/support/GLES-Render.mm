@@ -161,7 +161,7 @@ void GLESDebugDraw::DrawString(int x, int y, const char *string, ...)
    (void)x;
    (void)y;
    (void)string;
-//	NSLog(@"DrawString: unsupported: %s", string);
+   twlog("DrawString: unsupported: %s", string);
 	//printf(string);
 	/* Unsupported as yet. Could replace with bitmap font renderer at a later date */
 }

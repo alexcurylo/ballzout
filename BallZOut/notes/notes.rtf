@@ -1,6 +1,7 @@
-{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf460
-{\fonttbl\f0\fnil\fcharset0 Monaco;}
-{\colortbl;\red255\green255\blue255;}
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf320
+{\fonttbl\f0\fnil\fcharset0 Monaco;\f1\fnil\fcharset0 Cambria;\f2\fnil\fcharset0 Calibri;
+\f3\fnil\fcharset0 Consolas;}
+{\colortbl;\red255\green255\blue255;\red9\green86\blue188;\red239\green239\blue239;}
 \deftab720
 \pard\pardeftab720\ql\qnatural
 
@@ -8,21 +9,26 @@
 // Project notes\
 //\
 \
-This works in 2.1 onwards but the AudioSession must have already been\
-initialised.\
+"Linear damping" is apparently how to implement friction.\
 \
-UInt32 isPlaying;\
-UInt32 varSize = sizeof(isPlaying);\
-AudioSessionGetProperty (kAudioSessionProperty_OtherAudioIsPlaying,\
-&varSize, &isPlaying);\
-if (isPlaying != 0) \{\
-	NSLog(@">>> Audio is playing <<<");\
-\}\
+http://stackoverflow.com/questions/2569374/friction-in-box2d\
 \
-What sound engine are you using?\
+\pard\pardeftab720\sl340\ql\qnatural
+
+\f1\b\fs30 \cf2 Damping\
+\pard\pardeftab720\sl340\sa260\ql\qnatural
+
+\f2\b0 \cf0 Damping is used to reduce the world velocity of bodies. Damping is different than friction because friction only occurs with contact. Damping is not a replacement for friction and the two effects should be used together.\
+Damping parameters should be between 0 and infinity, with 0 meaning no damping, and infinity meaning full damping. Normally you will use a damping value between 0 and 0.1. I generally do not use linear damping because it makes bodies look floaty.\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\f3\fs26 \cf0 \cb3 bodyDef.linearDamping = 0.0f;\
+bodyDef.angularDamping = 0.01f;\
+\pard\pardeftab720\sl340\sa260\ql\qnatural
+
+\f2\fs30 \cf0 \cb1 Damping is approximated for stability and performance. At small damping values the damping effect is mostly independent of the time step. At larger damping values, the damping effect will vary with the time step. This is not an issue if you use a fixed time step (recommended).
+\f0\fs20 \
+\pard\pardeftab720\ql\qnatural
+\cf0 \
 \
-floating point comparisons:\
-\
-http://www.cprogramming.com/tutorial/floating_point/understanding_floating_point_representation.html\
-http://www.cygnus-software.com/papers/comparingfloats/Comparing%20floating%20point%20numbers.htm\
-http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm}
+http://www.jonvoth.com/blog/how-to-set-friction-on-circles-in-box2d/}
