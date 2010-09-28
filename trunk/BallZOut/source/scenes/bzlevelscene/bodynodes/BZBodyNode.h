@@ -1,11 +1,8 @@
 //
-//  BodyNode.h
-//  LevelSVG
+//  BZBodyNode.h
 //
-//  Created by Ricardo Quesada on 19/12/09.
 //  Copyright 2009,2010 Sapus Media. All rights reserved.
 //
-//  DO NOT DISTRIBUTE THIS FILE WITHOUT PRIOR AUTHORIZATION
 
 
 // box2d classes
@@ -59,7 +56,7 @@ enum {
  
  IMPORTANT: In order to move the b2 body using actions, the body must be "kinematic" or "static" type.
  */
-@interface BodyNode : CCSprite <Box2dCollisionProtocol> {
+@interface BZBodyNode : CCSprite <Box2dCollisionProtocol> {
 
 	// weak ref to box2d body
 	b2Body			*body_;
@@ -113,10 +110,16 @@ enum {
  */
 -(void) setParameters:(NSDictionary*)params;
 
+// moving at a non-trivial rate?
+- (BOOL)inMotion;
+
+// covering a point?
+- (BOOL)coversPoint:(b2Vec2)point;
+
 @end
 
 // protocols
-@protocol BodyNodeBulletProtocol
+@protocol BZBodyNodeBulletProtocol
 -(void) touchedByBullet:(id)bullet;
 @end
 

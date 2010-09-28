@@ -36,7 +36,7 @@
 
 #import "SVGParser.h"
 #import "BezierCurves.h"
-#import "GameConfiguration.h"
+//#import "GameConfiguration.h"
 
 @interface SVGParser (Private)
 
@@ -708,12 +708,12 @@
 
 -(void) parseGameConfigurationAttributes:(NSString*)str
 {
-	GameConfiguration *config = [GameConfiguration sharedConfiguration];
+	//GameConfiguration *config = [GameConfiguration sharedConfiguration];
 	
 	float gravityX = settings.defaultGravity.x; // kPhysicsWorldGravityX
 	float gravityY = settings.defaultGravity.y; // kPhysicsWorldGravityY
-	ControlDirection	direction = kControlDirectionDefault;
-	ControlButton		button = kControlButtonDefault;
+	//ControlDirection	direction = kControlDirectionDefault;
+	//ControlButton		button = kControlButtonDefault;
 
 	NSArray *values = [str componentsSeparatedByString:@","];
 	NSEnumerator *nse = [values objectEnumerator];
@@ -724,22 +724,32 @@
 		NSString *value = [arr objectAtIndex:1];
 		
 		if( [key isEqualToString:@"gravity_x"] )
+      {
+         //twlog("parseGameConfigurationAttributes: found a gravity_x value!");
 			gravityX = [value floatValue];
-		
-		// values should be between 0 and 1
+		}
+      // values should be between 0 and 1
 		else if( [key isEqualToString:@"gravity_y"])
-			gravityY= [value floatValue];
-		
-		else if( [key isEqualToString:@"controls"] ) {
+		{
+         //twlog("parseGameConfigurationAttributes: found a gravity_y value!");
+         gravityY= [value floatValue];
+		}
+		else if( [key isEqualToString:@"controls"] )
+      {
+         twlog("parseGameConfigurationAttributes: found a controls value!");
+        /*
 			if( [value isEqualToString:@"4way"] ) {
 				direction=kControlDirection4Way;
 			} else if( [value isEqualToString:@"2way"] ) {
 				direction=kControlDirection2Way;
 			} else
 				SVGLOG(@"SVG Parser Game Configuration: unkown param in controls type: %@", value);
+          */
 		}
-		
-		else if( [key isEqualToString:@"buttons"] ) {
+		else if( [key isEqualToString:@"buttons"] )
+      {
+         twlog("parseGameConfigurationAttributes: found a buttons value!");
+        /*
 			if( [value isEqualToString:@"0"] )
 				button=kControlButton0;
 			else if( [value isEqualToString:@"1"] )
@@ -747,16 +757,18 @@
 			else if( [value isEqualToString:@"2"] )
 				button=kControlButton2;
 			else
-				SVGLOG(@"SVG Parser Game Configuration: unkown param in buttons type: %@", value);			
+				SVGLOG(@"SVG Parser Game Configuration: unkown param in buttons type: %@", value);
+          */
 		}
-
 		else
 			SVGLOG(@"SVGParser Game configuration: Unrecognized attribute: %@", key);
 	}
 	
+   /*
 	config.controlDirection = direction;
 	config.controlButton = button;
 	config.gravity = CGPointMake( gravityX, gravityY);
+    */
 	
 	box2Dworld->SetGravity( b2Vec2( gravityX, gravityY) );
 }
