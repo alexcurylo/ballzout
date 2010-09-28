@@ -1,21 +1,18 @@
 //
-//  BodyNode.m
-//  LevelSVG
+//  BZBodyNode.m
 //
-//  Created by Ricardo Quesada on 19/12/09.
 //  Copyright 2009 Sapus Media. All rights reserved.
 //
-//  DO NOT DISTRIBUTE THIS FILE WITHOUT PRIOR AUTHORIZATION
 
 
 #import <Box2D/Box2D.h>
 
-#import "BodyNode.h"
+#import "BZBodyNode.h"
 #import "BZLevelConstants.h"
 //#import "GameNode.h"
 #import "BZLevelScene.h"
 
-@implementation BodyNode
+@implementation BZBodyNode
 
 @synthesize body = body_;
 @synthesize reportContacts=reportContacts_;
@@ -53,15 +50,34 @@
 	[super dealloc];
 }
 
-#pragma mark BodyNode - Parameters
+#pragma mark BZBodyNode - Parameters
 -(void) setParameters:(NSDictionary *)params
 {
    (void)params;
 	// override me
 }
 
+// moving at a non-trivial rate?
+- (BOOL)inMotion
+{
+   float lengthSquared = body_->GetLinearVelocity().LengthSquared();
+   BOOL inMotion = kPhysicsShotEndedLengthSquared < lengthSquared;
+   return inMotion;
+}
+
+// covering a point?
+- (BOOL)coversPoint:(b2Vec2)point
+{
+   //b2AABB aabb; QueryAABB??
+   b2Fixture* fixture = body_->GetFixtureList();
+   twcheck(!fixture->GetNext()); // we expect balls to have one fixture
+   if (fixture->TestPoint(point))
+      return YES;
+   return NO;
+}
+
 // box2d contact protocol
-#pragma mark BodyNode - Contact protocol
+#pragma mark BZBodyNode - Contact protocol
 
 -(void) beginContact:(b2Contact*) contact
 {

@@ -140,9 +140,15 @@
 
 - (void)initSounds
 {
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"enemy_killed.wav"];
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"new_life.wav"];
 	[[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_coin.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"you_won.wav"];
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_star.wav"];
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"shoot.wav"];
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"snd-tap-button.caf"];
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"teleport.wav"];
 	[[SimpleAudioEngine sharedEngine] preloadEffect:@"you_are_hit.wav"];
+	[[SimpleAudioEngine sharedEngine] preloadEffect:@"you_won.wav"];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

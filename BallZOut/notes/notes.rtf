@@ -1,6 +1,7 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf320
 {\fonttbl\f0\fnil\fcharset0 Monaco;\f1\fnil\fcharset0 Cambria;\f2\fnil\fcharset0 Calibri;
-\f3\fnil\fcharset0 Consolas;}
+\f3\fnil\fcharset0 Consolas;\f4\froman\fcharset0 Times-Roman;\f5\fnil\fcharset0 LucidaGrande;
+}
 {\colortbl;\red255\green255\blue255;\red9\green86\blue188;\red239\green239\blue239;}
 \deftab720
 \pard\pardeftab720\ql\qnatural
@@ -31,4 +32,43 @@ bodyDef.angularDamping = 0.01f;\
 \pard\pardeftab720\ql\qnatural
 \cf0 \
 \
-http://www.jonvoth.com/blog/how-to-set-friction-on-circles-in-box2d/}
+http://www.jonvoth.com/blog/how-to-set-friction-on-circles-in-box2d/\
+\
+\
+http://forums.tigsource.com/index.php?topic=10726.0;wap2\
+"
+\f4\fs32 I want move a Box2D body in a circular pattern. It's a pretty trivial thing to do.
+\f5 \uc0\u8232 \u8232 
+\f4 This works perfectly with SetXForm :
+\f5 \uc0\u8232 \u8232 
+\f4 Code:
+\f5 \uc0\u8232 \u8232 
+\f4 //orbitAngle loops from 0 to 360
+\f5 \uc0\u8232 
+\f4 float dX = cos( orbitAngle * PI / 180.0 ) ;
+\f5 \uc0\u8232 
+\f4 float dY = sin( orbitAngle * PI / 180.0 ) ;
+\f5 \uc0\u8232 \u8232 
+\f4 b2Vec2 moveVec = b2Vec2( body->GetPosition().x + dX / scale, body->GetPosition().y + dY / scale);
+\f5 \uc0\u8232 
+\f4 body->SetXForm( moveVec , body->GetAngle() );
+\f5 \uc0\u8232 \u8232 \u8232 
+\f4 The problem is SetXForm doesn't work very well with the outside forces applied to the body.
+\f5 \uc0\u8232 \u8232 
+\f4 I know I have to use impulses, however this doesn't produce what I want :
+\f5 \uc0\u8232 \u8232 
+\f4 Code:
+\f5 \uc0\u8232 \u8232 
+\f4 float dX = cos( orbitAngle * PI / 180.0 ) ;
+\f5 \uc0\u8232 
+\f4 float dY = sin( orbitAngle * PI / 180.0 ) ;
+\f5 \uc0\u8232 \u8232 
+\f4 b2Vec2 impulseVec = b2Vec2( 0.2 * dX , 0.2 * dY );
+\f5 \uc0\u8232 
+\f4 body->ApplyImpulse( impulseVec , body->GetWorldCenter() );
+\f5 \uc0\u8232 \u8232 \u8232 
+\f4 The body makes half circles and never returns to origin.
+\f5 \uc0\u8232 \u8232 
+\f4 What is the obvious thing I'm missing?"\
+\
+}
