@@ -164,6 +164,7 @@
 	self.physicsAttribs = [attributeDict valueForKey:@"physics"];
 	self.gameAttribs = [attributeDict valueForKey:@"game_data"];
 }
+
 -(CGAffineTransform) parseTransformAttribs
 {
 	CGAffineTransform matrix = CGAffineTransformIdentity;

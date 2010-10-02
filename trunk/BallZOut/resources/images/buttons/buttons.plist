@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>button_achievements.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{237, 121}, {182, 65}}</string>
+			<key>offset</key>
+			<string>{1, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{5, 2}, {182, 65}}</string>
+			<key>sourceSize</key>
+			<string>{190, 69}</string>
+		</dict>
+		<key>button_instructions.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{185, 188}, {214, 69}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{5, 0}, {214, 69}}</string>
+			<key>sourceSize</key>
+			<string>{224, 69}</string>
+		</dict>
+		<key>button_leaderboard.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 188}, {181, 65}}</string>
+			<key>offset</key>
+			<string>{1, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{5, 2}, {181, 65}}</string>
+			<key>sourceSize</key>
+			<string>{189, 69}</string>
+		</dict>
+		<key>button_moregames.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 2}, {102, 51}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1, 1}, {102, 51}}</string>
+			<key>sourceSize</key>
+			<string>{104, 53}</string>
+		</dict>
+		<key>button_options.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{219, 60}, {189, 58}}</string>
+			<key>offset</key>
+			<string>{1, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{5, 0}, {189, 58}}</string>
+			<key>sourceSize</key>
+			<string>{197, 58}</string>
+		</dict>
+		<key>button_playgame.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 259}, {310, 102}}</string>
+			<key>offset</key>
+			<string>{0, -1}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{5, 4}, {310, 102}}</string>
+			<key>sourceSize</key>
+			<string>{320, 108}</string>
+		</dict>
+		<key>button_returnarrow.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{410, 60}, {55, 59}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{5, 5}, {45, 49}}</string>
+			<key>sourceSize</key>
+			<string>{55, 59}</string>
+		</dict>
+		<key>button_soundoff.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 121}, {233, 64}}</string>
+			<key>offset</key>
+			<string>{-3, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {233, 64}}</string>
+			<key>sourceSize</key>
+			<string>{239, 64}</string>
+		</dict>
+		<key>button_soundon.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 60}, {215, 56}}</string>
+			<key>offset</key>
+			<string>{6, 1}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{18, 3}, {215, 56}}</string>
+			<key>sourceSize</key>
+			<string>{239, 64}</string>
+		</dict>
+		<key>tryfreenow.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{106, 2}, {256, 56}}</string>
+			<key>offset</key>
+			<string>{0, 0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {256, 46}}</string>
+			<key>sourceSize</key>
+			<string>{256, 56}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>2</integer>
+		<key>size</key>
+		<string>{512, 512}</string>
+	</dict>
+</dict>
+</plist>

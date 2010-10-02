@@ -12,11 +12,14 @@
 {
 	UIWindow *window;
 	//RootViewController	*viewController;
-   
+ 
+   NSURL *iTunesURL;
+
    BZDataModel *dataModel;
 }
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, copy) NSURL *iTunesURL;
 @property (nonatomic, retain) BZDataModel *dataModel;
 
 #pragma mark -
@@ -24,7 +27,7 @@
 
 + (void)initialize;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void)initSounds;
+//- (void)initSounds;
 - (void)applicationWillResignActive:(UIApplication *)application;
 - (void)applicationDidBecomeActive:(UIApplication *)application;
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application;
@@ -37,6 +40,13 @@
 
 #pragma mark -
 #pragma mark Application support
+
+- (void)launchStoreLink:(NSString *)link;
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response;
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+
+- (BOOL)soundOn;
+- (void)toggleSound;
 
 @end
 

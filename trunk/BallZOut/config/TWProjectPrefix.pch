@@ -26,3 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #endif
+
+// BallZOut configuration
+
+//#define DISPLAY_FPS 1

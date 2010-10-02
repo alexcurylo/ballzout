@@ -4,24 +4,53 @@
 //  Copyright Trollwerks Inc 2010. All rights reserved.
 //
 
+enum
+{
+   kGameLivesCount = 3,
+   
+   kLifeBallsCount = 3,
+
+   kScoreOneBallOut = 100,
+   
+   kArenaFileCount = 9,
+   
+   kGameLevelCount = 3,
+};
+
 @interface BZGame : NSObject
 {
-   //TMMessage *triggeringMessage;
+   NSInteger lives;
+   NSInteger balls;
+   NSInteger level;
+   NSInteger score;
 }
 
-#pragma mark -
-#pragma mark Scene support
+@property (nonatomic, assign) NSInteger lives;
+@property (nonatomic, assign) NSInteger balls;
+@property (nonatomic, assign) NSInteger level;
+@property (nonatomic, assign) NSInteger score;
 
-- (NSString *)levelFileName;
-- (NSString *)backgroundFileName;
-
-//@property (nonatomic, retain) TMMessage *triggeringMessage;
-/*
 #pragma mark -
 #pragma mark Life cycle
 
 - (id)init;
 - (void)dealloc;
+
+#pragma mark -
+#pragma mark Level support
+
+- (NSString *)currentLevelFileName;
+- (NSString *)currentArenaFileName;
+
+- (void)targetOut;
+- (void)ballOut;
+- (void)levelLost;
+- (void)levelWon;
+
+- (BOOL)isGameWon;
+- (BOOL)isGameLost;
+
+/*
 
 #pragma mark -
 #pragma mark Application support

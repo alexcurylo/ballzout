@@ -66,6 +66,9 @@
 #import "Box2dDebugDrawNode.h"
 #endif SHOW_PHYSICS
 #import "BZHeroball.h"
+#import "BZSimpleButton.h"
+#import "BZMainScene.h"
+#import "BZScoreScene.h"
 
 //#import "BodyNode.h"
 //#import "Hero.h"
@@ -92,9 +95,9 @@
 @implementation BZLevelScene
 
 @synthesize world=world_;
-@synthesize score=score_;
-@synthesize lives=lives_;
-@synthesize gameState=gameState_;
+//@synthesize score=score_;
+//@synthesize lives=lives_;
+@synthesize levelState=levelState_;
 //@synthesize hero=hero_;
 @synthesize heroballs=heroballs_;
 @synthesize targetballs=targetballs_;
@@ -134,14 +137,14 @@
 		// enable touches
 		self.isTouchEnabled = YES;
 		
-		score_ = 0;
-		lives_ = 3;
+		//score_ = 0;
+		//lives_ = 3;
 		//hero_ = nil;
       heroballs_ = [[NSMutableArray array] retain];
       targetballs_ = [[NSMutableArray array] retain];
 		
 		// game state
-		gameState_ = kGameStatePaused;
+		levelState_ = kLevelStatePaused;
 		
 		// camera
 		cameraOffset_ = CGPointZero;
@@ -211,7 +214,7 @@
 {
    twcheck(!self.heroballs.count);
    
-   for (int i = 0; i < kLevelHeroballCount; i++)
+   for (int i = 0; i < BZCurrentGame().balls; i++)
    {
 		BZHeroball *heroball = [[[BZHeroball alloc] initWithPosition:[self heroballSlot:i] gameScene:self] autorelease];
       [self addBodyNode:heroball z:0];
@@ -220,7 +223,7 @@
 
 - (b2Vec2)heroballSlot:(NSInteger)idx
 {
-   float segmentWidth = kLevelWidth / (kLevelHeroballCount + 1);
+   float segmentWidth = kLevelWidth / (kLifeBallsCount + 1);
    b2Vec2 where(
       (segmentWidth * (idx + 1)) / kPhysicsPTMRatio,
       kLevelHeroballY / kPhysicsPTMRatio
@@ -237,11 +240,16 @@
 {
    [self.heroballs removeObject:heroball];
    
+   [BZCurrentGame() ballOut];
+   
+   if (kLevelStatePlaying == levelState_)
+      [[SimpleAudioEngine sharedEngine] playEffect: @"herosmash.wav"];
+  
    /* doing this while removing the last hero isn't a good idea; move to -updateGame
    if (!self.heroballs.count)
    {
       [self increaseLife:-1];
-      if (kGameStateGameOver != gameState_)
+      if (kLevelStateOver != gameState_)
       {
          [self cleanLevel];
          [self layoutLevel];
@@ -259,54 +267,43 @@
    // in motion?
    if (heroball.inMotion)
       return;
-   
+
+   b2Body *ballBody = heroball.body;
+   b2Vec2 ballPosition = ballBody->GetWorldCenter();
+
    // on any of the slots?
    b2Vec2 emptySlot;
-   BOOL emptySlotReady = NO;
-   for (int i = 0; i < kLevelHeroballCount; i++)
+   float lengthToEmptySlot = 9999.f;
+   for (int i = 0; i < kLifeBallsCount; i++)
    {
       b2Vec2 slot = [self heroballSlot:i];
-      /*
-       //b2AABB aabb; QueryAABB??
-      b2Fixture* heroballFixture = ballBody->GetFixtureList();
-      twcheck(!heroballFixture->GetNext());
-      if (heroballFixture->TestPoint(slot))
-         return;
-      */
       if ([heroball coversPoint:slot])
          return;
       
-      // need an empty slot?
-      // Actually, should check length for each to hit the *closest* empty slot
-      if (!emptySlotReady)
+      // check length to see if this is *closest* empty slot
+      BOOL slotFilled = NO;
+      for (BZHeroball* ball in self.heroballs)
       {
-         BOOL slotFilled = NO;
-         for (BZHeroball* ball in self.heroballs)
+         if (ball == heroball)
+            continue;
+         if ([ball coversPoint:slot])
          {
-            if (ball == heroball)
-               continue;
-            /*
-            b2Fixture* ballFixture = ballBody->GetFixtureList();
-            twcheck(!ballFixture->GetNext());
-            if (ballFixture->TestPoint(slot))
-             */
-            if ([ball coversPoint:slot])
-            {
-               slotFilled = YES;
-               break;
-            }
+            slotFilled = YES;
+            break;
          }
-         if (!slotFilled)
+      }
+      if (!slotFilled)
+      {
+         float lengthToSlot = fabsf((ballPosition - slot).Length());
+         if (lengthToSlot < lengthToEmptySlot)
          {
+            lengthToEmptySlot = lengthToSlot;
             emptySlot = slot;
-            emptySlotReady = YES;
          }
       }
    }
    
-   twcheck(emptySlotReady);
-   // ideally, it would move like in MythicMarbles, and to closest not first empty
-   b2Body *ballBody = heroball.body;
+   // ideally, it would move like in MythicMarbles
    ballBody->SetLinearVelocity(b2Vec2());
    ballBody->SetAngularVelocity(0);
 	ballBody->SetTransform(emptySlot, 0);
@@ -319,7 +316,7 @@
 {
    BZHeroball *hero = nil;
    
-   if (kGameStatePlaying == self.gameState)
+   if (kLevelStatePlaying == self.levelState)
       for (BZHeroball* ball in self.heroballs)
       {
          if (ball.isHero)
@@ -352,12 +349,25 @@
    // check on update when there's a ready ball, which should be after last one gets set
    //if (1 > targetballs_)
       //[self gameOver];
-};
+}
+
+- (void)setPaused:(BOOL)paused
+{
+   if (paused)
+   {
+      levelState_ = kLevelStatePaused;
+   }
+   else if (kLevelStatePaused == levelState_)
+   {
+      levelState_ = kLevelStatePlaying;
+   }
+   // otherwise game is over, probably; we'll ignore
+}
 
 -(void) onEnterTransitionDidFinish
 {
 	[super onEnterTransitionDidFinish];
-	gameState_ = kGameStatePlaying;
+	levelState_ = kLevelStatePlaying;
 	
 	//CGRect rect = [self contentRect];
 	//CCFollow *action = [CCFollow actionWithTarget:hero_ worldBoundary:rect];
@@ -369,7 +379,7 @@
 	//CCLOG(@"LevelSVG: BZLevelScene#initGraphics: override me");
    
    // sprites
-	[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"sprites.plist"];
+	//[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"sprites.plist"];
 	// platforms
 	[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"platforms.plist"];
 	// marbles
@@ -382,7 +392,7 @@
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGB565];
 	//CCSprite *background = [CCSprite spriteWithFile:@"background3.png"];
 	//CCSprite *background = [CCSprite spriteWithFile:@"arena1.jpg"];
-	CCSprite *background = [CCSprite spriteWithFile:BZCurrentGame().backgroundFileName];
+	CCSprite *background = [CCSprite spriteWithFile:BZCurrentGame().currentArenaFileName];
 	background.anchorPoint = ccp(0,0);
    //background.position = ccp(size.width/2, size.height/2);
    
@@ -439,12 +449,12 @@
    [self setContentSize:[background contentSize]];   
 }
 
--(NSString*) SVGFileName
+- (NSString*)SVGFileName
 {
 	//CCLOG(@"LevelSVG: BZLevelScene:SVGFileName: override me");
 	//return nil;
    
-   return BZCurrentGame().levelFileName;
+   return BZCurrentGame().currentLevelFileName;
 }
 
 // on "dealloc" you need to release all your retained objects
@@ -530,7 +540,7 @@
 -(void) update: (ccTime) dt
 {
 	// Only step the world if status is Playing or GameOver
-	if( gameState_ != kGameStatePaused ) {
+	if( levelState_ != kLevelStatePaused ) {
 		
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
@@ -616,32 +626,121 @@
 
 - (void)updateGame
 {
+   // don't bother, it'll always be out of sync after level finishes
+   //twlogif(!((int)self.heroballs.count == BZCurrentGame().balls), "updateGame: level %d balls, game %d balls", self.heroballs.count, BZCurrentGame().balls);
+   
+   // is this level lost?
+   
    if (!self.heroballs.count)
    {
-      [self increaseLife:-1];
-      if (kGameStateGameOver != gameState_)
+      if (kLevelStateOver != levelState_)
       {
-         [self cleanLevel];
-         [self layoutLevel];
+         //[self increaseLife:-1];
+         [BZCurrentGame() levelLost];
+         [hud_ onUpdateLives:BZCurrentGame().lives];
+         levelState_ = kLevelStateOver;
+         
+         CGSize size = [[CCDirector sharedDirector] winSize];
+
+         //if( lives < 0 && lives_ == 0 )
+         if (BZCurrentGame().isGameLost)
+         {
+            //[hud_ displayMessage:@"GAMEFAIL"];
+            BZSimpleButton *gameOver = [BZSimpleButton
+                simpleButtonAtPosition:ccp(size.width/2, size.height/2)
+                image:@"button_gameover.png"
+                target:self
+                selector:@selector(buttonGameOver:)
+                ];
+            [self addChild:gameOver z:100];
+            [gameOver startWaving];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"gameover.aif"];
+         }
+         else
+         {
+            //[hud_ displayMessage:@"LEVELFAIL"];
+            //[self cleanLevel];
+            //[self layoutLevel];
+            BZSimpleButton *tryAgain = [BZSimpleButton
+                simpleButtonAtPosition:ccp(size.width/2, size.height/2)
+                image:@"button_tryagain.png"
+                target:self
+                selector:@selector(buttonTryAgain:)
+                ];
+            [self addChild:tryAgain z:100];
+            [tryAgain startWaving];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"loselife.wav"];
+        }
       }
+
       return;
    }
    
+   // still moving, might go offscreen?
+
    if (!self.readyHeroball)
-      // still moving, might go offscreen
       return;
    
-   // all balls off? We win then
+   // ball ready and all balls off? We win then
+   
    if (1 > self.targetballs.count)
-      [self gameOver];
+   {
+      //[self levelFinished];
+      if (kLevelStateOver != levelState_)
+      {
+         [BZCurrentGame() levelWon];
+         levelState_ = kLevelStateOver;
+
+         if (BZCurrentGame().isGameWon)
+         {
+            //[hud_ displayMessage:@"GAMEWIN"];
+            [self buttonShowScore:nil];
+         }
+         else
+         {
+            //[hud_ displayMessage:@"LEVELWIN"];
+            //[self cleanLevel];
+            //[self layoutLevel];
+            [self buttonShowScore:nil];
+         }
+      }
+       
+      return;
+  }
    
    // need to show the ready ball?
-   if (!self.hud.showingActiveRing)
-   {
-      BZHeroball *hero = self.readyHeroball;
-      if (hero)
-         [self.hud showActiveRing:hero.body->GetPosition()];
-   }
+   
+   if (kLevelStateOver != levelState_)
+      if (!self.hud.showingActiveRing)
+      {
+         BZHeroball *hero = self.readyHeroball;
+         if (hero)
+            [self.hud showActiveRing:hero.body->GetPosition()];
+      }
+}
+
+- (void)buttonTryAgain:(id)sender
+{
+   (void)sender;
+     
+   id destinationScene = [BZLevelScene scene];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionSplitCols transitionWithDuration:1.0f scene:destinationScene]];
+}
+
+- (void)buttonGameOver:(id)sender
+{
+   (void)sender;
+      // CCTransitionFadeDown
+   id destinationScene = [BZMainScene scene];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionTurnOffTiles transitionWithDuration:1.0f scene:destinationScene]];
+}
+
+- (void)buttonShowScore:(id)sender
+{
+   (void)sender;
+   
+   id destinationScene = [BZScoreScene scene];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFadeDown transitionWithDuration:1.0f scene:destinationScene]];
 }
 
 -(void) updateSprites
@@ -663,28 +762,41 @@
 	}	
 }
 
--(void) gameOver
+/*
+-(void)levelFinished
 {
-	gameState_ = kGameStateGameOver;
+	gameState_ = kLevelStateOver;
 	[hud_ displayMessage:@"You Won!"];
 }
-
+*/
+/*
 -(void) increaseLife:(int)lives
 {
 	lives_ += lives;
 	[hud_ onUpdateLives:lives_];
 	
 	if( lives < 0 && lives_ == 0 ) {
-		gameState_ = kGameStateGameOver;
+		gameState_ = kLevelStateOver;
 		[hud_ displayMessage:@"Game Over"];
 	}
 }
+*/
 
--(void) increaseScore:(int)score
+- (void)targetBallOut
+{
+	//[game_ increaseScore:kScoreBallOut];
+   [BZCurrentGame() targetOut];
+	[hud_ onUpdateScore:BZCurrentGame().score];
+	[[SimpleAudioEngine sharedEngine] playEffect: @"targetpop.wav"];
+}
+
+/*
+- (void)increaseScore:(int)score
 {
 	score_ += score;
 	[hud_ onUpdateScore:score_];
 }
+ */
 
 #pragma mark BZLevelScene - Box2d Callbacks
 
@@ -706,6 +818,8 @@
 	
 		if( [key isEqualToString:@"object"] )
       {
+         // why don't we just pass in the parameters here???
+         
 			NSString *classname = [@"BZ" stringByAppendingString:[value capitalizedString]];
 			Class klass = NSClassFromString( classname );
 		
@@ -824,7 +938,7 @@
 {
    // do nothing unless actively playing
    
-   if (kGameStatePlaying != self.gameState)
+   if (kLevelStatePlaying != self.levelState)
       return NO;
    
    // is it trying to select a heroball?
@@ -957,6 +1071,8 @@
    b2Vec2 impulse(direction);
    impulse *= shootForce;
    ball.body->ApplyLinearImpulse(impulse, ballPosition );
+   //ball.body->ApplyTorque(5);
+	[[SimpleAudioEngine sharedEngine] playEffect:@"launch.wav"];
 
    /*
 	if (mouseJoint_)

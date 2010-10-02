@@ -4,114 +4,244 @@
 <dict>
 	<key>frames</key>
 	<dict>
-		<key>circle-grey.png</key>
+		<key>ball25-aqua.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 126}, {55, 55}}</string>
+			<string>{{445, 374}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 0}, {55, 55}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{55, 55}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>circle-red.png</key>
+		<key>ball25-blue.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{352, 2}, {55, 55}}</string>
+			<string>{{445, 347}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 0}, {55, 55}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{55, 55}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>circle-red@2x.png</key>
+		<key>ball25-gold.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{128, 2}, {110, 110}}</string>
+			<string>{{445, 266}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 0}, {110, 110}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{110, 110}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>circle-yellow.png</key>
+		<key>ball25-green.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{409, 2}, {55, 55}}</string>
+			<string>{{445, 293}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 0}, {55, 55}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{55, 55}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>circle-yellow@2x.png</key>
+		<key>ball25-lime.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{240, 2}, {110, 110}}</string>
+			<string>{{445, 320}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 0}, {110, 110}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{110, 110}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>marble128.png</key>
+		<key>ball25-pink.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 2}, {124, 122}}</string>
-			<key>offset</key>
-			<string>{2, -3}</string>
-			<key>rotated</key>
-			<false/>
-			<key>sourceColorRect</key>
-			<string>{{4, 6}, {124, 122}}</string>
-			<key>sourceSize</key>
-			<string>{128, 128}</string>
-		</dict>
-		<key>marble16.png</key>
-		<dict>
-			<key>frame</key>
-			<string>{{466, 34}, {16, 16}}</string>
+			<string>{{445, 239}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 0}, {16, 16}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{16, 16}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>marble32.png</key>
+		<key>ball25-purple.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{466, 2}, {32, 30}}</string>
+			<string>{{445, 428}, {25, 25}}</string>
 			<key>offset</key>
-			<string>{0, -1}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{0, 2}, {32, 30}}</string>
+			<string>{{0, 0}, {25, 25}}</string>
 			<key>sourceSize</key>
-			<string>{32, 32}</string>
+			<string>{25, 25}</string>
 		</dict>
-		<key>marble48.png</key>
+		<key>ball25-red.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{352, 59}, {48, 48}}</string>
+			<string>{{445, 401}, {25, 25}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {25, 25}}</string>
+			<key>sourceSize</key>
+			<string>{25, 25}</string>
+		</dict>
+		<key>ball25-yellow.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 212}, {25, 25}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {25, 25}}</string>
+			<key>sourceSize</key>
+			<string>{25, 25}</string>
+		</dict>
+		<key>ball36-aqua.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 2}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-blue.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 116}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-gold.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 428}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-green.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 352}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-lime.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 40}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-pink.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 78}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-purple.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 466}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-red.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 390}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball36-yellow.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{221, 436}, {36, 36}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {36, 36}}</string>
+			<key>sourceSize</key>
+			<string>{36, 36}</string>
+		</dict>
+		<key>ball48-aqua.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{268, 389}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -120,6 +250,344 @@
 			<string>{{0, 0}, {48, 48}}</string>
 			<key>sourceSize</key>
 			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-blue.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{268, 439}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-gold.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 252}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-green.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{268, 339}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-lime.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 302}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-pink.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 102}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-purple.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 2}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-red.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 52}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-silver.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 152}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball48-yellow.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 202}, {48, 48}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {48, 48}}</string>
+			<key>sourceSize</key>
+			<string>{48, 48}</string>
+		</dict>
+		<key>ball71-aqua.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 367}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-blue.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{148, 436}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-gold.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 2}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-green.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 436}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-lime.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{75, 436}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-pink.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 221}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-purple.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 294}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-red.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 75}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>ball71-yellow.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 148}, {71, 71}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {71, 71}}</string>
+			<key>sourceSize</key>
+			<string>{71, 71}</string>
+		</dict>
+		<key>button_continue.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 119}, {318, 109}}</string>
+			<key>offset</key>
+			<string>{0, -2}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1, 8}, {318, 109}}</string>
+			<key>sourceSize</key>
+			<string>{320, 121}</string>
+		</dict>
+		<key>button_gameover.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 230}, {318, 107}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1, 4}, {318, 107}}</string>
+			<key>sourceSize</key>
+			<string>{320, 115}</string>
+		</dict>
+		<key>button_quit.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 339}, {264, 95}}</string>
+			<key>offset</key>
+			<string>{-5, -2}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{23, 8}, {264, 95}}</string>
+			<key>sourceSize</key>
+			<string>{320, 107}</string>
+		</dict>
+		<key>button_tryagain.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 2}, {318, 115}}</string>
+			<key>offset</key>
+			<string>{1, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{2, 3}, {318, 115}}</string>
+			<key>sourceSize</key>
+			<string>{320, 121}</string>
+		</dict>
+		<key>circle-yellow-for48.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{322, 440}, {70, 70}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {70, 70}}</string>
+			<key>sourceSize</key>
+			<string>{70, 70}</string>
+		</dict>
+		<key>heart28.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 184}, {26, 26}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{1, 1}, {26, 26}}</string>
+			<key>sourceSize</key>
+			<string>{28, 28}</string>
+		</dict>
+		<key>pauseclock32.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{221, 474}, {32, 32}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {32, 32}}</string>
+			<key>sourceSize</key>
+			<string>{32, 32}</string>
+		</dict>
+		<key>trophy28.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{445, 154}, {26, 28}}</string>
+			<key>offset</key>
+			<string>{1, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{2, 0}, {26, 28}}</string>
+			<key>sourceSize</key>
+			<string>{28, 28}</string>
 		</dict>
 	</dict>
 	<key>metadata</key>

@@ -24,10 +24,10 @@
 // game state
 typedef enum
 {
-	kGameStatePaused,
-	kGameStatePlaying,
-	kGameStateGameOver,
-} GameState;
+	kLevelStatePaused,
+	kLevelStatePlaying,
+   kLevelStateOver,
+} LevelState;
 
 
 // HelloWorld Layer
@@ -37,16 +37,16 @@ typedef enum
 	b2World		*world_;
 	
 	// game state
-	GameState		gameState_;
+	LevelState		levelState_;
 	
 	// the camera will be centered on the Hero
 	// If you want to move the camera, you should move this value
 	CGPoint		cameraOffset_;
 	
 	// game scores
-	unsigned int	score_;
+	//unsigned int	score_;
 	// game lives
-	unsigned int	lives_;
+	//unsigned int	lives_;
 	
 	// Hero weak ref
 	//Hero	*hero_;
@@ -85,13 +85,13 @@ typedef enum
 @property (readwrite,nonatomic) b2World *world;
 
 /** score of the game */
-@property (readonly,nonatomic) unsigned int score;
+//@property (readonly,nonatomic) unsigned int score;
 
 /** lives of the hero */
-@property (readonly,nonatomic) unsigned int lives;
+//@property (readonly,nonatomic) unsigned int lives;
 
 /** game state */
-@property (readonly,nonatomic) GameState gameState;
+@property (readonly,nonatomic) LevelState levelState;
 
 /** weak ref to hero */
 //@property (readwrite,nonatomic,assign) Hero *hero;
@@ -122,6 +122,8 @@ typedef enum
 - (void)addTargetball:(BZBall *)targetball;
 - (void)removeTargetball:(BZBall *)targetball;
 
+- (void)setPaused:(BOOL)paused;
+
 /** returns the SVGFileName to be loaded */
 - (NSString *)SVGFileName;
 
@@ -131,9 +133,13 @@ typedef enum
 -(void) mouseUp:(b2Vec2)p;
 
 // game events
--(void) gameOver;
--(void) increaseScore:(int)score;
--(void) increaseLife:(int)lives;
+//- (void)levelFinished;
+- (void)targetBallOut;
+//- (void)increaseScore:(int)score;
+//- (void)increaseLife:(int)lives;
+- (void)buttonTryAgain:(id)sender;
+- (void)buttonGameOver:(id)sender;
+- (void)buttonShowScore:(id)sender;
 
 // creates the foreground and background graphics
 -(void) initGraphics;

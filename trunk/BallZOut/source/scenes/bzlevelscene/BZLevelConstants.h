@@ -46,7 +46,7 @@
 #define kPhysicsDefaultBallDensity		(0.3f)
 #define kPhysicsDefaultBallRestitution	(0.2f)
 // "Normally you will use a damping value between 0 and 0.1."
-#define kPhysicsDefaultBallLinearDamping	(0.4f)
+#define kPhysicsDefaultBallLinearDamping	(0.9f)
 #define kPhysicsDefaultBallAngularDamping	(0.3f)
 
 // 0.016555 is where it was when we hit stop and it really wasn't moving
@@ -82,9 +82,7 @@
 
 #define kLevelHeight (480.f)
 #define kLevelWidth (320.f)
+#define kTopHUDHeight (40.f)
 
-#define kLevelHeroballCount 3
-#define kLevelHeroballY 30
-
-#define kScoreBallOut 100
+#define kLevelHeroballY 34
 
