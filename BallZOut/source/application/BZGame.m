@@ -8,54 +8,83 @@
 
 @implementation BZGame
 
-//@synthesize sentMessages;
+@synthesize lives;
+@synthesize balls;
+@synthesize level;
+@synthesize score;
 
 #pragma mark -
-#pragma mark Scene support
+#pragma mark Life cycle
 
-- (NSString *)levelFileName
-{
-   return @"level001001.svg";
-}
-
-- (NSString *)backgroundFileName
-{
-   return @"arena0001.jpg";
-}
-
-/*
 - (id)init
 {
 	self = [super init];
 	if (self != nil)
    {
-      [self load];
-
-      self.pollingTimer = [NSTimer
-         scheduledTimerWithTimeInterval:10.
-         target:self
-         selector:@selector(pollingTimerFired:)
-         userInfo:nil
-         repeats:YES
-      ];
+      lives = kGameLivesCount;
+      balls = kLifeBallsCount;
+      level = 1;
+      score = 0;
    }
 	return self;
 }
 
 - (void)dealloc
-{
-   [self.pollingTimer invalidate];
-   self.pollingTimer = nil;
-	self.storedMessages = nil;
-	self.triggeredMessages = nil;
-	self.sentMessages = nil;
-	self.missingMessages = nil;
-	self.triggeringMessage = nil;
-	
+{	
 	[super dealloc];
 }
 
 #pragma mark -
+#pragma mark Scene support
+
+- (NSString *)currentLevelFileName
+{
+   NSString *name = [NSString stringWithFormat:@"level001%03d.svg", level];
+   return name;
+}
+
+- (NSString *)currentArenaFileName
+{
+   // numbered 0001 .. kArenaFileCount
+   NSInteger arenaIdx = (level % (kArenaFileCount - 1) ) + 1;
+   NSString *name = [NSString stringWithFormat:@"arena%04d.jpg", arenaIdx];
+   return name;
+}
+
+- (void)targetOut
+{
+   score += kScoreOneBallOut;
+}
+
+- (void)ballOut
+{
+   balls--;
+}
+
+- (void)levelLost
+{
+   lives--;
+   balls = kLifeBallsCount;
+}
+
+- (void)levelWon
+{
+   level++;
+   balls = kLifeBallsCount;
+}
+
+- (BOOL)isGameWon
+{
+   return kGameLevelCount < level;
+}
+
+- (BOOL)isGameLost
+{
+   return 0 >= lives;
+}
+
+/*
+ #pragma mark -
 #pragma mark Application support
 
 - (void)load

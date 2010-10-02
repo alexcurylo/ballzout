@@ -19,9 +19,11 @@
 //
 
 #import "BZLevelHUD.h"
-#import "BZIntroScene.h"
+#import "BZMainScene.h"
 #import "BZLevelScene.h"
 #import "SimpleAudioEngine.h"
+#import "BallZOutAppDelegate.h"
+#import "BZMenuItem.h"
 
 //#import "GameConfiguration.h"
 //import "Joystick.h"
@@ -87,7 +89,9 @@
 		}
        */
 		
-		CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(32,32,32,128) width:s.width height:kColorLayerHeight];
+		//CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(32,32,32,128) width:s.width height:kColorLayerHeight];
+		// we want top portion to not be part of game
+      CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(32,32,32,255) width:s.width height:kColorLayerHeight];
 		[color setPosition:ccp(0,s.height-kColorLayerHeight)];
 		[self addChild:color z:0];
 		
@@ -96,42 +100,67 @@
 		[self addChild:forceLayer z:1];
 
 		// Menu Button
-		CCMenuItem *itemPause = [CCMenuItemImage itemFromNormalImage:@"btn-pause-normal.png" selectedImage:@"btn-pause-selected.png" target:self selector:@selector(buttonRestart:)];
-		CCMenu *menu = [CCMenu menuWithItems:itemPause,(id)nil];
+		//CCMenuItem *itemPause = [CCMenuItemImage itemFromNormalImage:@"btn-pause-normal.png" selectedImage:@"btn-pause-selected.png" target:self selector:@selector(buttonPause:)];
+      BZMenuItem *itemPause = [BZMenuItem
+         itemFromNormalSpriteFrameName:@"pauseclock32.png"
+         selectedSpriteFrameName:nil
+         target:self
+         selector:@selector(buttonPause:)
+         ];
+      CCMenu *menu = [CCMenu menuWithItems:itemPause,(id)nil];
 		[self addChild:menu z:1];
 		[menu setPosition:ccp(20,s.height-20)];
 		
 		// Score Label
+      /*
 		CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"gas32.fnt"];
 		[scoreLabel.texture setAliasTexParameters];
 		[self addChild:scoreLabel z:1];
 		[scoreLabel setPosition:ccp(s.width/2+0.5f-45, s.height-20.5f)];
-		
+		*/
+      CCSprite	*scoreLabel = [CCSprite spriteWithSpriteFrameName:@"trophy28.png"];
+		[self addChild:scoreLabel z:1];
+		[scoreLabel setAnchorPoint:ccp(0,0.5f)];
+		[scoreLabel setPosition:ccp(75, s.height-20.5f)];		
+      
 		// Score Points
-		score = [CCLabelBMFont labelWithString:@"000" fntFile:@"gas32.fnt"];
+      NSString *scoreText = [NSString stringWithFormat:@"%d", BZCurrentGame().score];
+		score = [CCLabelBMFont labelWithString:scoreText fntFile:@"bubblegum.fnt"];
 //		[score.texture setAliasTexParameters];
 		[self addChild:score z:1];
-		[score setPosition:ccp(s.width/2+0.5f+25, s.height-20.5f)];
+		//[score setPosition:ccp(s.width/2+0.5f+25, s.height-20.5f)];
+		[score setAnchorPoint:ccp(0,0.5f)];
+		[score setPosition:ccp(100, s.height-20.5f)];		
 		
 		// Lives label
+      /*
 		CCLabelBMFont *livesLabel = [CCLabelBMFont labelWithString:@"LIVES:" fntFile:@"gas32.fnt"];
 		[lives.texture setAliasTexParameters];
 		[self addChild:livesLabel z:1];
 		[livesLabel setAnchorPoint:ccp(1,0.5f)];
 		[livesLabel setPosition:ccp(s.width-5.5f-20, s.height-20.5f)];		
-		
-		lives = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%d", game.lives] fntFile:@"gas32.fnt"];
+       */
+      //CCSpriteFrame *livesFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"heart36.png"];
+      CCSprite	*livesLabel = [CCSprite spriteWithSpriteFrameName:@"heart28.png"];
+		[self addChild:livesLabel z:1];
+		[livesLabel setAnchorPoint:ccp(1,0.5f)];
+		[livesLabel setPosition:ccp(s.width-5.5f-20, s.height-20.5f)];		
+	
+		lives = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%d", BZCurrentGame().lives] fntFile:@"bubblegum.fnt"];
 		[lives.texture setAliasTexParameters];
 		[self addChild:lives z:1];
 		[lives setAnchorPoint:ccp(1,0.5f)];
 		[lives setPosition:ccp(s.width-5.5f, s.height-20.5f)];		
       
       // active ring
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"circle-yellow.png"];
-      activeRing_ = [CCSprite spriteWithSpriteFrame:frame];
+      CCSpriteFrame *ringFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"circle-yellow-for48.png"];
+      activeRing_ = [CCSprite spriteWithSpriteFrame:ringFrame];
       activeRing_.visible = NO;
 		[self addChild:activeRing_ z:1];
-      
+      id rot1 = [CCRotateBy actionWithDuration:2 angle:360];
+      id repeat_4ever = [CCRepeatForever actionWithAction:rot1];
+      [activeRing_ runAction:repeat_4ever];
+
       self.shootForce = kShootForceDefault;
 	}
 	
@@ -157,14 +186,16 @@
 -(void) displayMessage:(NSString*)message
 {
 	CGSize s = [[CCDirector sharedDirector] winSize];
+   
+   message = NSLocalizedString(message, nil);
 	
 	CCLabelTTF *label = [CCLabelTTF labelWithString:message fontName:@"Marker Felt" fontSize:54];
 	[self addChild:label];
 	[label setPosition:ccp(s.width/2, s.height/2)];
 
 	id sleep = [CCDelayTime actionWithDuration:3];
-	id rot1 = [CCRotateBy actionWithDuration:0.025f angle:5];
-	id rot2 = [CCRotateBy actionWithDuration:0.05f angle:-10];
+	id rot1 = [CCRotateBy actionWithDuration:0.2f angle:5];
+	id rot2 = [CCRotateBy actionWithDuration:0.4f angle:-10];
 	id rot3 = [rot2 reverse];
 	id rot4 = [rot1 reverse];
 	id seq = [CCSequence actions:rot1, rot2, rot3, rot4, (id)nil];
@@ -176,14 +207,60 @@
 	
 }
 
-- (void)buttonRestart:(id)sender
+- (void)buttonPause:(id)sender
 {
    (void)sender;
-	[[SimpleAudioEngine sharedEngine] playEffect:@"snd-tap-button.caf"];
+   
+   // could be already paused, or finished
+   if (kLevelStatePlaying != game.levelState)
+      return;
+   
+   [game setPaused:YES];
+    
+	[[SimpleAudioEngine sharedEngine] playEffect:@"pause.wav"];
+
+   BZMenuItem *itemContinue = [BZMenuItem
+      itemFromNormalSpriteFrameName:@"button_continue.png"
+      selectedSpriteFrameName:nil
+      target:self
+      selector:@selector(buttonContinue:)
+      ];
+   [itemContinue startWaving];
+   BZMenuItem *itemQuit = [BZMenuItem
+      itemFromNormalSpriteFrameName:@"button_quit.png"
+      selectedSpriteFrameName:nil
+      target:self
+      selector:@selector(buttonQuit:)
+      ];
+   pauseMenu_ = [CCMenu menuWithItems:
+       itemContinue,
+       itemQuit,
+       (id)nil
+       ];
+   //[pauseMenu_ setPosition:ccp(0,0)];
+   [self addChild:pauseMenu_ z:100];
+   [pauseMenu_ alignItemsVertically];
+}
+
+- (void)buttonContinue:(id)sender
+{
+   (void)sender;
+
+   [pauseMenu_ removeFromParentAndCleanup:YES];
+   pauseMenu_ = nil;
+   
+   [game setPaused:NO];
+}
+
+- (void)buttonQuit:(id)sender
+{
+   (void)sender;
+   
+	//[[SimpleAudioEngine sharedEngine] playEffect:@"buttonpush.wav"];
 
 	//[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[MenuScene scene]]];
 	//[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[HelloWorld scene]]];
-	[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[BZIntroScene scene]]];
+	[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[BZMainScene scene]]];
 }
 
 - (void) dealloc

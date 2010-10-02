@@ -10,21 +10,15 @@
 
 #import "cocos2d.h"
 #import "Box2D.h"
+#import "BZLevelConstants.h"
 
 @class BZLevelScene;
-//@class Joystick;
-//@class JumpButton;
 
-enum
-{
-   kColorLayerHeight = 40,
-   
-   // 1.0 shootForce is this many pixels wide
-   kUnitForceWidth = 80,
-   
-   // and this is our default, 1/2 of screen
-   kShootForceDefault = 2,
-};
+#define kColorLayerHeight kTopHUDHeight
+// 1.0 shootForce is this many pixels wide
+#define kUnitForceWidth (55.f)
+// and this is our default, 1/2 of screen
+#define kShootForceDefault (3.f)
 
 @interface BZLevelHUD : CCLayer
 {
@@ -41,6 +35,8 @@ enum
    
    float shootForce;
    CCColorLayer *forceLayer;
+   
+   CCMenu *pauseMenu_;
 }
 
 @property (readwrite,nonatomic) float shootForce;
@@ -59,7 +55,9 @@ enum
 -(void) onUpdateLives:(int)newLives;
 
 
--(void) buttonRestart:(id)sender;
+-(void) buttonPause:(id)sender;
+-(void) buttonContinue:(id)sender;
+-(void) buttonQuit:(id)sender;
 
 - (void)setShootForce:(float)newForce;
 - (void)calculateShootForce:(CGPoint)viewLocation;

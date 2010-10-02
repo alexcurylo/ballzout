@@ -9,7 +9,7 @@
 //
 
 #import "Box2DCallbacks.h"
-#import "BodyNode.h"
+#import "BZBodyNode.h"
 
 #pragma mark -
 #pragma mark Contact Listener
@@ -20,8 +20,8 @@ void MyContactListener::BeginContact(b2Contact* contact)
 	b2Fixture *fB = contact->GetFixtureB();
 	b2Body *bA = fA->GetBody();
 	b2Body *bB = fB->GetBody();
-	BodyNode *data1 = (BodyNode*) bA->GetUserData();
-	BodyNode *data2 = (BodyNode*) bB->GetUserData();
+	BZBodyNode *data1 = (BZBodyNode*) bA->GetUserData();
+	BZBodyNode *data2 = (BZBodyNode*) bB->GetUserData();
 	if( data1 && data1.reportContacts & BN_CONTACT_BEGIN )
 		[data1 beginContact:contact];
 	if( data2 && data2.reportContacts & BN_CONTACT_BEGIN )
@@ -34,8 +34,8 @@ void MyContactListener::EndContact(b2Contact* contact)
 	b2Fixture *fB = contact->GetFixtureB();
 	b2Body *bA = fA->GetBody();
 	b2Body *bB = fB->GetBody();
-	BodyNode *data1 = (BodyNode*) bA->GetUserData();
-	BodyNode *data2 = (BodyNode*) bB->GetUserData();
+	BZBodyNode *data1 = (BZBodyNode*) bA->GetUserData();
+	BZBodyNode *data2 = (BZBodyNode*) bB->GetUserData();
 	if( data1 && data1.reportContacts & BN_CONTACT_END )
 		[data1 endContact:contact];
 	if( data2 && data2.reportContacts & BN_CONTACT_END )
@@ -48,8 +48,8 @@ void MyContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifo
 	b2Fixture *fB = contact->GetFixtureB();
 	b2Body *bA = fA->GetBody();
 	b2Body *bB = fB->GetBody();
-	BodyNode *data1 = (BodyNode*) bA->GetUserData();
-	BodyNode *data2 = (BodyNode*) bB->GetUserData();
+	BZBodyNode *data1 = (BZBodyNode*) bA->GetUserData();
+	BZBodyNode *data2 = (BZBodyNode*) bB->GetUserData();
 	if( data1 && data1.reportContacts & BN_CONTACT_PRESOLVE )
 		[data1 preSolveContact:contact manifold:oldManifold];
 	if( data2 && data2.reportContacts & BN_CONTACT_PRESOLVE )
@@ -62,8 +62,8 @@ void MyContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* im
 	b2Fixture *fB = contact->GetFixtureB();
 	b2Body *bA = fA->GetBody();
 	b2Body *bB = fB->GetBody();
-	BodyNode *data1 = (BodyNode*) bA->GetUserData();
-	BodyNode *data2 = (BodyNode*) bB->GetUserData();
+	BZBodyNode *data1 = (BZBodyNode*) bA->GetUserData();
+	BZBodyNode *data2 = (BZBodyNode*) bB->GetUserData();
 	if( data1 && data1.reportContacts & BN_CONTACT_POSTSOLVE )
 		[data1 postSolveContact:contact impulse:impulse];
 	if( data2 && data2.reportContacts & BN_CONTACT_POSTSOLVE )

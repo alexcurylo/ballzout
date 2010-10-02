@@ -11,32 +11,30 @@
 
 #import "BallZOutAppDelegate.h"
 //#import "GameConfig.h"
-#import "BZIntroScene.h"
+#import "BZMainScene.h"
 //#import "HelloWorldScene.h"
 //#import "RootViewController.h"
 
 @implementation BallZOutAppDelegate
 
 @synthesize window;
+@synthesize iTunesURL;
 @synthesize dataModel;
 
 #pragma mark -
 #pragma mark Life cycle
 
+NSString *kBZPrefPlaySound = @"BZPlaySound";
 
 + (void)initialize
 {
 	if ( self == [BallZOutAppDelegate class])
    {
-      /*
 		NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithBool:YES], kTMPrefShowAlert,
-                                   [NSNumber numberWithBool:YES], kTMPrefPlaySound,
-                                   [NSNumber numberWithInteger:5], kTMPrefSnoozeMinutes,
-                                   nil
-                                   ];
+         [NSNumber numberWithBool:YES], kBZPrefPlaySound,
+         (id)nil
+         ];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-       */
 	}
 }
 
@@ -109,8 +107,10 @@
 */
 	
 	[director setAnimationInterval:1.0/60];
+#if DISPLAY_FPS
+#warning displaying FPS
 	[director setDisplayFPS:YES];
-	
+#endif DISPLAY_FPS
 	
 	// make the OpenGLView a child of the view controller
 	//[viewController setView:glView];
@@ -127,29 +127,25 @@
 	// You can change anytime.
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
 	
-   // Init sounds
-	[self initSounds];
+   // Init sounds ... no, we'll do this in main scene
+	//[self initSounds];
+   
+   BOOL soundOn = [[NSUserDefaults standardUserDefaults] boolForKey:kBZPrefPlaySound];
+   [[SimpleAudioEngine sharedEngine] setEnabled:soundOn];
 
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [BZIntroScene scene]];
+	[[CCDirector sharedDirector] runWithScene: [BZMainScene scene]];
 	//[[CCDirector sharedDirector] runWithScene: [HelloWorld scene]];		
 
    // return NO if URL in launchOptions cannot be handled
    return YES;
 }
 
+/*
 - (void)initSounds
 {
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"enemy_killed.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"new_life.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_coin.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_star.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"shoot.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"snd-tap-button.caf"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"teleport.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"you_are_hit.wav"];
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"you_won.wav"];
 }
+*/
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -224,9 +220,63 @@
 	[[CCDirector sharedDirector] release];
    
    twrelease(window);
+   twrelease(iTunesURL);
    twrelease(dataModel);
 
    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Application support
+
+- (void)launchStoreLink:(NSString *)referralLink
+{
+   self.iTunesURL = [NSURL URLWithString:referralLink];
+   NSURLRequest *referralRequest = [NSURLRequest requestWithURL:self.iTunesURL];
+   NSURLConnection *referralConnection = [[NSURLConnection alloc] initWithRequest:referralRequest delegate:self startImmediately:YES];
+   [referralConnection release];
+   
+}
+
+// Save the most recent URL in case multiple redirects occur
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
+{
+   (void)connection;
+   
+   self.iTunesURL = response.URL;
+   
+   // note that it is correct to use response.URL and not request.URL,
+   // because the very last redirected link loses your LinkShare affiliate identification!
+   
+   //twlog("redirectResponse, self.iTunesURL now response.URL: %@", self.iTunesURL);
+   //twlog("should that actually be request.URL? : %@", request.URL);
+   
+   return request;
+}
+
+// No more redirects; use the last URL saved
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+   (void)connection;
+   
+   //twlog("connectionDidFinishLoading, opening: %@", self.iTunesURL);
+   
+   [[UIApplication sharedApplication] openURL:self.iTunesURL];
+}
+
+- (BOOL)soundOn
+{
+   BOOL soundOn = [[NSUserDefaults standardUserDefaults] boolForKey:kBZPrefPlaySound];
+   return soundOn;
+}
+
+- (void)toggleSound
+{
+   BOOL soundOn = !self.soundOn;
+   [[NSUserDefaults standardUserDefaults] setBool:soundOn forKey:kBZPrefPlaySound];
+   [[NSUserDefaults standardUserDefaults] synchronize];
+   
+   [[SimpleAudioEngine sharedEngine] setEnabled:soundOn];
 }
 
 @end
