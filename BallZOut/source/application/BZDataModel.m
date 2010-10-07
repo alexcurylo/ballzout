@@ -5,43 +5,72 @@
 //
 
 #import "BZDataModel.h"
+#import "BallZOutAppDelegate.h"
+#import "TWXUIAlertView.h"
+
+// Leaderboard Category IDs
+#define kLeaderboardID @"ballzout.totalscore"
+
+//Achievement IDs
+NSString *kAchievementAllBalls5 = @"ballzout.ballz5";
+NSString *kAchievementAllBalls10 = @"ballzout.ballz10";
+NSString *kAchievementAllLives10 = @"ballzout.lives10";
+NSString *kAchievementAllLives20 = @"ballzout.lives20";
+NSString *kAchievementPerfectSkillz5 = @"ballzout.skillz5";
+NSString *kAchievementPerfectSkillz10 = @"ballzout.skillz10";
+NSString *kAchievementCombo3 = @"ballzout.combo3";
+NSString *kAchievementCombo5 = @"ballzout.combo5";
+
+NSString *kGameCenterEnableChangeNotification = @"GCEnableChange";
+NSString *kGameCenterLoginResolvedNotification = @"GCLoginResolved";
+
+//#define GAMECENTER_RESET_ACHIEVEMENTS 1
 
 @implementation BZDataModel
 
+@synthesize gameCenterManager;
+@synthesize gameCenterLoginResolved;
 @synthesize currentGame;
 
-- (id)init
+- (id)init 
 {
 	self = [super init];
 	if (self != nil)
    {
-      /*
-      [self load];
-
-      self.pollingTimer = [NSTimer
-         scheduledTimerWithTimeInterval:10.
-         target:self
-         selector:@selector(pollingTimerFired:)
-         userInfo:nil
-         repeats:YES
-      ];
-       */
+      if ([GameCenterManager isGameCenterAvailable])
+      {
+         self.gameCenterManager= [[[GameCenterManager alloc] init] autorelease];
+         [self.gameCenterManager setDelegate: self];
+         
+         if (self.gameCenterOn)
+         {
+            [self.gameCenterManager authenticateLocalUser];
+         }
+         else
+         {
+            gameCenterLoginResolved = YES;
+         }
+         
+         [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(gameCenterAuthenticationChanged:)
+            name:GKPlayerAuthenticationDidChangeNotificationName
+            object:nil
+          ];
+      }
+      else
+      {
+         gameCenterLoginResolved = YES;
+         twlog("Game Center not available!");
+      }
    }
 	return self;
 }
 
 - (void)dealloc
 {
-   /*
-    [self.pollingTimer invalidate];
-   self.pollingTimer = nil;
-	self.storedMessages = nil;
-	self.triggeredMessages = nil;
-	self.sentMessages = nil;
-	self.missingMessages = nil;
-	self.triggeringMessage = nil;
-    */
-   
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+   twrelease(gameCenterManager);
    twrelease(currentGame);
 	
 	[super dealloc];
@@ -50,528 +79,451 @@
 #pragma mark -
 #pragma mark Application support
 
-- (void)startNewGame
+- (BOOL)isGameSaved
 {
-   [self endGame];
+   id game = [[NSUserDefaults standardUserDefaults] objectForKey:kBZPrefCurrentGame];
+   return nil != game;
+}
+
+- (void)startGame
+{
+   [self endGame:self.currentGame];
    self.currentGame = [[[BZGame alloc] init] autorelease];
 }
 
-- (void)endGame
+- (void)loadGame
 {
-   self.currentGame = nil;
+   NSData *state = [[[[NSUserDefaults standardUserDefaults] objectForKey:kBZPrefCurrentGame] retain] autorelease];
+   if (!state.length)
+   {
+      [self startGame];
+      return;
+   }
+   
+   BZGame *loadedGame = [NSKeyedUnarchiver unarchiveObjectWithData:state];
+   if (loadedGame)
+   {
+      [self endGame:self.currentGame];
+      self.currentGame = loadedGame;
+   }
+   else
+   {
+      twlog("error loading game!");
+      [self startGame];
+   }
 }
 
-/*
-- (void)load
+- (void)endGame:(BZGame *)game
 {
-   self.storedMessages = [NSMutableArray array];
-   self.triggeredMessages = [NSMutableArray array];
-   self.sentMessages = [NSMutableArray array];
-   self.missingMessages = [NSMutableArray array];
-
-//#define CLEAR_SAVED_MESSAGES 1
-#if CLEAR_SAVED_MESSAGES
-#warning clearing out saved messages
-   twlog("not loading saved messages...");
-   return;
-#endif CLEAR_SAVED_MESSAGES
+   if (game != self.currentGame)
+   {
+      twlog("trying to end a tutorial, we hope?");
+      return;
+   }
    
-	NSError *error = nil;
-   NSArray *savedMessages = nil;
-	NSData *savedStateFile = [NSData
-      dataWithContentsOfFile:[@"~/Documents/storedMessages.state" stringByExpandingTildeInPath] 
-      options:NSUncachedRead 
-      error:&error
-   ];
-	if (!error)
-	{
-		savedMessages = [NSKeyedUnarchiver unarchiveObjectWithData:savedStateFile];
-		for (TMMessage *message in savedMessages)
-         [self.storedMessages addObject:message];
-	}
- 	else
-   {
-		twlog("error restoring storedMessages.state: %@", [error localizedDescription]);
-   }
-
-	error = nil;
-   savedMessages = nil;
-	savedStateFile = [NSData
-      dataWithContentsOfFile:[@"~/Documents/sentMessages.state" stringByExpandingTildeInPath] 
-      options:NSUncachedRead 
-      error:&error
-   ];
-	if (!error)
-	{
-		savedMessages = [NSKeyedUnarchiver unarchiveObjectWithData:savedStateFile];
-		for (TMMessage *message in savedMessages)
-         [self.sentMessages addObject:message];
-	}
- 	else
-   {
-		twlog("error restoring sentMessages.state: %@", [error localizedDescription]);
-   }
+   self.currentGame = nil;
+   
+   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kBZPrefCurrentGame];
+   [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)save
 {
-	NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self.storedMessages];
-	[encodedObject writeToFile:[@"~/Documents/storedMessages.state" stringByExpandingTildeInPath] atomically:YES];
-
-	encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self.sentMessages];
-	[encodedObject writeToFile:[@"~/Documents/sentMessages.state" stringByExpandingTildeInPath] atomically:YES];
-}
-
-- (void)fixNotificationTypes
-{
-   for (TMMessage *storedMessage in self.storedMessages)
-      [storedMessage fixNotificationTypes];
-   [self save];
-}
-
-- (void)startHandlingMessage
-{
-   twcheck(!self.currentlyHandlingMessage);
-   self.currentlyHandlingMessage = YES;
-}
-
-- (void)endHandlingMessage
-{
-   twcheck(self.currentlyHandlingMessage);
-   self.currentlyHandlingMessage = NO;
-   [self pollingTimerFired:nil];
-}
-
-#if USE_APNS
-- (void)syncILimeURL
-{
-   NSString *deviceUrlText = [[NSUserDefaults standardUserDefaults] objectForKey:kILimeDeviceURLKey];
-   if (!deviceUrlText.length)
-      deviceUrlText = @"";
-      //return;
-   
-   NSString *deviceAuthorization = [[iLimeService shared] basicAuthorizationString];
-      
-   NSURL *ilimeURL = [TWAppDelegate() serverURLForPath:@"ilime"];
-   TWURLConnection *ilimer = [[TWURLConnection alloc] initWithURL:ilimeURL delegate:self userInfo:kConnection_ILime];
-   
-   [ilimer startFormPOST];
-   
-   [ilimer appendFormFieldString:@"udid" string:[UIDevice currentDevice].uniqueIdentifier];
-   [ilimer appendFormFieldString:@"url" string:deviceUrlText];
-   [ilimer appendFormFieldString:@"auth" string:deviceAuthorization];
-
-   [ilimer completeFormPOST];
-      
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-   [ilimer startLoading];   
-}
-#endif USE_APNS
-
-#if USE_APNS
-- (void)syncMissingMessage
-{
-   if (!self.missingMessages.count)
-      return;
-   
-   NSURL *retrieveURL = [TWAppDelegate() serverURLForPath:@"retrieve"];
-   TWURLConnection *retriever = [[TWURLConnection alloc] initWithURL:retrieveURL delegate:self userInfo:kConnection_Missing];
-   
-   [retriever startFormPOST];
-   
-   [retriever appendFormFieldString:@"msgkey" string:[self.missingMessages objectAtIndex:0]];
-   
-   [retriever completeFormPOST];
-   
-   [self.missingMessages removeObjectAtIndex:0];
-   
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-   [retriever startLoading];
-}
-#endif USE_APNS
-
-#if USE_APNS
-- (void)handleMissingResults:(NSArray *)fields
-{
-   if (fields.count < 2)
-      return;
-
-   NSString *kTargetPrefix = @"target=";
-   NSString *kSendPrefix = @"send=";
-   NSString *kMethodPrefix = @"method=";
-   NSString *kOccurPrefix = @"occur=";
-   NSString *kTextPrefix = @"text=";
-   NSString *kKeyPrefix = @"key=";
-
-   TMMessage *message = [TMMessage emptyMessage];
-   for (NSString *field in fields)
+   if (!currentGame || currentGame.isGameWon || currentGame.isGameLost)
    {
-      if ([field hasPrefix:kTargetPrefix])
-      {
-         message.target = [field substringFromIndex:kTargetPrefix.length];
-      }
-      else if ([field hasPrefix:kSendPrefix])
-      {
-         NSString *seconds = [field substringFromIndex:kSendPrefix.length];
-         NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds.floatValue];
-         message.send = date;
-      }
-      else if ([field hasPrefix:kMethodPrefix])
-      {
-         message.method = [field substringFromIndex:kMethodPrefix.length];
-      }
-      else if ([field hasPrefix:kOccurPrefix])
-      {
-         message.occur = [field substringFromIndex:kOccurPrefix.length];
-      }
-      else if ([field hasPrefix:kTextPrefix])
-      {
-         message.text = [field substringFromIndex:kTextPrefix.length];
-      }
-      else if ([field hasPrefix:kKeyPrefix])
-      {
-         message.key = [field substringFromIndex:kKeyPrefix.length];
-      }
-      else
-      {
-         twlog("what field is this? -- %@", field);
-      }
+      // this'll happen if we quit during a win/lose display, no doubt
+      [[NSUserDefaults standardUserDefaults] removeObjectForKey:kBZPrefCurrentGame];
+      [[NSUserDefaults standardUserDefaults] synchronize];
    }
-   
-   [self.storedMessages addObject:message];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-
-   [self syncMissingMessage];
-}
-#endif USE_APNS
-
-- (BOOL)keyInStoredMessages:(NSString *)key
-{
-   if (!key.length)
-      return YES;
-   
-   for (TMMessage *message in self.storedMessages)
-      if ([key isEqualToString:message.key])
-         return YES;
-   
-   return NO;
+   else
+      [currentGame saveState:YES];
 }
 
-#if USE_APNS
-- (void)handleSyncResults:(NSArray *)actives
+- (BOOL)gameCenterAvailable
 {
-   NSMutableArray *extras = [NSMutableArray array];
-   for (TMMessage *message in self.storedMessages)
-      if (NSNotFound == [actives indexOfObject:message.key])
+   return nil != self.gameCenterManager;
+}
+
+- (BOOL)gameCenterOn
+{
+   BOOL gameCenterOn = [[NSUserDefaults standardUserDefaults] boolForKey:kBZPrefUseGameCenter];
+   return gameCenterOn;
+}
+
+- (void)toggleGameCenter
+{
+   BOOL gameCenterOn = !self.gameCenterOn;
+   [self enableGameCenter:gameCenterOn];
+}
+
+- (void)enableGameCenter:(BOOL)enabled
+{
+   [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:kBZPrefUseGameCenter];
+   [[NSUserDefaults standardUserDefaults] synchronize];
+   
+   if (enabled)
+   {
+      twcheck(self.gameCenterManager);
+      if (self.gameCenterManager)
       {
-         twlog("Extra message: %@!", message);
-         [extras addObject:message];
+         gameCenterLoginResolved = NO;
+         [self.gameCenterManager authenticateLocalUser];
       }
-   if (extras.count)
-   {
-      [self.storedMessages removeObjectsInArray:extras];
-      [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-      [self save];
-   }
-         
-   for (NSString *key in actives)
-      if (![self keyInStoredMessages:key])
-      {
-         twlog("Missing key: %@!", key);
-         [self.missingMessages addObject:key];
-      }
-   [self syncMissingMessage];
-}
-#endif USE_APNS
-
-#if USE_APNS
-- (void)syncWithServer
-{
-   NSURL *syncURL = [TWAppDelegate() serverURLForPath:@"active"];
-   TWURLConnection *syncer = [[TWURLConnection alloc] initWithURL:syncURL delegate:self userInfo:kConnection_Sync];
-
-   [syncer startFormPOST];
-   
-   [syncer appendFormFieldString:@"device" string:[UIDevice currentDevice].uniqueIdentifier];
-      
-   [syncer completeFormPOST];
-   
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-   [syncer startLoading];
-}
-#endif USE_APNS
-
-- (void)addMessage:(TMMessage *)message
-{
-#if USE_APNS
-   [message storeOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-   [message storeLocalNotification];
-#else
-#error how shall we addMessage?
-#endif USE_APNS
-  
-   [self.storedMessages addObject:message];
-   [self.storedMessages sortUsingSelector:@selector(compareByDate:)];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)editMessage:(TMMessage *)message
-{
-#if USE_APNS
-   [message editOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-   [message editLocalNotification];
-#else
-#error how shall we editMessage?
-#endif USE_APNS
-
-   [self.storedMessages sortUsingSelector:@selector(compareByDate:)];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteStoredMessage:(TMMessage *)message
-{
-   twcheck(message);
-#if USE_APNS
-   [message deleteOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-   [message deleteLocalNotification];
-#else
-#error how shall we deleteStoredMessage?
-#endif USE_APNS
-   
-   [self.storedMessages removeObject:message];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteAllStoredMessages
-{
-   for (TMMessage *message in self.storedMessages)
-#if USE_APNS
-      [message deleteOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-      [message deleteLocalNotification];
-#else
-#error how shall we deleteAllStoredMessages?
-#endif USE_APNS
-    
-   [self.storedMessages removeAllObjects];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteSentMessage:(TMMessage *)message
-{
-   twcheck(message);
-   [self.sentMessages removeObject:message];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kSentMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteAllSentMessages
-{
-   [self.sentMessages removeAllObjects];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kSentMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)triggerMessage:(NSString *)messageKey
-{
-   if (!messageKey.length)
-   {
-      twlog("triggerMessage given null/empty key!");
-      return;
-   }
-   
-   if (self.currentlyHandlingMessage)
-   {
-      twlog("triggerMessage -- already handling a message!");
-      return;
-   }
-
-   if ([TMMessageViewController isEditing:messageKey])
-   {
-      twlog("triggerMessage -- is editing it!");
-      return;
-   }
-   
-   [self startHandlingMessage];
-   
-   //twlog("triggered sending message key: %@", messageKey);
-   
-   TMMessage *triggeredMessage = nil;
-   for (TMMessage *storedMessage in self.storedMessages)
-      if ([storedMessage.key isEqual:messageKey])
-      {
-         triggeredMessage = storedMessage;
-         break;
-      }
-   if (!triggeredMessage)
-      for (TMMessage *sentMessage in self.sentMessages)
-         if ([sentMessage.key isEqual:messageKey])
-         {
-            twlog("triggeredMessage was found in sent list??");
-            triggeredMessage = sentMessage;
-            break;
-         }
-   if (!triggeredMessage)
-   {
-      twlog("FAIL: triggeredMessage %@ could not be found!", messageKey);
-      [self endHandlingMessage];
-      return;
-   }
-   
-   self.triggeringMessage = triggeredMessage;
-   NSString *triggerText = [NSString stringWithFormat:NSLocalizedString(@"TRIGGERTEXT", nil), triggeredMessage.text, triggeredMessage.targetDescription];
-   NSInteger snoozeMinutes = [[NSUserDefaults standardUserDefaults] integerForKey:kTMPrefSnoozeMinutes];
-   NSString *format = NSLocalizedString(1 == snoozeMinutes ? @"TRIGGERSNOOZEMINUTE" : @"TRIGGERSNOOZEMINUTES", nil);
-   NSString *snoozeText = [NSString stringWithFormat:format, snoozeMinutes];
-   UIActionSheet *triggerAction = [[[UIActionSheet alloc]
-      initWithTitle:triggerText
-      delegate:self
-      cancelButtonTitle:NSLocalizedString(@"TRIGGERDELETE", nil) // bottom, black
-      destructiveButtonTitle:NSLocalizedString(@"TRIGGERSEND", nil) // top, red, 0
-      otherButtonTitles:snoozeText, // middle, grey, 1
-      nil
-   ] autorelease];
-   [triggerAction showFromTabBar:TWAppDelegate().tabBarController.tabBar];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-   (void)actionSheet;
-   //twlog("action sheet clickedButtonAtIndex %i", buttonIndex);
-
-   switch (buttonIndex)
-   {
-      case kTriggerSendButton:
-         {            
-         [self.sentMessages addObject:[self.triggeringMessage sentMessage]];
-         [[NSNotificationCenter defaultCenter] postNotificationName:kSentMessagesChangedNotification object:self];
-
-         [self.storedMessages removeObject:self.triggeringMessage];
-         TMMessage *nextMessage = [self.triggeringMessage nextScheduled];
-         if (nextMessage)
-         {
-#if USE_APNS
-            // notification will come as scheduled, we imagine
-            [self.storedMessages addObject:nextMessage];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-            [self save];
-#elif USE_LOCAL_NOTIFICATIONS
-            // always add them as UILocalNotification can't schedule random reminders
-            [self addMessage:nextMessage];
-#else
-#error how shall we handle scheduling next?
-#endif USE_APNS
-         }
-         else
-         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-            [self save];
-         }
-         
-         // this will presumably leave the application -- nope, 
-         [self.triggeringMessage trigger];
-         }
-         break;
-         
-      case kTriggerSnoozeButton:
-         {
-#if USE_LOCAL_NOTIFICATIONS
-         TMMessage *snoozed = [self.triggeringMessage snoozedMessage];
-         [self.storedMessages removeObject:self.triggeringMessage];
-         // always add them as UILocalNotification can't schedule random reminders
-         [self addMessage:snoozed];
-#else
-#error how shall we handle snoozing?
-#endif USE_LOCAL_NOTIFICATIONS
-         [self endHandlingMessage];
-         }
-        break;
-         
-      case kTriggerDeleteButton:
-         [self.storedMessages removeObject:self.triggeringMessage];
-         [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-         [self save];
-         [self endHandlingMessage];
-         break;
-         
-      default:
-         twlog("what should button index %i do?", buttonIndex);
-         break;
-   }
-}
-
-- (void)pollingTimerFired:(NSTimer *)timer
-{
-   (void)timer;
-   
-   if (self.currentlyHandlingMessage)
-      return;
-   
-   for (TMMessage *message in self.storedMessages)
-      if ([message triggerIfFired])
-         return;
-   
-   // nothing pending, so make sure badge goes away
-   [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-
-}
-
-#if USE_APNS
-- (void)TWURLConnectionDidFinish:(TWURLConnection *)dataReceiver
-{
-   (void)dataReceiver;
-   
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-   
-   NSData* receivedData = [dataReceiver receivedData];
-   NSString* result = [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease];
-   
-   if ([kConnection_Sync isEqual:[dataReceiver userInfo]])
-   {
-      if (!result.length)
-      {
-         if (self.storedMessages.count)
-         {
-            [self.storedMessages removeAllObjects];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-            [self save];
-         }
-         twlog("sync(active) handled -- no actives");
-      }
-      else
-      {
-         NSArray *actives = [result componentsSeparatedByString:@","];
-         [self handleSyncResults:actives];          
-         twlog("sync(active) handled -- %d actives", actives.count);
-      }
-   }
-   else if ([kConnection_Missing isEqual:[dataReceiver userInfo]])
-   {
-      NSArray *fields = [result componentsSeparatedByString:@"\n"];
-      [self handleMissingResults:fields];          
-      twlog("sync(missing) handled -- %d fields", fields.count);
-   }
-   else if ([kConnection_ILime isEqual:[dataReceiver userInfo]])
-   {
-      twlog("sync(ilime) handled");
    }
    else
    {
-      twlog("what TMDataModel connection is %@?", [dataReceiver userInfo]);
+      // this crashed when called from within block handler?
+      // probably because main scene didn't stop listening on dealloc.
+      [self performSelector:@selector(notifyGameCenterLoginResolved) withObject:nil afterDelay:0];
    }
-   
-#if DEBUG
-   twlog("TWURLConnectionDidFinish: %@", result);
-#endif DEBUG
+
+   [[NSNotificationCenter defaultCenter]
+      postNotificationName:kGameCenterEnableChangeNotification
+      object:self
+      userInfo:nil
+   ];         
+
+   // presumably if it's turned off, we just stop reporting
 }
-#endif USE_APNS
-*/
+
+- (void)gameCenterAuthenticationChanged:(NSNotification *)note
+{
+   // http://stackoverflow.com/questions/3749772/gamekit-notification-when-user-change
+	
+   twlog("gameCenterAuthenticationChanged! -- %@\n object (%@) %@\n  userInfo: %@", note, NSStringFromClass([note.object class]), note.object, note.userInfo);
+   
+   GKPlayer *notedPlayer = note.object;
+   
+   // looks like we get two of these on first start; (null) and the newly authenticated one
+   // actually, looks like we always get the one being not authenticated, then later on the authenticated one
+   if (!notedPlayer.playerID.length)
+      return;
+   
+   GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+   twcheck([notedPlayer isEqual:localPlayer]);
+   
+   if (localPlayer.isAuthenticated)
+   {
+      twlog("local player authenticated -- %@", localPlayer);
+      // assume they mean to turn it on
+      [self enableGameCenter:YES];
+      
+      // should we detect player change and offer to end game?
+   }
+   else
+   {
+      twlog("local player not authenticated -- %@", localPlayer);
+      // assume they mean to turn it off
+      [self enableGameCenter:NO];
+   }
+}
+
+- (void)reportScore:(int64_t)score
+{
+   if (!self.gameCenterManager)
+      return;
+   if (!self.gameCenterOn)
+      return;
+   if (score < gameCenterHighScore)
+      return;
+   
+   twlog("reporting score: %lld", score);
+   gameCenterHighScore = score;
+   [self.gameCenterManager reportScore:score forCategory:kLeaderboardID];
+}
+
+- (void)reportAchievement:(NSString *)achievement percent:(double)percent;
+{
+   if (!self.gameCenterManager)
+      return;
+   if (!self.gameCenterOn)
+      return;
+  
+   twlog("reporting achievement: %@", achievement);
+   [self.gameCenterManager submitAchievement:achievement percentComplete:percent];
+}
+
+- (void)notifyGameCenterLoginResolved
+{
+   gameCenterLoginResolved = YES;
+   [[NSNotificationCenter defaultCenter]
+    postNotificationName:kGameCenterLoginResolvedNotification
+    object:self
+    userInfo:nil
+    ];         
+}
+
+- (void)savePendingAchievement:(NSString *)achievement
+{
+   twlog("called savePendingAchievement: %@", achievement);
+   if (!self.gameCenterManager)
+      return;
+   if (!self.gameCenterOn)
+      return;
+   GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+   //if (localPlayer.isAuthenticated)
+      //return;
+   NSString *playerID = localPlayer.playerID;
+   if (!playerID.length)
+      return;
+   twlog("ok to save pending achievement: %@", achievement);
+
+   NSArray *oldPending = [[NSUserDefaults standardUserDefaults] objectForKey:playerID];
+   NSInteger pendingScore = achievement.integerValue;
+   
+   NSMutableArray *newPending = [NSMutableArray array];
+   if (1 > pendingScore)
+   {
+      twlog("pending achievement: %@", achievement);
+     [newPending addObject:achievement];
+   }
+   for (NSString *pending in oldPending)
+   {
+      // numeric score gets maxed with new one if necessary
+      NSInteger oldPendingScore = pending.integerValue;
+      if ((0 < oldPendingScore) && (0 < pendingScore))
+      {
+         pendingScore = MAX(pendingScore, oldPendingScore);
+         continue;
+      }
+      
+      if (![pending isEqual:achievement])
+      {
+         twlog("old pending achievement: %@", pending);
+         [newPending addObject:pending];
+      }
+   }
+   if (0 < pendingScore)
+   {
+      NSString *score = [NSString stringWithFormat:@"%d", pendingScore];
+      [newPending addObject:score];
+      twlog("pending max(new,old) score: %@", score);
+   }
+
+   [[NSUserDefaults standardUserDefaults] setObject:newPending forKey:playerID];
+}
+
+- (void)submitPendingAchievements
+{
+   twlog("submitPendingAchievements called ...");
+   if (!self.gameCenterManager)
+      return;
+   if (!self.gameCenterOn)
+      return;
+   GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+   if (!localPlayer.isAuthenticated)
+      return;
+   NSString *playerID = localPlayer.playerID;
+   if (!playerID.length)
+      return;
+   
+   twlog(" ... and submitting!");
+   NSArray *pending = [[NSUserDefaults standardUserDefaults] objectForKey:playerID];
+   if (!pending)
+     return;
+   pending = [[pending copy] autorelease];
+   [[NSUserDefaults standardUserDefaults] removeObjectForKey:playerID];
+  
+   for (NSString *achievement in pending)
+   {
+      NSInteger score = achievement.integerValue;
+      if (0 < score)
+         [self reportScore:score];
+      else
+         [self reportAchievement:achievement percent:100];
+   }
+}
+
+#pragma mark -
+#pragma mark GameCenterManagerDelegate
+
+- (void)processGameCenterAuth:(NSError *)error
+{
+	if (error == NULL)
+	{
+      //twlog("processGameCenterAuth WIN! -- call reloadHighScoresForCategory?");
+      gameCenterHighScore = 0;
+#if GAMECENTER_RESET_ACHIEVEMENTS
+#warning resetting achievements!
+      twlog("resetting achievements!");
+      [self.gameCenterManager resetAchievements];
+#endif GAMECENTER_RESET_ACHIEVEMENTS
+		[self.gameCenterManager reloadHighScoresForCategory:kLeaderboardID];
+
+      // this crashed when called from within block handler?
+      // probably because main scene didn't stop listening on dealloc.
+      [self performSelector:@selector(notifyGameCenterLoginResolved) withObject:nil afterDelay:0];
+   }
+	else
+	{
+      twcheck([error.domain isEqual:GKErrorDomain]);
+      
+      twlog("processGameCenterAuth FAIL: %@", error);
+
+      if (GKErrorCancelled == error.code)
+      {
+         // assume they mean to turn it off
+         [self enableGameCenter:NO];
+
+         // this crashed when called from within block handler?
+         // probably because main scene didn't stop listening on dealloc.
+         [self performSelector:@selector(notifyGameCenterLoginResolved) withObject:nil afterDelay:0];
+
+         return;
+      }
+      
+      NSString *message = [NSString stringWithFormat:NSLocalizedString(@"GAMECENTERMESSAGE", nil), error.localizedDescription];
+      UIAlertView *gcFail = [UIAlertView twxOKAlert:@"GAMECENTERFAIL" withMessage:message];
+      gcFail.delegate = self;
+	}
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+   (void)alertView;
+   (void)buttonIndex;
+ 
+   // assume this is from GAMECENTERFAIL alert
+   [self notifyGameCenterLoginResolved];
+}
+
+- (void) scoreReported:(NSError*) error;
+{
+   twlog("scoreReported called, error: %@", error);
+
+	if (error == NULL)
+	{
+      /*
+		[self.gameCenterManager reloadHighScoresForCategory: self.currentLeaderBoard];
+		[self showAlertWithTitle: @"High Score Reported!"
+                       message: [NSString stringWithFormat: @"", [error localizedDescription]]];
+       */
+	}
+	else
+	{
+		// [self showAlertWithTitle: @"Score Report Failed!"
+      // message: [NSString stringWithFormat: @"Reason: %@", [error localizedDescription]]];
+      
+      // save it for later
+      NSString *score = [NSString stringWithFormat:@"%d", BZCurrentGame().score];
+      [self savePendingAchievement:score];
+	}
+}
+
+- (void) reloadScoresComplete: (GKLeaderboard*) leaderBoard error: (NSError*) error;
+{
+   if (!error)
+   {
+      gameCenterHighScore = leaderBoard.localPlayerScore.value;
+   
+      twlog("reloadScoresComplete called, high score %lld; error: %@", gameCenterHighScore, error);
+
+      [self submitPendingAchievements];
+   }
+   else
+   {
+      twlog("reloadScoresComplete FAIL -- %@!", error);
+   }
+
+   /*
+	if(error == NULL)
+	{
+		int64_t personalBest= leaderBoard.localPlayerScore.value;
+		self.personalBestScoreDescription= @"Your Best:";
+		self.personalBestScoreString= [NSString stringWithFormat: @"%ld", personalBest];
+		if([leaderBoard.scores count] >0)
+		{
+			self.leaderboardHighScoreDescription=  @"-";
+			self.leaderboardHighScoreString=  @"";
+			GKScore* allTime= [leaderBoard.scores objectAtIndex: 0];
+			self.cachedHighestScore= allTime.formattedValue;
+			[gameCenterManager mapPlayerIDtoPlayer: allTime.playerID];
+		}
+	}
+	else
+	{
+		self.personalBestScoreDescription= @"GameCenter Scores Unavailable";
+		self.personalBestScoreString=  @"-";
+		self.leaderboardHighScoreDescription= @"GameCenter Scores Unavailable";
+		self.leaderboardHighScoreDescription=  @"-";
+		[self showAlertWithTitle: @"Score Reload Failed!"
+                       message: [NSString stringWithFormat: @"Reason: %@", [error localizedDescription]]];
+	}
+	[self.tableView reloadData];
+    */
+}
+
+- (void) achievementSubmitted: (GKAchievement*) ach error:(NSError*) error;
+{
+   twlog("achievementSubmitted called, ach %@; error: %@", ach, error);
+
+	if((error == NULL) && (ach != NULL))
+	{
+      /*
+		if(ach.percentComplete == 100.0)
+		{
+			[self showAlertWithTitle: @"Achievement Earned!"
+                          message: [NSString stringWithFormat: @"Great job!  You earned an achievement: \"%@\"", NSLocalizedString(ach.identifier, NULL)]];
+		}
+		else
+		{
+			if(ach.percentComplete > 0)
+			{
+				[self showAlertWithTitle: @"Achievement Progress!"
+                             message: [NSString stringWithFormat: @"Great job!  You're %.0f\%% of the way to: \"%@\"",ach.percentComplete, NSLocalizedString(ach.identifier, NULL)]];
+			}
+		}
+       */
+	}
+	else
+	{
+		//[self showAlertWithTitle: @"Achievement Submission Failed!"
+      //                 message: [NSString stringWithFormat: @"Reason: %@", [error localizedDescription]]];
+      
+      // save it for later
+      [self savePendingAchievement:ach.identifier];
+	}
+}
+
+- (void) achievementResetResult: (NSError*) error
+{
+   twlog("achievementResetResult called, error: %@", error);
+/*
+	self.currentScore= 0;
+	[self.tableView reloadData];
+	if(error != NULL)
+	{
+		[self showAlertWithTitle: @"Achievement Reset Failed!"
+                       message: [NSString stringWithFormat: @"Reason: %@", [error localizedDescription]]];
+	}
+ */
+}
+
+- (void) mappedPlayerIDToPlayer: (GKPlayer*) player error: (NSError*) error
+{
+   twlog("mappedPlayerIDToPlayer called, player %@; error: %@", player, error);
+   /*
+	if((error == NULL) && (player != NULL))
+	{
+		self.leaderboardHighScoreDescription= [NSString stringWithFormat: @"%@ got:", player.alias];
+		
+		if(self.cachedHighestScore != NULL)
+		{
+			self.leaderboardHighScoreString= self.cachedHighestScore;
+		}
+		else
+		{
+			self.leaderboardHighScoreString= @"-";
+		}
+      
+	}
+	else
+	{
+		self.leaderboardHighScoreDescription= @"GameCenter Scores Unavailable";
+		self.leaderboardHighScoreDescription=  @"-";
+	}
+	[self.tableView reloadData];
+    */
+}
+
 @end

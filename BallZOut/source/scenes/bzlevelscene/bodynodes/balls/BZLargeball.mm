@@ -24,9 +24,10 @@ NSString *kLargeballName = nil; // @"marble128.png";
 
 @implementation BZLargeball
 
-- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+//- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+- (id)initWithBody:(b2Body*)body params:(NSDictionary *)params scene:(BZLevelScene *)game
 {
-	if ( (self = [super initWithBody:body gameScene:game diameter:kLargeballWidth spriteFrame:kLargeballName]) )
+	if ( (self = [super initWithBody:body params:params gameScene:game diameter:kLargeballWidth spriteFrame:kLargeballName]) )
    {
 	}
    

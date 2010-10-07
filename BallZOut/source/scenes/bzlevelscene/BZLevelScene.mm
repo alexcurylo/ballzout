@@ -101,23 +101,29 @@
 //@synthesize hero=hero_;
 @synthesize heroballs=heroballs_;
 @synthesize targetballs=targetballs_;
+@synthesize obstacles=obstacles_;
 @synthesize hud=hud_;
 @synthesize cameraOffset=cameraOffset_;
 
-#pragma mark BZLevelScene -Initialization
+#pragma mark -
+#pragma mark Life cycle
 
-+(id) scene
++ (id)scene
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
 	// 'game' is an autorelease object.
+   // note that this may actually be a BZInstructions scene!
 	BZLevelScene *game = [self node];
+   // do this after init so tutorial game has a chance to get created
+   [game setupLevel];
 
 	// BZLevelHUD
 	BZLevelHUD *hud = [BZLevelHUD BZLevelHUDWithLevelScene:game];
-	[scene addChild:hud z:10];
-	
+	//[scene addChild:hud z:10];
+   [game addChild:hud z:50];
+
 	// link gameScene with HUD
 	game.hud = hud;
 	
@@ -130,50 +136,76 @@
 
 
 // initialize your instance here
--(id) init
+- (id)init
 {
-	if( (self=[super init]))
+	if ( (self = [super init]) )
    {
-		// enable touches
-		self.isTouchEnabled = YES;
-		
-		//score_ = 0;
-		//lives_ = 3;
-		//hero_ = nil;
-      heroballs_ = [[NSMutableArray array] retain];
-      targetballs_ = [[NSMutableArray array] retain];
-		
-		// game state
-		levelState_ = kLevelStatePaused;
-		
-		// camera
-		cameraOffset_ = CGPointZero;
-		
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		
-		CGSize screenSize = [CCDirector sharedDirector].winSize;
-		//CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
-		
-		// init box2d physics
-		[self initPhysics];
-		
-		// Init graphics
-		[self initGraphics];
-		
-		// Box2d iterations default values
-		worldVelocityIterations_ = 6;
-		worldPositionIterations_ = 1;
-		
-		// nodes to be removed
-		nukeCount = 0;
-      
-      [self layoutLevel];
-
-		[self scheduleUpdateWithPriority:0];
+      // setup moved to -setupLevel so instructions has a chance to create tutorial game
 	}
+   
 	return self;
 }
 
+- (void)setupLevel
+{
+   [self.game levelBegin];
+   
+   // enable touches
+   self.isTouchEnabled = YES;
+   
+   //score_ = 0;
+   //lives_ = 3;
+   //hero_ = nil;
+   heroballs_ = [[NSMutableArray array] retain];
+   targetballs_ = [[NSMutableArray array] retain];
+   obstacles_ = [[NSMutableArray array] retain];
+   
+   // game state
+   levelState_ = kLevelStatePaused;
+   
+   // camera
+   cameraOffset_ = CGPointZero;
+   
+   CGSize s = [[CCDirector sharedDirector] winSize];
+   
+   CGSize screenSize = [CCDirector sharedDirector].winSize;
+   //CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
+   
+   // init box2d physics
+   [self initPhysics];
+   
+   // Init graphics
+   [self initGraphics];
+   
+   // Box2d iterations default values
+   worldVelocityIterations_ = 6;
+   worldPositionIterations_ = 1;
+   
+   // nodes to be removed
+   nukeCount = 0;
+   
+   [self layoutLevel];
+   
+   [self scheduleUpdateWithPriority:0];
+}
+
+#pragma mark -
+#pragma mark Playing vs. Tutorial accessors
+
+- (BZGame *)game
+{
+   return BZCurrentGame();
+}
+
+- (BOOL)userPlaying
+{
+   return kLevelStatePlaying == self.levelState;
+}
+
+#pragma mark -
+#pragma mark - Operations
+
+/*
 - (void)cleanLevel
 {
    [self.heroballs removeAllObjects];
@@ -192,6 +224,7 @@
       nuke[i] = nil;
    nukeCount = 0;
 }
+*/
 
 - (void)layoutLevel
 {
@@ -205,7 +238,12 @@
    settings.bezierSegments = kPhysicsDefaultBezierSegments;
    
    // create box2d objects from SVG file in world
-   [SVGParser parserWithSVGFilename:[self SVGFileName] b2World:world_ settings:&settings target:self selector:@selector(physicsCallbackWithBody:attribs:)];	
+   [SVGParser parserWithSVGFilename:[self SVGFileName]
+      b2World:world_
+      settings:&settings
+      target:self
+      selector:@selector(physicsCallbackWithBody:attribs:)
+    ];	
    
    [self createHeroballs];
 }
@@ -214,7 +252,7 @@
 {
    twcheck(!self.heroballs.count);
    
-   for (int i = 0; i < BZCurrentGame().balls; i++)
+   for (int i = 0; i < self.game.levelBalls; i++)
    {
 		BZHeroball *heroball = [[[BZHeroball alloc] initWithPosition:[self heroballSlot:i] gameScene:self] autorelease];
       [self addBodyNode:heroball z:0];
@@ -240,10 +278,25 @@
 {
    [self.heroballs removeObject:heroball];
    
-   [BZCurrentGame() ballOut];
+   [self.game ballOut];
    
    if (kLevelStatePlaying == levelState_)
       [[SimpleAudioEngine sharedEngine] playEffect: @"herosmash.wav"];
+   
+   // is it time to ghost out obstacles?
+   if (1 == self.game.levelBalls)
+   {
+      //twcheck(m_contactFilter);
+      //m_contactFilter->mObstaclesAreGhosts = true;
+      
+      for (BZBodyNode* obstacle in self.obstacles)
+      {
+         obstacle.body->SetActive(false);
+         
+         CCFadeTo *fade = [CCFadeTo actionWithDuration:0.5 opacity:64];
+         [obstacle runAction:fade];
+      }
+   }
   
    /* doing this while removing the last hero isn't a good idea; move to -updateGame
    if (!self.heroballs.count)
@@ -267,6 +320,8 @@
    // in motion?
    if (heroball.inMotion)
       return;
+
+   [self.game ballStopped];
 
    b2Body *ballBody = heroball.body;
    b2Vec2 ballPosition = ballBody->GetWorldCenter();
@@ -337,8 +392,6 @@
 
 - (void)addTargetball:(BZBall *)targetball
 {
-   (void)targetball;
-   
    [self.targetballs addObject:targetball];
 }
 
@@ -349,6 +402,16 @@
    // check on update when there's a ready ball, which should be after last one gets set
    //if (1 > targetballs_)
       //[self gameOver];
+}
+
+- (void)addObstacle:(BZBodyNode *)obstacle
+{
+   [self.obstacles addObject:obstacle];
+}
+
+- (void)removeObstacle:(BZBodyNode *)obstacle
+{
+   [self.obstacles removeObject:obstacle];
 }
 
 - (void)setPaused:(BOOL)paused
@@ -367,6 +430,7 @@
 -(void) onEnterTransitionDidFinish
 {
 	[super onEnterTransitionDidFinish];
+   
 	levelState_ = kLevelStatePlaying;
 	
 	//CGRect rect = [self contentRect];
@@ -381,7 +445,8 @@
    // sprites
 	//[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"sprites.plist"];
 	// platforms
-	[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"platforms.plist"];
+	//[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"platforms.plist"];
+	[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"obstacles.plist"];
 	// marbles
    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"marbles.plist"];
 
@@ -392,7 +457,7 @@
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGB565];
 	//CCSprite *background = [CCSprite spriteWithFile:@"background3.png"];
 	//CCSprite *background = [CCSprite spriteWithFile:@"arena1.jpg"];
-	CCSprite *background = [CCSprite spriteWithFile:BZCurrentGame().currentArenaFileName];
+	CCSprite *background = [CCSprite spriteWithFile:self.game.currentArenaFileName];
 	background.anchorPoint = ccp(0,0);
    //background.position = ccp(size.width/2, size.height/2);
    
@@ -400,15 +465,16 @@
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_Default];
 	
 	// weak ref
-	spritesBatchNode_ = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:20];
+	//spritesBatchNode_ = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:20];
 	
    // weak ref
 	marblesBatchNode_ = [CCSpriteBatchNode batchNodeWithFile:@"marbles.png" capacity:20];
 
 	// weak ref
-	platformBatchNode_ = [CCSpriteBatchNode batchNodeWithFile:@"platforms.png" capacity:10];
-	ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-	[platformBatchNode_.texture setTexParameters:&params];
+	//platformBatchNode_ = [CCSpriteBatchNode batchNodeWithFile:@"platforms.png" capacity:10];
+	platformBatchNode_ = [CCSpriteBatchNode batchNodeWithFile:@"obstacles.png" capacity:10];
+	//ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
+	//[platformBatchNode_.texture setTexParameters:&params];
 	
 	//
 	// Parallax Layers
@@ -443,7 +509,7 @@
    
    // batchnodes: platforms should be drawn before sprites
 	[self addChild:platformBatchNode_ z:1];
-	[self addChild:spritesBatchNode_ z:2];
+	//[self addChild:spritesBatchNode_ z:2];
    [self addChild:marblesBatchNode_ z:3];
 
    [self setContentSize:[background contentSize]];   
@@ -454,7 +520,9 @@
 	//CCLOG(@"LevelSVG: BZLevelScene:SVGFileName: override me");
 	//return nil;
    
-   return BZCurrentGame().currentLevelFileName;
+   NSString *filename = self.game.currentLevelFileName;
+   twlog("loading level %@", filename);
+   return filename;
 }
 
 // on "dealloc" you need to release all your retained objects
@@ -464,7 +532,8 @@
 	
    twrelease(heroballs_);
    twrelease(targetballs_);
-   
+   twrelease(obstacles_);
+
 	// physics stuff
 	if( world_ )
 		delete world_;
@@ -511,8 +580,10 @@
 	world_->SetContactListener( m_contactListener );
 	
 	// contact filter
-//	m_contactFilter = new MyContactFilter();
-//	world_->SetContactFilter( m_contactFilter );
+   // unlike LevelSVG, we do want bodies to be contact filtered
+   // no, we can just set active false on them?
+   //m_contactFilter = new MyContactFilter();
+   //world_->SetContactFilter( m_contactFilter );
 	
 	// destruction listener
 	m_destructionListener = new MyDestructionListener();
@@ -537,10 +608,11 @@
 
 #pragma mark BZLevelScene - MainLoop
 
--(void) update: (ccTime) dt
+- (void)update:(ccTime)dt
 {
 	// Only step the world if status is Playing or GameOver
-	if( levelState_ != kLevelStatePaused ) {
+	if (kLevelStatePaused != levelState_)
+   {
 		
 		//It is recommended that a fixed time step is used with Box2D for stability
 		//of the simulation, however, we are using a variable time step here.
@@ -563,6 +635,9 @@
    
    // check to see if level is done
 	[self updateGame];
+   
+	if (kLevelStatePlaying == levelState_)
+      [self.hud updateForceCycle];
 }
 
 - (void)removeB2Body:(b2Body*)body
@@ -627,7 +702,7 @@
 - (void)updateGame
 {
    // don't bother, it'll always be out of sync after level finishes
-   //twlogif(!((int)self.heroballs.count == BZCurrentGame().balls), "updateGame: level %d balls, game %d balls", self.heroballs.count, BZCurrentGame().balls);
+   //twlogif(!((int)self.heroballs.count == self.game.balls), "updateGame: level %d balls, game %d balls", self.heroballs.count, self.game.balls);
    
    // is this level lost?
    
@@ -636,19 +711,19 @@
       if (kLevelStateOver != levelState_)
       {
          //[self increaseLife:-1];
-         [BZCurrentGame() levelLost];
-         [hud_ onUpdateLives:BZCurrentGame().lives];
+         [self.game levelLost];
+         [hud_ onUpdateLives:self.game.lives];
          levelState_ = kLevelStateOver;
          
          CGSize size = [[CCDirector sharedDirector] winSize];
 
          //if( lives < 0 && lives_ == 0 )
-         if (BZCurrentGame().isGameLost)
+         if (self.game.isGameLost)
          {
             //[hud_ displayMessage:@"GAMEFAIL"];
             BZSimpleButton *gameOver = [BZSimpleButton
                 simpleButtonAtPosition:ccp(size.width/2, size.height/2)
-                image:@"button_gameover.png"
+                imageFrame:@"button_gameover.png"
                 target:self
                 selector:@selector(buttonGameOver:)
                 ];
@@ -663,7 +738,7 @@
             //[self layoutLevel];
             BZSimpleButton *tryAgain = [BZSimpleButton
                 simpleButtonAtPosition:ccp(size.width/2, size.height/2)
-                image:@"button_tryagain.png"
+                imageFrame:@"button_tryagain.png"
                 target:self
                 selector:@selector(buttonTryAgain:)
                 ];
@@ -688,10 +763,10 @@
       //[self levelFinished];
       if (kLevelStateOver != levelState_)
       {
-         [BZCurrentGame() levelWon];
+         [self.game levelWon];
          levelState_ = kLevelStateOver;
 
-         if (BZCurrentGame().isGameWon)
+         if (self.game.isGameWon)
          {
             //[hud_ displayMessage:@"GAMEWIN"];
             [self buttonShowScore:nil];
@@ -730,6 +805,9 @@
 - (void)buttonGameOver:(id)sender
 {
    (void)sender;
+   
+   [TWDataModel() endGame:self.game];
+   
       // CCTransitionFadeDown
    id destinationScene = [BZMainScene scene];
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionTurnOffTiles transitionWithDuration:1.0f scene:destinationScene]];
@@ -785,8 +863,8 @@
 - (void)targetBallOut
 {
 	//[game_ increaseScore:kScoreBallOut];
-   [BZCurrentGame() targetOut];
-	[hud_ onUpdateScore:BZCurrentGame().score];
+   [self.game targetOut];
+	[hud_ onUpdateScore:self.game.score];
 	[[SimpleAudioEngine sharedEngine] playEffect: @"targetpop.wav"];
 }
 
@@ -801,14 +879,15 @@
 #pragma mark BZLevelScene - Box2d Callbacks
 
 // will be called for each created body in the parser
--(void) physicsCallbackWithBody:(b2Body*)body attribs:(NSString*)gameAttribs
+-(void) physicsCallbackWithBody:(b2Body*)body attribs:(NSString *)gameAttribs
 {
 	NSArray *values = [gameAttribs componentsSeparatedByString:@","];
 	NSEnumerator *nse = [values objectEnumerator];
 
-	BZBodyNode *node = nil;
-
-	for( NSString *propertyValue in nse )
+   NSString *objectClassName = nil;
+   NSMutableDictionary *objectParams = nil;
+   
+	for (NSString *propertyValue in nse)
    {
 		NSArray *arr = [propertyValue componentsSeparatedByString:@"="];
 		NSString *key = [arr objectAtIndex:0];
@@ -816,41 +895,54 @@
 
 		key = [key lowercaseString];
 	
-		if( [key isEqualToString:@"object"] )
+		if ([key isEqualToString:@"object"])
       {
-         // why don't we just pass in the parameters here???
-         
-			NSString *classname = [@"BZ" stringByAppendingString:[value capitalizedString]];
-			Class klass = NSClassFromString( classname );
-		
-			if( klass ) {
-				// The BodyNode will be added to the scene graph at init time
-				node = [[klass alloc] initWithBody:body gameScene:self];
-				
-				[self addBodyNode:node z:0];
-				[node release];					
-			} else {
-				CCLOG(@"BZLevelScene: WARNING: Don't know how to create class: %@", classname);
-			}
-
+			objectClassName = [@"BZ" stringByAppendingString:[value capitalizedString]];
 		}
-      else if( [key isEqualToString:@"objectparams"] )
+      else if ([key isEqualToString:@"objectparams"])
       {
 			// Format of parameters:
 			// objectParams=direction:vertical;target:1;visible:NO;
-			NSDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
+			
+         objectParams = [NSMutableDictionary dictionaryWithCapacity:10];
+         
 			NSArray *params = [value componentsSeparatedByString:@";"];
-			for( NSString *param in params) {
+			for (NSString *param in params)
+         {
 				NSArray *keyVal = [param componentsSeparatedByString:@":"];
-				[dict setValue:[keyVal objectAtIndex:1] forKey:[keyVal objectAtIndex:0]];
+				[objectParams setValue:[keyVal objectAtIndex:1] forKey:[keyVal objectAtIndex:0]];
 			}
-			[node setParameters:dict];
-			[dict release];
-
 		}
       else
-			NSLog(@"Game Scene callback: unrecognized key: %@", key);
+      {
+			twlog("BZLevelScene physicsCallbackWithBody FAIL: unrecognized key: %@", key);
+      }
 	}
+   
+   if (objectClassName.length)
+   {
+      Class objectClass = NSClassFromString(objectClassName);
+      
+      if (objectClass)
+      {
+         // The BodyNode will be added to the scene graph at init time
+         
+         //BZBodyNode *node = [[objectClass alloc] initWithBody:body gameScene:self];
+  			//[node setParameters:dict];
+         BZBodyNode *node = [[objectClass alloc] initWithBody:body params:objectParams scene:self];
+     
+         [self addBodyNode:node z:0];
+         [node release];					
+      }
+      else
+      {
+         twlog("BZLevelScene physicsCallbackWithBody FAIL: What's class %@?", objectClassName);
+      }
+   }
+   else
+   {
+      twcheck(!objectParams);
+   }
 }
 
 // This is the default behavior
@@ -860,12 +952,15 @@
    //(void)zOrder;
 	//CCLOG(@"LevelSVG: BZLevelScene#addBodyNode override me");
 
-	switch (node.preferredParent) {
+	switch (node.preferredParent)
+   {
+         /*
 		case BN_PREFERRED_PARENT_SPRITES_PNG:
          
 			// Add to sprites' batch node
 			[spritesBatchNode_ addChild:node z:zOrder];
 			break;
+         */
          
 		case BN_PREFERRED_PARENT_PLATFORMS_PNG:
 			// Add to platform batch node
@@ -934,11 +1029,11 @@
 
 // 'button' is being pressed.
 // Attach a mouseJoint if we are touching a box2d body
--(BOOL) mouseDown:(b2Vec2) p
+- (BOOL)mouseDown:(b2Vec2) p
 {
    // do nothing unless actively playing
-   
-   if (kLevelStatePlaying != self.levelState)
+   // which means not in tutorial -- although tutorial should override this
+   if (!self.userPlaying)
       return NO;
    
    // is it trying to select a heroball?
@@ -966,13 +1061,16 @@
    }   
    
    // ok, it's an attempted targeting; see if there's a heroball to target with
+   // and if there's nothing in play right now
    
    BZHeroball *ball = self.readyHeroball;
-   if (!ball)
+   if (!ball /*|| self.game.levelBallsInPlay*/)
    {
-      twlog("no heroball ready!");
+      //twlog("no heroball ready, or ball in play!");
       return NO;
    }
+   
+   [hud_ beginForceCycle];
    
    return YES;
    
@@ -1038,6 +1136,16 @@
 //
 - (void)mouseUp:(b2Vec2)targetPosition
 {
+   /* no, tapper in tutorial might want to call this
+    // do nothing unless actively playing
+   // which means not in tutorial -- although tutorial should override this
+   if (!self.userPlaying)
+   {
+      twlog("not playing in BZLevelScene mouseUp??");
+      return;
+   }
+    */
+   
    BZHeroball *ball = self.readyHeroball;
    if (!ball)
    {
@@ -1045,6 +1153,7 @@
       return;
    }
    
+   [self.hud endForceCycle];
    [self.hud hideActiveRing];
    
    // direction from
@@ -1073,6 +1182,7 @@
    ball.body->ApplyLinearImpulse(impulse, ballPosition );
    //ball.body->ApplyTorque(5);
 	[[SimpleAudioEngine sharedEngine] playEffect:@"launch.wav"];
+   [self.game ballShot];
 
    /*
 	if (mouseJoint_)

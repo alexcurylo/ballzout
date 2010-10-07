@@ -10,8 +10,11 @@
 
 #import "BZBodyNode.h"
 
-@interface BZPlatform : BZBodyNode {
-
+@interface BZPlatform : BZBodyNode
+{
+   UIColor *platformColor;
 }
+
+@property (nonatomic, retain) UIColor *platformColor;
 
 @end

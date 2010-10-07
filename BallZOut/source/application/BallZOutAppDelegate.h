@@ -5,13 +5,24 @@
 //
 
 #import "BZDataModel.h"
+#import "CrashReportSender.h"
 
-//@class RootViewController;
+@class BZRootViewController;
 
-@interface BallZOutAppDelegate : NSObject <UIApplicationDelegate>
+extern NSString *kBZPrefPlaySound; // = @"BZPlaySound";
+extern NSString *kBZPrefUseGameCenter; // = @"BZUseGameCenter";
+extern NSString *kBZPrefCurrentGame; // = @"BZCurrentGame";
+//extern NSString *kBZPrefPendingGCUpdates; // = @"BZPendingGCUpdates";
+
+@interface BallZOutAppDelegate : NSObject <
+   UIApplicationDelegate,
+   GKLeaderboardViewControllerDelegate,
+   GKAchievementViewControllerDelegate,
+   CrashReportSenderDelegate
+>
 {
 	UIWindow *window;
-	//RootViewController	*viewController;
+	BZRootViewController	*viewController;
  
    NSURL *iTunesURL;
 
@@ -48,11 +59,36 @@
 - (BOOL)soundOn;
 - (void)toggleSound;
 
+- (BOOL)showLeaderboard;
+- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)lvController;
+- (BOOL)showAchievements;
+- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)achController;
+
+#pragma mark -
+#pragma mark CrashReportSenderDelegate
+
+/*
+ -(NSString *) crashReportUserID;					// Return the userid the crashreport should contain, empty by default
+ -(NSString *) crashReportContact;					// Return the contact value (e.g. email) the crashreport should contain, empty by default
+ -(NSString *) crashReportDescription;				// Return the description the crashreport should contain, empty by default 
+ */
+- (void)connectionOpened;
+- (void)connectionClosed;
+
 @end
 
 #pragma mark -
 #pragma mark Conveniences
 
+// necessary for .m files to access when implementation is .mm, apparently
+#ifdef __cplusplus
+extern "C" {
+#endif __cplusplus
+   
 BallZOutAppDelegate *TWAppDelegate(void);
 BZDataModel *TWDataModel(void);
 BZGame *BZCurrentGame(void);
+   
+#ifdef __cplusplus
+}
+#endif __cplusplus

@@ -128,7 +128,7 @@
 
 - (void) dealloc
 {
-	SVGLOG(@"SVGParser: deallocing %@", self);
+	//SVGLOG(@"SVGParser: deallocing %@", self);
 	[gameAttribs_ release];
 	[physicsAttribs_ release];
 	[transformAttribs_ release];
@@ -660,6 +660,7 @@
 	float ret = 0;
 	BOOL ok = [scanner scanFloat:&ret];
 	NSAssert(ok, @"SVG parser: path error parsing float");
+   (void)ok;
 	
 	// find next comma
 	for( ; pathIndex < stringLen ; pathIndex++ ) {
@@ -777,14 +778,19 @@
 #pragma mark SVGParser - parser main loop
 
 // the XML parser calls here with all the elements
--(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
+-(void)parser:(NSXMLParser *)parser
+   didStartElement:(NSString *)elementName
+   namespaceURI:(NSString *)namespaceURI
+   qualifiedName:(NSString *)qName
+   attributes:(NSDictionary *)attributeDict
 {	
    (void)parser;
    (void)namespaceURI;
    (void)qName;
 
 	b2Body *body = NULL;
-	if([elementName isEqualToString:@"svg"]) {
+	if([elementName isEqualToString:@"svg"])
+   {
 		float width = [[attributeDict valueForKey:@"width"] floatValue];
 		float height = [[attributeDict valueForKey:@"height"] floatValue];
 		SVGSize = CGSizeMake(width,height);
@@ -798,12 +804,14 @@
 
 	[self parseAttribs:attributeDict];
 	
-	if([elementName isEqualToString:@"g"]) {
+	if ([elementName isEqualToString:@"g"])
+   {
 		[self pushTransformMatrix];
 	
 		// If new layer, and layer name begins with "physics:" then parse it
 		NSString *label = [attributeDict valueForKey:@"inkscape:label"];
-		if( label ) {
+		if( label )
+      {
 			if( [label hasPrefix:@"physics:"] )
 				isPhysicsLayer = YES;
 			else
@@ -816,36 +824,46 @@
 	if( ! isPhysicsLayer )
 		return;
 			
-	if([elementName isEqualToString:@"path"]) {
+	if([elementName isEqualToString:@"path"])
+   {
 		body = [self parsePath:attributeDict];
-
-	} else if([elementName isEqualToString:@"rect"]) {
+	}
+   else if([elementName isEqualToString:@"rect"])
+   {
 		body = [self parseRect:attributeDict];
-		
-	} else if([elementName isEqualToString:@"circle"]) {
+	}
+   else if([elementName isEqualToString:@"circle"])
+   {
 		SVGLOG(@"SVGParser: circle not supported yet");
-		
-	} else if([elementName isEqualToString:@"ellipse"]) {
+	}
+   else if([elementName isEqualToString:@"ellipse"])
+   {
 		SVGLOG(@"SVGParser: ellipse not supported yet");
-		
-	} else if([elementName isEqualToString:@"line"]) {
+	}
+   else if([elementName isEqualToString:@"line"])
+   {
 		SVGLOG(@"SVGParser: line not supported yet");
-		
-	} else if([elementName isEqualToString:@"polyline"]) {
+	}
+   else if([elementName isEqualToString:@"polyline"])
+   {
 		SVGLOG(@"SVGParser: polyline not supported yet");
-		
-	} else if([elementName isEqualToString:@"polygon"]) {
+	}
+   else if([elementName isEqualToString:@"polygon"])
+   {
 		SVGLOG(@"SVGParser: polygon not supported yet");
-
-	} else {
-		;
+	}
+   else
+   {
+		// ignore
 	}
 	
-	if( body && gameAttribs_) {		
-			[callbackInvocation setArgument:&body atIndex:2];
-			[callbackInvocation setArgument:&gameAttribs_ atIndex:3];
-			[callbackInvocation invoke];
-		}
+	if ( body && gameAttribs_)
+   {
+      // this calls BZLevelScene -physicsCallbackWithBody:attribs:
+      [callbackInvocation setArgument:&body atIndex:2];
+      [callbackInvocation setArgument:&gameAttribs_ atIndex:3];
+      [callbackInvocation invoke];
+	}
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName

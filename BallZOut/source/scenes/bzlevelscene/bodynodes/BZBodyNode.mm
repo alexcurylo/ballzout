@@ -21,10 +21,14 @@
 @synthesize properties=properties_;
 
 //-(id) initWithBody:(b2Body*)body game:(GameNode*)game
--(id) initWithBody:(b2Body*)body gameScene:(BZLevelScene *)game
+//-(id) initWithBody:(b2Body*)body gameScene:(BZLevelScene *)game
+- (id)initWithBody:(b2Body*)body params:(NSDictionary *)params scene:(BZLevelScene *)game
 {
 	if( (self=[super init]) ) {
 
+      // somewhere in here we should call setParams
+      (void)params;
+      
 		reportContacts_ = BN_CONTACT_NONE;
 		body_ = body;
 		isTouchable_ = NO;

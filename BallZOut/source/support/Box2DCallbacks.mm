@@ -77,7 +77,14 @@ bool MyContactFilter::ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB)
 {
    (void)fixtureA;
    (void)fixtureB;
-	return true;
+   
+   if (!mObstaclesAreGhosts)
+      return true;
+   
+   // actually, looks like we can just set active false on the bodies
+   // so we don't need this filter at all
+   //return false;
+   return true;
 }
 		
 bool MyContactFilter::RayCollide(void* userData, b2Fixture* fixture)

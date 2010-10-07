@@ -15,11 +15,12 @@
 @implementation BZTargetball
 
 - (id)initWithBody:(b2Body*)body
+params:(NSDictionary *)params
          gameScene:(BZLevelScene*)game
           diameter:(CGFloat)diameter
        spriteFrame:(NSString *)spriteFrame
 {
-	if ( (self = [super initWithBody:body gameScene:game diameter:diameter spriteFrame:spriteFrame]) )
+	if ( (self = [super initWithBody:body params:params gameScene:game diameter:diameter spriteFrame:spriteFrame]) )
    {
       // Tell the game, that this instace is a target
 		[game addTargetball:self];

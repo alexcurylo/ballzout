@@ -29,9 +29,10 @@ NSString *kHeroballName = @"ball48-silver.png";
 @synthesize isHero = isHero_;
 
 // when placed in scene file
-- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+//- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+- (id)initWithBody:(b2Body*)body params:(NSDictionary *)params scene:(BZLevelScene *)game
 {
-	if ( (self = [super initWithBody:body gameScene:game diameter:kHeroballWidth spriteFrame:kHeroballName]) )
+	if ( (self = [super initWithBody:body params:params gameScene:game diameter:kHeroballWidth spriteFrame:kHeroballName]) )
    {
       // Tell the game, that this instace is the Hero
 		[game addHeroball:self];
@@ -48,7 +49,7 @@ NSString *kHeroballName = @"ball48-silver.png";
 	bd.position = position;
 	b2Body *body = [game world]->CreateBody(&bd);
 
-	if ( (self = [super initWithBody:body gameScene:game diameter:kHeroballWidth spriteFrame:kHeroballName]) )
+	if ( (self = [super initWithBody:body params:nil gameScene:game diameter:kHeroballWidth spriteFrame:kHeroballName]) )
    {
       // Tell the game, that this instace is the Hero
 		[game addHeroball:self];

@@ -51,6 +51,7 @@ public:
 class MyContactFilter : public b2ContactFilter
 {
 public:
+   MyContactFilter() : mObstaclesAreGhosts(false) {}
 	virtual ~MyContactFilter() {}
 	
 	/// Return true if contact calculations should be performed between these two shapes.
@@ -60,6 +61,7 @@ public:
 	/// Return true if the given shape should be considered for ray intersection
 	virtual bool RayCollide(void* userData, b2Fixture* fixture);
 	
+   bool mObstaclesAreGhosts;
 };
 
 #pragma mark -

@@ -22,9 +22,10 @@ NSString *kMediumballName = nil; // @"marble48.png";
 
 @implementation BZMediumball
 
-- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+//- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+- (id)initWithBody:(b2Body*)body params:(NSDictionary *)params scene:(BZLevelScene *)game
 {
-	if ( (self = [super initWithBody:body gameScene:game diameter:kMediumballWidth spriteFrame:kMediumballName]) )
+	if ( (self = [super initWithBody:body params:params gameScene:game diameter:kMediumballWidth spriteFrame:kMediumballName]) )
    {
 	}
    

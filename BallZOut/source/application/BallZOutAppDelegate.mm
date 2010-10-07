@@ -13,7 +13,13 @@
 //#import "GameConfig.h"
 #import "BZMainScene.h"
 //#import "HelloWorldScene.h"
-//#import "RootViewController.h"
+#import "BZRootViewController.h"
+
+// for crashes
+// #define CRASH_REPORTER_URL [NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"]
+// woah ... the redirect loses our POST arguments??
+//NSString *kServerPathCrashReporter = @"http://trollwerks.com/crash/crash_v200.php";
+NSString *kServerPathCrashReporter = @"http://www.alexcurylo.com/crash/crash_v200.php";
 
 @implementation BallZOutAppDelegate
 
@@ -25,6 +31,9 @@
 #pragma mark Life cycle
 
 NSString *kBZPrefPlaySound = @"BZPlaySound";
+NSString *kBZPrefUseGameCenter = @"BZUseGameCenter";
+NSString *kBZPrefCurrentGame = @"BZCurrentGame";
+//NSString *kBZPrefPendingGCUpdates = @"BZPendingGCUpdates";
 
 + (void)initialize
 {
@@ -32,6 +41,7 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
    {
 		NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
          [NSNumber numberWithBool:YES], kBZPrefPlaySound,
+         [NSNumber numberWithBool:YES], kBZPrefUseGameCenter,
          (id)nil
          ];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
@@ -67,19 +77,21 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
 	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
 
 	// Init the View Controller
-	//viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
-	//viewController.wantsFullScreenLayout = YES;
+	viewController = [[BZRootViewController alloc] initWithNibName:nil bundle:nil];
+	viewController.wantsFullScreenLayout = YES;
 	
 	//
 	// Create the EAGLView manually
 	//  1. Create a RGB565 format. Alternative: RGBA8
 	//	2. depth format of 0 bit. Use 16 or 24 bit for 3d effects, like CCPageTurnTransition
-	//
+   //http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:effects
+	// kEAGLColorFormatRGB565 made waviness go all black!
 	//
 	EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
-								   pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
-								   depthFormat:0						// GL_DEPTH_COMPONENT16_OES
-							preserveBackbuffer:NO];
+      //pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
+      pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
+      depthFormat:0						// GL_DEPTH_COMPONENT16_OES
+   preserveBackbuffer:NO];
 	
 	// Enable multiple touches, or not
 	[glView setMultipleTouchEnabled:YES]; // joystick + jump in SVG levels
@@ -113,9 +125,9 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
 #endif DISPLAY_FPS
 	
 	// make the OpenGLView a child of the view controller
-	//[viewController setView:glView];
+	[viewController setView:glView];
    // make the View Controller a child of the main window
-	//[window addSubview: viewController.view];
+	[window addSubview: viewController.view];
 	
    // or, just make the OpenGLView a child of the main window
 	[window addSubview:glView];
@@ -136,7 +148,13 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
 	// Run the intro Scene
 	[[CCDirector sharedDirector] runWithScene: [BZMainScene scene]];
 	//[[CCDirector sharedDirector] runWithScene: [HelloWorld scene]];		
-
+   
+   [[CrashReportSender sharedCrashReportSender]
+    sendCrashReportToURL:[NSURL URLWithString:kServerPathCrashReporter] 
+    delegate:self 
+    activateFeedback:YES
+    ];
+   
    // return NO if URL in launchOptions cannot be handled
    return YES;
 }
@@ -151,6 +169,8 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
 {
    (void)application;
 	[[CCDirector sharedDirector] pause];
+   
+   [dataModel save];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -192,21 +212,16 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
 	
 	[[director openGLView] removeFromSuperview];
 	
-	//[viewController release];
-	
-	[window release];
+   twrelease(viewController);
+   twrelease(window);
 	
 	[director end];	
 }
 
 - (void)cleanup
 {
-   
-   // TIP:
-	// Save the game state here
-   //[self.dataModel save];
-
-   [[NSUserDefaults standardUserDefaults] synchronize];
+   [dataModel save];
+   //[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application
@@ -219,6 +234,7 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
 {
 	[[CCDirector sharedDirector] release];
    
+   twrelease(viewController);
    twrelease(window);
    twrelease(iTunesURL);
    twrelease(dataModel);
@@ -277,6 +293,92 @@ NSString *kBZPrefPlaySound = @"BZPlaySound";
    [[NSUserDefaults standardUserDefaults] synchronize];
    
    [[SimpleAudioEngine sharedEngine] setEnabled:soundOn];
+}
+
+- (BOOL)showLeaderboard
+{
+   if (!TWDataModel().gameCenterManager)
+      return NO;
+   if (!TWDataModel().gameCenterOn)
+      return NO;
+   if (![GameCenterManager isLocalUserAuthenticated])
+      return NO;
+       
+   GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
+   if (!leaderboardController)
+   {
+      twlog("leaderboardController init FAIL!");
+      return NO;
+   }
+   
+   /*
+    The category property allows you to configure which category screen is displayed when the 
+    leaderboard opens. If you do not set this property, the leaderboard opens to the default category 
+    you configured in iTunes Connect.
+    The timeScope property allows you to configure which scores are displayed to the user. For example, 
+    a time scope of GKLeaderboardTimeScopeAllTime retrieves the best scores regardless of when they 
+    were scored. The default value is GKLeaderboardTimeScopeToday which shows scores earned in the last 24 hours.
+    */
+
+   leaderboardController.leaderboardDelegate = self;
+   twcheck(viewController);
+   [viewController presentModalViewController:leaderboardController animated: YES];
+   
+   return YES;
+}
+
+- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)lvController
+{
+   (void)lvController;
+   [viewController dismissModalViewControllerAnimated:YES];
+   /*
+    You may want to save off the leaderboard view controller’s timeScope and category properties. 
+    properties hold the player’s last selections they chose while viewing the leaderboards. 
+    You can then use those same values to initialize the leaderboard view controller the next 
+    time the user wants to see the leaderboard.
+    */
+}
+
+- (BOOL)showAchievements
+{
+   if (!TWDataModel().gameCenterManager)
+      return NO;
+   if (!TWDataModel().gameCenterOn)
+      return NO;
+   if (![GameCenterManager isLocalUserAuthenticated])
+      return NO;
+  
+   GKAchievementViewController *achievementsController = [[GKAchievementViewController alloc] init];
+   if (!achievementsController)
+   {
+      twlog("achievementsController init FAIL!");
+      return NO;
+   }
+   
+   achievementsController.achievementDelegate = self;
+   twcheck(viewController);
+   [viewController presentModalViewController:achievementsController animated: YES];
+   
+   return YES;
+}
+
+- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)achController
+{
+   (void)achController;
+   [viewController dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark CrashReportSenderDelegate
+
+- (void)connectionOpened
+{
+   //[self pushNetworkConnection];
+}
+
+- (void)connectionClosed
+{
+   //[self popNetworkConnection];
 }
 
 @end
