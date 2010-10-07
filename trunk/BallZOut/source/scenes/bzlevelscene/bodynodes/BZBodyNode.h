@@ -23,7 +23,7 @@ class b2Manifold;
 @end
 
 enum {
-	BN_PREFERRED_PARENT_SPRITES_PNG,
+	//BN_PREFERRED_PARENT_SPRITES_PNG,
 	BN_PREFERRED_PARENT_PLATFORMS_PNG,
 	BN_PREFERRED_PARENT_MARBLES_PNG,
 	BN_PREFERRED_PARENT_IGNORE,
@@ -100,7 +100,8 @@ enum {
 
 /** initializes the node with a box2d body */
 //-(id) initWithBody:(b2Body*)body game:(BZLevelScene*)game;
--(id) initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game;
+//-(id) initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game;
+- (id)initWithBody:(b2Body*)body params:(NSDictionary *)params scene:(BZLevelScene *)game;
 
 /** destroy all fixtures from body */
 -(void) destroyAllFixturesFromBody:(b2Body*)body;

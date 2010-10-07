@@ -239,7 +239,7 @@
        height="13.972811"
        x="232.10263"
        y="-81.559937"
-       game_data="object=movingplatform,objectParams=direction:vertical" />
+       game_data="object=movingplatform,objectParams=direction:vertical;color:richCarmine" />
     <rect
        y="133.84296"
        x="45.521244"
@@ -247,7 +247,7 @@
        width="78.972809"
        id="rect3033"
        style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1.02718937px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       game_data="object=movingplatform,objectParams=direction:horizontal" />
+       game_data="object=movingplatform,objectParams=direction:horizontal;color:robinEggBlue" />
     <rect
        style="fill:#800080;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="rect3035"
@@ -256,7 +256,7 @@
        x="5.3092265"
        y="-9.2072906"
        transform="translate(0,-160)"
-       game_data="object=platform" />
+       game_data="object=platform,objectParams=color:razzmatazz" />
     <rect
        style="fill:#ffff00"
        id="rect3037"
@@ -264,6 +264,6 @@
        height="10"
        x="31.855358"
        y="-112.32272"
-       game_data="object=platform1,objectParams=angular:5" />
+       game_data="object=platform1,objectParams=angular:5;color:blazeOrange" />
   </g>
 </svg>

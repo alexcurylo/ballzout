@@ -42,9 +42,9 @@
 
 // default ball settings
 // http://stackoverflow.com/questions/2962344/making-billiards-in-box2d
-#define kPhysicsDefaultBallFriction	(0.2f);
-#define kPhysicsDefaultBallDensity		(0.3f)
-#define kPhysicsDefaultBallRestitution	(0.2f)
+#define kPhysicsDefaultBallFriction	(0.3f);
+#define kPhysicsDefaultBallDensity		(0.25f)
+#define kPhysicsDefaultBallRestitution	(0.7f)
 // "Normally you will use a damping value between 0 and 0.1."
 #define kPhysicsDefaultBallLinearDamping	(0.9f)
 #define kPhysicsDefaultBallAngularDamping	(0.3f)
@@ -52,6 +52,9 @@
 // 0.016555 is where it was when we hit stop and it really wasn't moving
 #define kPhysicsShotEndedLengthSquared	(0.02f)
 
+// 1.0 shootForce is this many pixels wide
+//#define kUnitForceWidth (55.f) // at 0.3 mass
+#define kUnitForceWidth (55.f)
 
 #pragma mark Physics - Forces and Impulses
 

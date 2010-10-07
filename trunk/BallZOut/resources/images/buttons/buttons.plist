@@ -7,7 +7,7 @@
 		<key>button_achievements.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{237, 121}, {182, 65}}</string>
+			<string>{{2, 299}, {182, 65}}</string>
 			<key>offset</key>
 			<string>{1, -0}</string>
 			<key>rotated</key>
@@ -17,10 +17,23 @@
 			<key>sourceSize</key>
 			<string>{190, 69}</string>
 		</dict>
+		<key>button_continuegame.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 210}, {236, 87}}</string>
+			<key>offset</key>
+			<string>{3, -4}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{35, 16}, {236, 87}}</string>
+			<key>sourceSize</key>
+			<string>{300, 111}</string>
+		</dict>
 		<key>button_instructions.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{185, 188}, {214, 69}}</string>
+			<string>{{240, 210}, {214, 69}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -33,7 +46,7 @@
 		<key>button_leaderboard.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 188}, {181, 65}}</string>
+			<string>{{186, 299}, {181, 65}}</string>
 			<key>offset</key>
 			<string>{1, -0}</string>
 			<key>rotated</key>
@@ -46,7 +59,7 @@
 		<key>button_moregames.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 2}, {102, 51}}</string>
+			<string>{{369, 299}, {102, 51}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -56,10 +69,23 @@
 			<key>sourceSize</key>
 			<string>{104, 53}</string>
 		</dict>
+		<key>button_newgame.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{104, 106}, {238, 85}}</string>
+			<key>offset</key>
+			<string>{3, -3}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{34, 16}, {238, 85}}</string>
+			<key>sourceSize</key>
+			<string>{300, 111}</string>
+		</dict>
 		<key>button_options.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{219, 60}, {189, 58}}</string>
+			<string>{{2, 366}, {189, 58}}</string>
 			<key>offset</key>
 			<string>{1, -0}</string>
 			<key>rotated</key>
@@ -72,7 +98,7 @@
 		<key>button_playgame.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 259}, {310, 102}}</string>
+			<string>{{104, 2}, {310, 102}}</string>
 			<key>offset</key>
 			<string>{0, -1}</string>
 			<key>rotated</key>
@@ -85,7 +111,7 @@
 		<key>button_returnarrow.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{410, 60}, {55, 59}}</string>
+			<string>{{344, 106}, {55, 59}}</string>
 			<key>offset</key>
 			<string>{0, 0}</string>
 			<key>rotated</key>
@@ -95,44 +121,31 @@
 			<key>sourceSize</key>
 			<string>{55, 59}</string>
 		</dict>
-		<key>button_soundoff.png</key>
+		<key>button_tryfreenow.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 121}, {233, 64}}</string>
+			<string>{{193, 366}, {256, 46}}</string>
 			<key>offset</key>
-			<string>{-3, -0}</string>
-			<key>rotated</key>
-			<false/>
-			<key>sourceColorRect</key>
-			<string>{{0, 0}, {233, 64}}</string>
-			<key>sourceSize</key>
-			<string>{239, 64}</string>
-		</dict>
-		<key>button_soundon.png</key>
-		<dict>
-			<key>frame</key>
-			<string>{{2, 60}, {215, 56}}</string>
-			<key>offset</key>
-			<string>{6, 1}</string>
-			<key>rotated</key>
-			<false/>
-			<key>sourceColorRect</key>
-			<string>{{18, 3}, {215, 56}}</string>
-			<key>sourceSize</key>
-			<string>{239, 64}</string>
-		</dict>
-		<key>tryfreenow.png</key>
-		<dict>
-			<key>frame</key>
-			<string>{{106, 2}, {256, 56}}</string>
-			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, 5}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
 			<string>{{0, 0}, {256, 46}}</string>
 			<key>sourceSize</key>
 			<string>{256, 56}</string>
+		</dict>
+		<key>sprite-hand.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 2}, {100, 206}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {100, 206}}</string>
+			<key>sourceSize</key>
+			<string>{100, 206}</string>
 		</dict>
 	</dict>
 	<key>metadata</key>

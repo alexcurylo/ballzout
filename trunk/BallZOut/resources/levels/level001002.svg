@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="320"
@@ -163,8 +162,8 @@
      showgrid="false"
      inkscape:window-width="1676"
      inkscape:window-height="1083"
-     inkscape:window-x="33"
-     inkscape:window-y="26"
+     inkscape:window-x="66"
+     inkscape:window-y="111"
      inkscape:window-maximized="0"
      borderlayer="false" />
   <metadata
@@ -208,13 +207,13 @@
        sodipodi:cy="294.5"
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
        game_data="object=mediumball,objectParams=color:gold"
        transform="matrix(1.3632071,0,0,1.6661421,-455.50168,-562.28608)" />
     <path
        transform="matrix(1.3632071,0,0,1.6661421,-457.5601,-486.03907)"
        game_data="object=mediumball,objectParams=color:pink"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="16.5"
        sodipodi:cy="294.5"
@@ -230,71 +229,8 @@
        sodipodi:cy="294.5"
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
        game_data="object=mediumball,objectParams=color:lime"
        transform="matrix(1.3632071,0,0,1.6661421,-455.70704,-402.25084)" />
-    <image
-       y="-196.74597"
-       x="3.8938346"
-       id="image3027"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAJKCAYAAAAhjBXkAAAABHNCSVQICAgIfAhkiAAABHhJREFU
-eJzt3U1S2zAUB/BnO3E++Jqs2LGBDQfgKhyAI7Bhy649CMfoDCsOwRHY0AkxwUkcqxsc5YlK5Fme
-jqL+XyeLxOSHqo6sZ32Vnp6e1NXVlZpMJptXlmWKiKyvy8tL9fj4qLbiB52fnzu/ZHudnZ0xKPm8
-0CqU2nz1Z9oWMaNnfnBHdzSgAaX09Xfc0/3u0IhGrUrU2V+tOyhNuaUc/4hmva3Xa33t6OiIXVzQ
-wgrllLP3RVFs/ZKOAhAgQG5oMBiwD9a0tvwoUc+4D5ZlqaHhcMguVlRZoYwy9n6x0HeKAOsIEKA4
-ocPDQ/aBq8seEL9TzGYzDWUZb9GuJCKhhL2v61pD9sLKAhCgSCGftlZVulf+0vqXtLRCZsL+/v6u
-IXthZQEIECA3JMmz+9Rn7z8+PjRkZv6ShH251HeKAOsIEKA4IXOMzdVlmwn729ubhiSjfmZsjdWG
-WEeAAAUFmQl7TbXlR7+OsCNhBwRon6HRiE8VuvJsc4R9Pp9rKM95i3YN1ZsJ+2q10pC9sLIABAiQ
-Gzo+PmYfuEbYh8Qf7afTqYaShI/kSRJ2VqJW3wIE6P+Bej3eDUsSdtbTHhwc8Iu0IluYg3Ws77cX
-VhaAAAFyQ2bC3rrRImEHBCh8iI1nn5ycsIuSJTFshN2nRNsBCBAgN9Tv825Y0tOyuezxeMwuSvp+
-NrtuL6wsAAEC5IZ8Gi2bFjNvI60n6uyFlQUgQJFCkvFscxUrS9glI+xI2AEBCgDyGRpju8V8ZtfZ
-/jV7YWUBCBAgN2ROi0nWsbGd4j4TdWzvur2wsgAEKGLIJ2lvtnmmREQ+SXuz8TTQOgIEKE5IclaE
-mbQ3uXZKRCTZw2Ym7U32H2gdAQIUJyTZfOLssiXbYZxJRBcBCFDEkGSbp9nWmgfklIhIsvHU9sge
-aB0BAhQnJDniwTY4joQdEKB9hHy67GZi3DuJaKbqA60jQICCgro4K0L8uG47KyLQOgIEKE7IJ89u
-lp97D9U3C+IDrSNAgOKEJP+Bgm0lKxJ2QID+IdTFWREpEVEXZ0UEWkeAAMUJdXFWREpE1MVZEYHW
-ESBAcUI+q1ibw91Soq/raluXqIsABChiyEzYW/e0SNgBAdozqIuzIlIioi7Oigi0jgAB2lvIOZ5t
-Hu5WUkm2cI6wdxGAAAH6HuricLe/9v2tZ9e7CECAAH0P+ZwVwRJ2n4k6JOyAAMkgn7MiqqpKNpDP
-KPvLy0secB0BAhQn5DOfXRRFtoF8DngriqIXcB0BAhQn5JO0v76+6i7bc3VdEnAdAQIUFOSzaryu
-a93WfDaestbvG4AAAdoN8jkrYj6f6zzbZw9bWZZZwHUECFCckM9u8el0qrtsc/+68MApJOyAAO0I
-mQm75OG4rmv9bc+TYvoB1xEgQHFCnnm2brSeZ0WkAdcRIEAhQD3bhV+ff3YNa5ctidlsNthAp6en
-raGLi4vfpD5jtVqp6+trlee5IqKdXuPxWN3c3KjFYvEzUUpNtvWHh4fh8/PzcDKZVLe3twXtFuUf
-VsESLnMpr9QAAAAASUVORK5CYII=
-"
-       height="586"
-       width="18"
-       game_data="object=platform" />
-    <image
-       y="-115.27196"
-       x="108.92445"
-       id="image3049"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAAAPCAYAAAB5uSSYAAAABHNCSVQICAgIfAhkiAAAAFZJREFU
-aIHt2iEOgDAUBcFfwv2vXAThACjYZMa0smLzVNfM7IGI4+sHwBvnc9l2lh9b6z4tLCmCJUWwpAiW
-FMGSIlhSBEuKYEkRLCmCJWWNzy+EWFhSLjp5BB39h7/kAAAAAElFTkSuQmCC
-"
-       height="15"
-       width="172"
-       game_data="object=platform1" />
-    <image
-       y="-79.62429"
-       x="226.97824"
-       id="image3060"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAYAAABzyUiPAAAABHNCSVQICAgIfAhkiAAAAEtJREFU
-WIXt1zEOABAUBNH94v5XpuEATCGSeQ2lTLZRSUZ0rb1+wO/6vjjDM7VOFwgZEDIgZEDIgJABIQNC
-BoQMCBkQqviLQ1wgNAHDyQMd1VRXkQAAAABJRU5ErkJggg==
-"
-       height="15"
-       width="80"
-       game_data="object=movingplatform,objectParams=direction:vertical" />
-    <image
-       y="147.41399"
-       x="54.650684"
-       id="image3071"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGEAAAAQCAYAAAAGeBHHAAAABHNCSVQICAgIfAhkiAAAAE9JREFU
-WIXt2LENACAMxMAPYv+VoSErEBe+Bkok6xsqyYlGrekHKNl9cQ7/1TtdAoARAIwAYAQAIwAYAcAI
-AEYAMAKAEQCMAFDx22icSwC4OfoDH0xdrQEAAAAASUVORK5CYII=
-"
-       height="16"
-       width="97"
-       game_data="object=movingplatform,objectParams=direction:horizontal" />
   </g>
 </svg>

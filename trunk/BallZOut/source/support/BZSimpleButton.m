@@ -22,13 +22,39 @@
 
 @synthesize menu;
 
-+(id) simpleButtonAtPosition:(CGPoint)position image:(NSString*)image target:(id)target selector:(SEL)selector
++(id) simpleButtonAtPosition:(CGPoint)position imageFrame:(NSString*)image target:(id)target selector:(SEL)selector
 {
 	NSAssert(target != nil, @"SimpleButton - target is nil!");
-	return [[[self alloc] initWithPosition:position image:image target:target selector:selector] autorelease];
+   
+   BZMenuItem *item = [BZMenuItem
+      itemFromNormalSpriteFrameName:image
+      selectedSpriteFrameName:nil
+      target:target
+      selector:selector
+   ];
+   
+   //BZSimpleButton *button = [[[self alloc] initWithPosition:position image:image target:target selector:selector] autorelease];
+   BZSimpleButton *button = [[[self alloc] initWithPosition:position item:item] autorelease];
+	return button;
 }
 
--(id) initWithPosition:(CGPoint)position image:(NSString*)image target:(id)target selector:(SEL)selector
++(id) simpleButtonAtPosition:(CGPoint)position imageFile:(NSString*)image target:(id)target selector:(SEL)selector
+{
+   
+	NSAssert(target != nil, @"SimpleButton - target is nil!");
+   BZMenuItem *item = [BZMenuItem
+      itemFromNormalSpriteFileName:image
+      target:target
+      selector:selector
+   ];
+   
+   //BZSimpleButton *button = [[[self alloc] initWithPosition:position image:image target:target selector:selector] autorelease];
+   BZSimpleButton *button = [[[self alloc] initWithPosition:position item:item] autorelease];
+	return button;
+}
+
+//- (id)initWithPosition:(CGPoint)position image:(NSString*)image target:(id)target selector:(SEL)selector
+- (id)initWithPosition:(CGPoint)position item:(BZMenuItem *)item
 {
 	if ((self = [super init]))
 	{
@@ -55,12 +81,15 @@
 		}
        */
       
+      item_ = item;
+      /*
       item_ = [BZMenuItem
          itemFromNormalSpriteFrameName:image
          selectedSpriteFrameName:nil
          target:target
          selector:selector
       ];
+       */
 
       // autopositioning to butt image up against screen edges ...alex
       
@@ -139,25 +168,12 @@
 - (void)startWaving
 {
    [item_ startWaving];
-   /*
-    // skips uggily if we do this before loading? Or in loading? Noooo, always it seems...
-    // this makes background go black if we apply it to just play game ... so let's apply it to the whole scene!
-    id playAction = [CCLiquid actionWithWaves:4 amplitude:2.0 grid:ccg(8,8) duration:15];
-    //id playAction = [CCWaves3D actionWithWaves: 4 amplitude: 40 grid: ccg(15,10) duration: 15];
-    //id playAction = [CCShaky3D actionWithRange:4 shakeZ:NO grid:ccg(15,10) duration:5];
-    [self runAction:[CCRepeatForever actionWithAction:playAction]];
-    */
-   
-   id sleep = [CCDelayTime actionWithDuration:3];
-	id rot1 = [CCRotateBy actionWithDuration:0.025f angle:5];
-	id rot2 = [CCRotateBy actionWithDuration:0.05f angle:-10];
-	id rot3 = [rot2 reverse];
-	id rot4 = [rot1 reverse];
-	id seq = [CCSequence actions:rot1, rot2, rot3, rot4, (id)nil];
-	id repeat_rot = [CCRepeat actionWithAction:seq times:3];
-	id big_seq = [CCSequence actions:sleep, repeat_rot, (id)nil];
-	id repeat_4ever = [CCRepeatForever actionWithAction:big_seq];
-	[self runAction:repeat_4ever];
+   return;
+}
+
+- (void)stopWaving
+{
+   [item_ stopWaving];
 }
 
 @end

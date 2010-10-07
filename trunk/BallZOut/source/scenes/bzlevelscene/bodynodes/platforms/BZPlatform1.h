@@ -12,7 +12,9 @@
 
 
 @interface BZPlatform1 : BZBodyNode {
-
+   UIColor *platformColor;
 }
+
+@property (nonatomic, retain) UIColor *platformColor;
 
 @end

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>button_gamecenterna.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 2}, {298, 144}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {298, 144}}</string>
+			<key>sourceSize</key>
+			<string>{298, 144}</string>
+		</dict>
+		<key>button_gamecenteroff.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 148}, {298, 74}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {298, 74}}</string>
+			<key>sourceSize</key>
+			<string>{298, 74}</string>
+		</dict>
+		<key>button_gamecenteron.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 360}, {278, 74}}</string>
+			<key>offset</key>
+			<string>{10, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{20, 0}, {278, 74}}</string>
+			<key>sourceSize</key>
+			<string>{298, 74}</string>
+		</dict>
+		<key>button_soundoff.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 224}, {298, 66}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {298, 66}}</string>
+			<key>sourceSize</key>
+			<string>{298, 66}</string>
+		</dict>
+		<key>button_soundon.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 292}, {280, 66}}</string>
+			<key>offset</key>
+			<string>{9, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{18, 0}, {280, 66}}</string>
+			<key>sourceSize</key>
+			<string>{298, 66}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>2</integer>
+		<key>size</key>
+		<string>{512, 512}</string>
+	</dict>
+</dict>
+</plist>

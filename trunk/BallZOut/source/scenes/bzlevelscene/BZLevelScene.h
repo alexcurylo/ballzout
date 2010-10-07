@@ -18,8 +18,7 @@
 @class BZBall;
 @class BZHeroball;
 @class BZBodyNode;
-//@class BodyNode;
-//@class BonusNode;
+@class BZGame;
 
 // game state
 typedef enum
@@ -52,6 +51,7 @@ typedef enum
 	//Hero	*hero_;
 	NSMutableArray *heroballs_;
    NSMutableArray *targetballs_;
+   NSMutableArray *obstacles_;
    
 	// BZLevelHUD weak ref
 	BZLevelHUD		*hud_;
@@ -75,7 +75,7 @@ typedef enum
 	b2Body* nuke[kMaxNodesToBeRemoved];	
 
 // stuff that was in the LevelX subclasses
-	CCSpriteBatchNode *spritesBatchNode_;
+	//CCSpriteBatchNode *spritesBatchNode_;
 	CCSpriteBatchNode *platformBatchNode_;
 
 	CCSpriteBatchNode *marblesBatchNode_;
@@ -96,6 +96,7 @@ typedef enum
 /** weak ref to hero */
 //@property (readwrite,nonatomic,assign) Hero *hero;
 @property (readwrite,nonatomic, retain) NSMutableArray *heroballs;
+@property (readwrite,nonatomic, retain) NSMutableArray *obstacles;
 @property (readwrite,nonatomic, retain) NSMutableArray *targetballs;
 
 /** weak ref to BZLevelHUD */
@@ -104,13 +105,26 @@ typedef enum
 /** offset of the camera */
 @property (readwrite,nonatomic) CGPoint cameraOffset;
 
+#pragma mark -
+#pragma mark Life cycle
+
 // returns a Scene that contains the GameLevel and a BZLevelHUD
-+(id) scene;
++ (id)scene;
 
 // initialize game with level
--(id) init;
+- (id)init;
+- (void)setupLevel;
 
-- (void)cleanLevel;
+#pragma mark -
+#pragma mark Playing vs. Tutorial accessors
+
+- (BZGame *)game;
+- (BOOL)userPlaying;
+
+#pragma mark -
+#pragma mark - Operations
+
+//- (void)cleanLevel;
 - (void)layoutLevel;
 - (void)createHeroballs;
 - (b2Vec2)heroballSlot:(NSInteger)idx;
@@ -121,6 +135,9 @@ typedef enum
 
 - (void)addTargetball:(BZBall *)targetball;
 - (void)removeTargetball:(BZBall *)targetball;
+
+- (void)addObstacle:(BZBodyNode *)obstacle;
+- (void)removeObstacle:(BZBodyNode *)obstacle;
 
 - (void)setPaused:(BOOL)paused;
 
@@ -144,6 +161,8 @@ typedef enum
 // creates the foreground and background graphics
 -(void) initGraphics;
 
+- (void)update:(ccTime)dt;
+
 // adds the BodyNode to the scene graph
 -(void) addBodyNode:(BZBodyNode*)node z:(int)zOrder;
 
@@ -152,4 +171,5 @@ typedef enum
 
 // returns the content Rectangle of the Map
 -(CGRect) contentRect;
+
 @end

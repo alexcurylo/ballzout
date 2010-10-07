@@ -18,18 +18,29 @@
 @implementation BZBall
 
 - (id)initWithBody:(b2Body*)body
+params:(NSDictionary *)params
          gameScene:(BZLevelScene*)game
           diameter:(CGFloat)diameter
        spriteFrame:(NSString *)spriteFrame;
 {
-	if ( (self=[super initWithBody:body gameScene:game]) )
+	if ( (self=[super initWithBody:body params:params scene:game]) )
    {
       if (!spriteFrame.length)
       {
+         /*
          // we will expect a parameter with color for the actual frame name later
          framePrefix_ = [[NSString stringWithFormat:@"ball%d", lrintf(diameter)] retain];
          // for now we'll put in a placeholder so it gets added without crashing
          spriteFrame = @"ball25-aqua.png";
+          */
+         NSString *prefix = [NSString stringWithFormat:@"ball%d", lrintf(diameter)];
+         NSString *color = [params objectForKey:@"color"];
+         if (!color.length)
+         {
+            twlog("color MISSING for a BZBall with no explicit frame name!! -- using yellow");
+            color = @"yellow";
+         }
+         spriteFrame = [NSString stringWithFormat:@"%@-%@.png", prefix, color];
       }
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:spriteFrame];
       [self setDisplayFrame:frame];
@@ -84,7 +95,7 @@
 - (void)setParameters:(NSDictionary *)params
 {
 	[super setParameters:params];
-
+/*
    NSString *color = [params objectForKey:@"color"];
    if (color.length)
    {
@@ -93,7 +104,8 @@
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:frameName];
       [self setDisplayFrame:frame];
    }
-
+*/
+   
    /*
 	NSString *patrolTime = [params objectForKey:@"patrolTime"];
 	NSString *patrolSpeed = [params objectForKey:@"patrolSpeed"];

@@ -13,6 +13,7 @@
 
 // designated initializer
 - (id)initWithBody:(b2Body*)body
+params:(NSDictionary *)params
          gameScene:(BZLevelScene*)game
           diameter:(CGFloat)diameter
        spriteFrame:(NSString *)spriteFrame;

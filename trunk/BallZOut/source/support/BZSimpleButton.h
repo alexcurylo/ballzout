@@ -40,9 +40,12 @@ enum
 +(void) setIsEnabledForAllButtons:(NSMutableArray*)children enabled:(bool)enabled;
 -(void) setIsEnabled:(bool)enabled;
 
-+(id) simpleButtonAtPosition:(CGPoint)position image:(NSString*)image target:(id)target selector:(SEL)selector;
--(id) initWithPosition:(CGPoint)position image:(NSString*)image target:(id)target selector:(SEL)selector;
++(id) simpleButtonAtPosition:(CGPoint)position imageFrame:(NSString*)image target:(id)target selector:(SEL)selector;
++(id) simpleButtonAtPosition:(CGPoint)position imageFile:(NSString*)image target:(id)target selector:(SEL)selector;
+//-(id) initWithPosition:(CGPoint)position image:(NSString*)image target:(id)target selector:(SEL)selector;
+- (id)initWithPosition:(CGPoint)position item:(BZMenuItem *)item;
 
 - (void)startWaving;
+- (void)stopWaving;
 
 @end

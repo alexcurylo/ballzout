@@ -35,19 +35,20 @@
 @implementation BZLevelHUD
 
 @synthesize shootForce;
+@synthesize nextForceCycle;
 
-+ (id)BZLevelHUDWithLevelScene:(BZLevelScene*)game
++ (id)BZLevelHUDWithLevelScene:(BZLevelScene*)scene
 {
-	return [[[self alloc] initWithLevelScene:game] autorelease];
+	return [[[self alloc] initWithLevelScene:scene] autorelease];
 }
 
-- (id)initWithLevelScene:(BZLevelScene *)aGame
+- (id)initWithLevelScene:(BZLevelScene *)scene
 {
 	if ( (self=[super init]))
    {
 		
 		self.isTouchEnabled = YES;
-		game = aGame;
+		level = scene;
 
 		CGSize s = [[CCDirector sharedDirector] winSize];
       
@@ -76,7 +77,7 @@
 		}
 		
 		// The Hero is responsible for reading the joystick
-		[[game hero] setJoystick:joystick];		
+		[[level hero] setJoystick:joystick];		
 		
 		// enable button left/right only if using "Pad" controls
 		
@@ -90,7 +91,7 @@
        */
 		
 		//CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(32,32,32,128) width:s.width height:kColorLayerHeight];
-		// we want top portion to not be part of game
+		// we want top portion to not be part of level
       CCColorLayer *color = [CCColorLayer layerWithColor:ccc4(32,32,32,255) width:s.width height:kColorLayerHeight];
 		[color setPosition:ccp(0,s.height-kColorLayerHeight)];
 		[self addChild:color z:0];
@@ -124,7 +125,7 @@
 		[scoreLabel setPosition:ccp(75, s.height-20.5f)];		
       
 		// Score Points
-      NSString *scoreText = [NSString stringWithFormat:@"%d", BZCurrentGame().score];
+      NSString *scoreText = [NSString stringWithFormat:@"%d", level.game.score];
 		score = [CCLabelBMFont labelWithString:scoreText fntFile:@"bubblegum.fnt"];
 //		[score.texture setAliasTexParameters];
 		[self addChild:score z:1];
@@ -146,7 +147,7 @@
 		[livesLabel setAnchorPoint:ccp(1,0.5f)];
 		[livesLabel setPosition:ccp(s.width-5.5f-20, s.height-20.5f)];		
 	
-		lives = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%d", BZCurrentGame().lives] fntFile:@"bubblegum.fnt"];
+		lives = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%d", level.game.lives] fntFile:@"bubblegum.fnt"];
 		[lives.texture setAliasTexParameters];
 		[self addChild:lives z:1];
 		[lives setAnchorPoint:ccp(1,0.5f)];
@@ -211,13 +212,14 @@
 {
    (void)sender;
    
-   // could be already paused, or finished
-   if (kLevelStatePlaying != game.levelState)
+   // could be already paused, or finished, or in tutorial
+   //if (kLevelStatePlaying != level.levelState)
+   if (!level.userPlaying)
       return;
    
-   [game setPaused:YES];
+   [level setPaused:YES];
     
-	[[SimpleAudioEngine sharedEngine] playEffect:@"pause.wav"];
+	//[[SimpleAudioEngine sharedEngine] playEffect:@"pause.wav"];
 
    BZMenuItem *itemContinue = [BZMenuItem
       itemFromNormalSpriteFrameName:@"button_continue.png"
@@ -249,22 +251,26 @@
    [pauseMenu_ removeFromParentAndCleanup:YES];
    pauseMenu_ = nil;
    
-   [game setPaused:NO];
+   [level setPaused:NO];
 }
 
 - (void)buttonQuit:(id)sender
 {
    (void)sender;
    
+   [TWDataModel() endGame:level.game];
+   
 	//[[SimpleAudioEngine sharedEngine] playEffect:@"buttonpush.wav"];
-
-	//[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[MenuScene scene]]];
-	//[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[HelloWorld scene]]];
-	[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:[BZMainScene scene]]];
+   id destinationScene = [BZMainScene scene];
+	// this seems to be the cause of jumpiness
+   //[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:destinationScene]];
+	[[CCDirector sharedDirector] replaceScene: [CCTransitionFadeBL transitionWithDuration:1 scene:destinationScene]];
 }
 
 - (void) dealloc
 {
+   twrelease(nextForceCycle);
+   
 	[super dealloc];
 }
 
@@ -284,6 +290,37 @@
    float newForce = viewLocation.x / kUnitForceWidth;
    
    self.shootForce = newForce;
+}
+
+- (void)beginForceCycle
+{
+   self.nextForceCycle = [[NSDate date] dateByAddingTimeInterval:kDelayFirstCycle];
+   cycleDescending = YES;
+}
+
+- (void)updateForceCycle
+{
+   if (self.nextForceCycle && (NSOrderedAscending == [self.nextForceCycle compare:[NSDate date]]))
+   {
+      float newShootForce = shootForce;
+      
+      if (cycleDescending)
+         newShootForce = MAX(0, newShootForce - kCycleIncrement);
+      else
+         newShootForce += kCycleIncrement;
+      [self setShootForce:newShootForce];
+     
+      if (cycleDescending && !(0 < (self.shootForce - kCycleIncrement)))
+         cycleDescending = NO;
+      else if (!cycleDescending && !(kShootForceScreenMax > (self.shootForce + kCycleIncrement)))
+         cycleDescending = YES;
+      self.nextForceCycle = [[NSDate date] dateByAddingTimeInterval:kDelayNextCycle];
+   }
+}
+
+- (void)endForceCycle
+{
+   self.nextForceCycle = nil;
 }
 
 - (void)showActiveRing:(b2Vec2)around
@@ -320,6 +357,11 @@
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
    (void)event;
+   
+   // do nothing unless actively playing
+   // which means not in tutorial
+   if (!level.userPlaying)
+      return NO;
    
    CGPoint touchLocation=[touch locationInView:[touch view]];
    
@@ -362,7 +404,7 @@
 	prevLocation = [[CCDirector sharedDirector] convertToGL: prevLocation];
 	
 	CGPoint diff = ccpSub(touchLocation,prevLocation);
-	game.cameraOffset = ccpAdd( game.cameraOffset, diff );
+	level.cameraOffset = ccpAdd( level.cameraOffset, diff );
  */
 }
 

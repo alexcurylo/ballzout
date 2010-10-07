@@ -98,11 +98,12 @@ GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES
 // GTM should always compile with full warnings.
 TW_GENERAL_WARNING_CFLAGS1 = -Wall -Wendif-labels -Winvalid-pch -Wwrite-strings -Wstack-protector -Wstrict-aliasing=2
 //TW_GENERAL_WARNING_CFLAGS2 = -Wpacked -Wmissing-field-initializers
-// -Wpacked bitches about "packed attribute causes inefficient alignment for 'PLCrashReportFileHeader'"
+// -Wpacked bitches about "Packed attribute is unnecessary for 'PLCrashReportFileHeader'"
 // -Wglobal-constructors new in 3.2.2: “Global Construction or Destruction Required”
 // -Wformat=2 -Wmissing-format-attribute we could add; with Xcode 3.2.3 whine about every -stringWithFormat
 // -Wglobal-constructors is pissy with b2Math.cpp, no idea what to do about that
-TW_GENERAL_WARNING_CFLAGS2 = -Wpacked -Wmissing-field-initializers
+//TW_GENERAL_WARNING_CFLAGS2 = -Wpacked -Wmissing-field-initializers -Wglobal-constructors
+TW_GENERAL_WARNING_CFLAGS2 = -Wmissing-field-initializers
 //TW_EXTRA_WARNING_OVERRIDE_CFLAGS = -Wno-unused-parameter -Wno-sign-compare
 //WARNING_CFLAGS = -Wall -Wextra -Wno-missing-field-initializers
 TW_GENERAL_WARNING_CFLAGS3 = -Wextra $(TW_EXTRA_WARNING_OVERRIDE_CFLAGS) -Wpointer-arith -Wdisabled-optimization -Wfloat-equal

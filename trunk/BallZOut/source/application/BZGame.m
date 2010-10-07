@@ -5,13 +5,21 @@
 //
 
 #import "BZGame.h"
+#import "BallZOutAppDelegate.h"
 
 @implementation BZGame
 
+@synthesize isTutorial;
 @synthesize lives;
-@synthesize balls;
 @synthesize level;
 @synthesize score;
+@synthesize levelBalls;
+//@synthesize levelBallsInPlay;
+@synthesize levelScore;
+@synthesize levelShots;
+@synthesize levelAccurateShots;
+@synthesize levelMaxMultiplier;
+@synthesize shotMultiplier;
 
 #pragma mark -
 #pragma mark Life cycle
@@ -22,7 +30,6 @@
 	if (self != nil)
    {
       lives = kGameLivesCount;
-      balls = kLifeBallsCount;
       level = 1;
       score = 0;
    }
@@ -34,17 +41,67 @@
 	[super dealloc];
 }
 
+// http://www.mikeash.com/pyblog/friday-qa-2010-08-12-implementing-nscoding.html
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+   [coder encodeInteger:lives forKey:@"lives"];
+   [coder encodeInteger:level forKey:@"level"];
+   [coder encodeInteger:score forKey:@"score"];
+   [coder encodeInteger:levelBalls forKey:@"levelBalls"];
+   //[coder encodeInteger:levelBallsInPlay forKey:@"levelBallsInPlay"];
+   [coder encodeInteger:levelScore forKey:@"levelScore"];
+   [coder encodeInteger:levelShots forKey:@"levelShots"];
+   [coder encodeInteger:levelAccurateShots forKey:@"levelAccurateShots"];
+   [coder encodeInteger:levelMaxMultiplier forKey:@"levelMaxMultiplier"];
+   [coder encodeInteger:shotMultiplier forKey:@"shotMultiplier"];
+   [coder encodeInteger:achievementAllBalls forKey:@"achievementAllBalls"];
+   [coder encodeInteger:achievementAllLives forKey:@"achievementAllLives"];
+   [coder encodeInteger:achievementSkillz forKey:@"achievementSkillz"];
+   [coder encodeInteger:achievement3Ballz forKey:@"achievement3Ballz"];
+   [coder encodeInteger:achievement5Ballz forKey:@"achievement5Ballz"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+   [self init];
+
+   lives = [decoder decodeIntegerForKey:@"lives"];
+   level = [decoder decodeIntegerForKey:@"level"];
+   score = [decoder decodeIntegerForKey:@"score"];
+   levelBalls = [decoder decodeIntegerForKey:@"levelBalls"];
+   //levelBallsInPlay = [decoder decodeIntegerForKey:@"levelBallsInPlay"];
+   levelScore = [decoder decodeIntegerForKey:@"levelScore"];
+   levelShots = [decoder decodeIntegerForKey:@"levelShots"];
+   levelAccurateShots = [decoder decodeIntegerForKey:@"levelAccurateShots"];
+   levelMaxMultiplier = [decoder decodeIntegerForKey:@"levelMaxMultiplier"];
+   shotMultiplier = [decoder decodeIntegerForKey:@"shotMultiplier"];
+   achievementAllBalls = [decoder decodeIntegerForKey:@"achievementAllBalls"];
+   achievementAllLives = [decoder decodeIntegerForKey:@"achievementAllLives"];
+   achievementSkillz = [decoder decodeIntegerForKey:@"achievementSkillz"];
+   achievement3Ballz = [decoder decodeIntegerForKey:@"achievement3Ballz"];
+   achievement5Ballz = [decoder decodeIntegerForKey:@"achievement5Ballz"];
+
+   return self;
+}
+
 #pragma mark -
 #pragma mark Scene support
 
 - (NSString *)currentLevelFileName
 {
+   if (isTutorial)
+      return @"tutorial.svg";
+   
    NSString *name = [NSString stringWithFormat:@"level001%03d.svg", level];
    return name;
 }
 
 - (NSString *)currentArenaFileName
 {
+   if (isTutorial)
+      return @"arena0015.jpg";
+   
    // numbered 0001 .. kArenaFileCount
    NSInteger arenaIdx = (level % (kArenaFileCount - 1) ) + 1;
    NSString *name = [NSString stringWithFormat:@"arena%04d.jpg", arenaIdx];
@@ -53,28 +110,158 @@
 
 - (void)targetOut
 {
-   score += kScoreOneBallOut;
+   NSInteger ballScore = kScoreOneBallOut * shotMultiplier;
+   score += ballScore;
+   levelScore += ballScore;
+   if (1 == shotMultiplier)
+      levelAccurateShots++;
+   levelMaxMultiplier = MAX(shotMultiplier, levelMaxMultiplier);
+   if (shotMultiplier >= 4)
+   {
+      // do at end of level so as not to interrupt play
+      //if (!achievement3Ballz)
+         //[TWDataModel() reportAchievement:kAchievementCombo3 percent:100];
+      //twlog("achieved achievement3Ballz!");
+      achievement3Ballz++;
+   }
+   if (shotMultiplier >= 16)
+   {
+      // do at end of level so as not to interrupt play
+     // if (!achievement5Ballz)
+         //[TWDataModel() reportAchievement:kAchievementCombo5 percent:100];
+      //twlog("achieved achievement5Ballz!");
+      achievement5Ballz++;
+   }
+   shotMultiplier *= 2;
+}
+
+- (void)ballShot
+{
+   shotMultiplier = 1;
+   levelShots++;
+   //levelBallsInPlay++;
+}
+
+- (void)ballStopped
+{
+   //levelBallsInPlay--;
 }
 
 - (void)ballOut
 {
-   balls--;
+   //levelBallsInPlay--;
+   levelBalls--;
+   // so note that a shot straight out will be two off accuracy
+   levelAccurateShots--;
+}
+
+- (void)levelBegin
+{
+   levelBalls = kLifeBallsCount;
+   //levelBallsInPlay = 0;
+   levelScore = 0;
+   levelShots = 0;
+   levelAccurateShots = 0;
+   levelMaxMultiplier = 1;
+   shotMultiplier = 1;
 }
 
 - (void)levelLost
 {
+   [self reportInLevelAchievements];
+
    lives--;
-   balls = kLifeBallsCount;
+   [self saveState:YES];
+   
+   if (self.isGameLost && !isTutorial)
+      [TWDataModel() reportScore:score];
 }
 
 - (void)levelWon
 {
+   score += self.levelBonus;
+   
+   if (!isTutorial)
+   {
+      [self reportInLevelAchievements];
+      if (kLifeBallsCount <= levelBalls)
+      {
+         achievementAllBalls++;
+         if (10 == achievementAllBalls)
+            [TWDataModel() reportAchievement:kAchievementAllBalls10 percent:100];
+         else if (5 == achievementAllBalls)
+            [TWDataModel() reportAchievement:kAchievementAllBalls5 percent:100];
+      }
+      if (kGameLivesCount <= lives)
+      {
+         achievementAllLives++;
+         if (20 == achievementAllLives)
+            [TWDataModel() reportAchievement:kAchievementAllLives20 percent:100];
+         else if (10 == achievementAllLives)
+            [TWDataModel() reportAchievement:kAchievementAllLives10 percent:100];
+      }
+      if (100.f <= self.levelAccuracy)
+      {
+         achievementSkillz++;
+         if (10 == achievementSkillz)
+            [TWDataModel() reportAchievement:kAchievementPerfectSkillz10 percent:100];
+         else if (5 == achievementSkillz)
+            [TWDataModel() reportAchievement:kAchievementPerfectSkillz5 percent:100];
+      }
+   }
+   
    level++;
-   balls = kLifeBallsCount;
+   [self saveState:YES];
+   
+   if (self.isGameWon && !isTutorial)
+      [TWDataModel() reportScore:score];
+}
+
+- (void)reportInLevelAchievements
+{
+   if (isTutorial)
+      return;
+   
+   if (achievement3Ballz)
+   {
+      //twlog("level achievement3Ballz!");
+      [TWDataModel() reportAchievement:kAchievementCombo3 percent:100];
+   }
+   if (achievement5Ballz)
+   {
+      //twlog("level achievement5Ballz!");
+      [TWDataModel() reportAchievement:kAchievementCombo5 percent:100];
+   }
+}
+
+- (NSInteger)levelAccuracy;
+{
+   float accuracy = (float)MAX(0, levelAccurateShots) / (float)levelShots * 100.f;
+   return lrintf(accuracy);
+}
+
+- (NSInteger)levelBonus
+{
+   // as per Mythic Marbles, but divisor was 10000
+      
+   float bonus = levelScore / 2000.f;
+   bonus *= self.levelAccuracy;
+   bonus *= levelBalls;
+   bonus *= levelMaxMultiplier;
+   
+   return lrintf(bonus);
+}
+
+- (NSInteger)levelTotal
+{
+   NSInteger total = levelScore + self.levelBonus;
+   return total;
 }
 
 - (BOOL)isGameWon
 {
+   if (isTutorial)
+      return kTutorialLevelCount < level;
    return kGameLevelCount < level;
 }
 
@@ -83,520 +270,16 @@
    return 0 >= lives;
 }
 
-/*
- #pragma mark -
-#pragma mark Application support
-
-- (void)load
+- (void)saveState:(BOOL)synchronize
 {
-   self.storedMessages = [NSMutableArray array];
-   self.triggeredMessages = [NSMutableArray array];
-   self.sentMessages = [NSMutableArray array];
-   self.missingMessages = [NSMutableArray array];
-
-//#define CLEAR_SAVED_MESSAGES 1
-#if CLEAR_SAVED_MESSAGES
-#warning clearing out saved messages
-   twlog("not loading saved messages...");
-   return;
-#endif CLEAR_SAVED_MESSAGES
-   
-	NSError *error = nil;
-   NSArray *savedMessages = nil;
-	NSData *savedStateFile = [NSData
-      dataWithContentsOfFile:[@"~/Documents/storedMessages.state" stringByExpandingTildeInPath] 
-      options:NSUncachedRead 
-      error:&error
-   ];
-	if (!error)
-	{
-		savedMessages = [NSKeyedUnarchiver unarchiveObjectWithData:savedStateFile];
-		for (TMMessage *message in savedMessages)
-         [self.storedMessages addObject:message];
-	}
- 	else
-   {
-		twlog("error restoring storedMessages.state: %@", [error localizedDescription]);
-   }
-
-	error = nil;
-   savedMessages = nil;
-	savedStateFile = [NSData
-      dataWithContentsOfFile:[@"~/Documents/sentMessages.state" stringByExpandingTildeInPath] 
-      options:NSUncachedRead 
-      error:&error
-   ];
-	if (!error)
-	{
-		savedMessages = [NSKeyedUnarchiver unarchiveObjectWithData:savedStateFile];
-		for (TMMessage *message in savedMessages)
-         [self.sentMessages addObject:message];
-	}
- 	else
-   {
-		twlog("error restoring sentMessages.state: %@", [error localizedDescription]);
-   }
-}
-
-- (void)save
-{
-	NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self.storedMessages];
-	[encodedObject writeToFile:[@"~/Documents/storedMessages.state" stringByExpandingTildeInPath] atomically:YES];
-
-	encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self.sentMessages];
-	[encodedObject writeToFile:[@"~/Documents/sentMessages.state" stringByExpandingTildeInPath] atomically:YES];
-}
-
-- (void)fixNotificationTypes
-{
-   for (TMMessage *storedMessage in self.storedMessages)
-      [storedMessage fixNotificationTypes];
-   [self save];
-}
-
-- (void)startHandlingMessage
-{
-   twcheck(!self.currentlyHandlingMessage);
-   self.currentlyHandlingMessage = YES;
-}
-
-- (void)endHandlingMessage
-{
-   twcheck(self.currentlyHandlingMessage);
-   self.currentlyHandlingMessage = NO;
-   [self pollingTimerFired:nil];
-}
-
-#if USE_APNS
-- (void)syncILimeURL
-{
-   NSString *deviceUrlText = [[NSUserDefaults standardUserDefaults] objectForKey:kILimeDeviceURLKey];
-   if (!deviceUrlText.length)
-      deviceUrlText = @"";
-      //return;
-   
-   NSString *deviceAuthorization = [[iLimeService shared] basicAuthorizationString];
-      
-   NSURL *ilimeURL = [TWAppDelegate() serverURLForPath:@"ilime"];
-   TWURLConnection *ilimer = [[TWURLConnection alloc] initWithURL:ilimeURL delegate:self userInfo:kConnection_ILime];
-   
-   [ilimer startFormPOST];
-   
-   [ilimer appendFormFieldString:@"udid" string:[UIDevice currentDevice].uniqueIdentifier];
-   [ilimer appendFormFieldString:@"url" string:deviceUrlText];
-   [ilimer appendFormFieldString:@"auth" string:deviceAuthorization];
-
-   [ilimer completeFormPOST];
-      
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-   [ilimer startLoading];   
-}
-#endif USE_APNS
-
-#if USE_APNS
-- (void)syncMissingMessage
-{
-   if (!self.missingMessages.count)
+   if (isTutorial)
       return;
    
-   NSURL *retrieveURL = [TWAppDelegate() serverURLForPath:@"retrieve"];
-   TWURLConnection *retriever = [[TWURLConnection alloc] initWithURL:retrieveURL delegate:self userInfo:kConnection_Missing];
+   NSData *savedState = [NSKeyedArchiver archivedDataWithRootObject:self];
    
-   [retriever startFormPOST];
-   
-   [retriever appendFormFieldString:@"msgkey" string:[self.missingMessages objectAtIndex:0]];
-   
-   [retriever completeFormPOST];
-   
-   [self.missingMessages removeObjectAtIndex:0];
-   
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-   [retriever startLoading];
-}
-#endif USE_APNS
-
-#if USE_APNS
-- (void)handleMissingResults:(NSArray *)fields
-{
-   if (fields.count < 2)
-      return;
-
-   NSString *kTargetPrefix = @"target=";
-   NSString *kSendPrefix = @"send=";
-   NSString *kMethodPrefix = @"method=";
-   NSString *kOccurPrefix = @"occur=";
-   NSString *kTextPrefix = @"text=";
-   NSString *kKeyPrefix = @"key=";
-
-   TMMessage *message = [TMMessage emptyMessage];
-   for (NSString *field in fields)
-   {
-      if ([field hasPrefix:kTargetPrefix])
-      {
-         message.target = [field substringFromIndex:kTargetPrefix.length];
-      }
-      else if ([field hasPrefix:kSendPrefix])
-      {
-         NSString *seconds = [field substringFromIndex:kSendPrefix.length];
-         NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds.floatValue];
-         message.send = date;
-      }
-      else if ([field hasPrefix:kMethodPrefix])
-      {
-         message.method = [field substringFromIndex:kMethodPrefix.length];
-      }
-      else if ([field hasPrefix:kOccurPrefix])
-      {
-         message.occur = [field substringFromIndex:kOccurPrefix.length];
-      }
-      else if ([field hasPrefix:kTextPrefix])
-      {
-         message.text = [field substringFromIndex:kTextPrefix.length];
-      }
-      else if ([field hasPrefix:kKeyPrefix])
-      {
-         message.key = [field substringFromIndex:kKeyPrefix.length];
-      }
-      else
-      {
-         twlog("what field is this? -- %@", field);
-      }
-   }
-   
-   [self.storedMessages addObject:message];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-
-   [self syncMissingMessage];
-}
-#endif USE_APNS
-
-- (BOOL)keyInStoredMessages:(NSString *)key
-{
-   if (!key.length)
-      return YES;
-   
-   for (TMMessage *message in self.storedMessages)
-      if ([key isEqualToString:message.key])
-         return YES;
-   
-   return NO;
+   [[NSUserDefaults standardUserDefaults] setObject:savedState forKey:kBZPrefCurrentGame];
+   if (synchronize)
+      [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-#if USE_APNS
-- (void)handleSyncResults:(NSArray *)actives
-{
-   NSMutableArray *extras = [NSMutableArray array];
-   for (TMMessage *message in self.storedMessages)
-      if (NSNotFound == [actives indexOfObject:message.key])
-      {
-         twlog("Extra message: %@!", message);
-         [extras addObject:message];
-      }
-   if (extras.count)
-   {
-      [self.storedMessages removeObjectsInArray:extras];
-      [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-      [self save];
-   }
-         
-   for (NSString *key in actives)
-      if (![self keyInStoredMessages:key])
-      {
-         twlog("Missing key: %@!", key);
-         [self.missingMessages addObject:key];
-      }
-   [self syncMissingMessage];
-}
-#endif USE_APNS
-
-#if USE_APNS
-- (void)syncWithServer
-{
-   NSURL *syncURL = [TWAppDelegate() serverURLForPath:@"active"];
-   TWURLConnection *syncer = [[TWURLConnection alloc] initWithURL:syncURL delegate:self userInfo:kConnection_Sync];
-
-   [syncer startFormPOST];
-   
-   [syncer appendFormFieldString:@"device" string:[UIDevice currentDevice].uniqueIdentifier];
-      
-   [syncer completeFormPOST];
-   
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-   [syncer startLoading];
-}
-#endif USE_APNS
-
-- (void)addMessage:(TMMessage *)message
-{
-#if USE_APNS
-   [message storeOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-   [message storeLocalNotification];
-#else
-#error how shall we addMessage?
-#endif USE_APNS
-  
-   [self.storedMessages addObject:message];
-   [self.storedMessages sortUsingSelector:@selector(compareByDate:)];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)editMessage:(TMMessage *)message
-{
-#if USE_APNS
-   [message editOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-   [message editLocalNotification];
-#else
-#error how shall we editMessage?
-#endif USE_APNS
-
-   [self.storedMessages sortUsingSelector:@selector(compareByDate:)];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteStoredMessage:(TMMessage *)message
-{
-   twcheck(message);
-#if USE_APNS
-   [message deleteOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-   [message deleteLocalNotification];
-#else
-#error how shall we deleteStoredMessage?
-#endif USE_APNS
-   
-   [self.storedMessages removeObject:message];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteAllStoredMessages
-{
-   for (TMMessage *message in self.storedMessages)
-#if USE_APNS
-      [message deleteOnServer];
-#elif USE_LOCAL_NOTIFICATIONS
-      [message deleteLocalNotification];
-#else
-#error how shall we deleteAllStoredMessages?
-#endif USE_APNS
-    
-   [self.storedMessages removeAllObjects];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteSentMessage:(TMMessage *)message
-{
-   twcheck(message);
-   [self.sentMessages removeObject:message];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kSentMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)deleteAllSentMessages
-{
-   [self.sentMessages removeAllObjects];
-   [[NSNotificationCenter defaultCenter] postNotificationName:kSentMessagesChangedNotification object:self];
-   [self save];
-}
-
-- (void)triggerMessage:(NSString *)messageKey
-{
-   if (!messageKey.length)
-   {
-      twlog("triggerMessage given null/empty key!");
-      return;
-   }
-   
-   if (self.currentlyHandlingMessage)
-   {
-      twlog("triggerMessage -- already handling a message!");
-      return;
-   }
-
-   if ([TMMessageViewController isEditing:messageKey])
-   {
-      twlog("triggerMessage -- is editing it!");
-      return;
-   }
-   
-   [self startHandlingMessage];
-   
-   //twlog("triggered sending message key: %@", messageKey);
-   
-   TMMessage *triggeredMessage = nil;
-   for (TMMessage *storedMessage in self.storedMessages)
-      if ([storedMessage.key isEqual:messageKey])
-      {
-         triggeredMessage = storedMessage;
-         break;
-      }
-   if (!triggeredMessage)
-      for (TMMessage *sentMessage in self.sentMessages)
-         if ([sentMessage.key isEqual:messageKey])
-         {
-            twlog("triggeredMessage was found in sent list??");
-            triggeredMessage = sentMessage;
-            break;
-         }
-   if (!triggeredMessage)
-   {
-      twlog("FAIL: triggeredMessage %@ could not be found!", messageKey);
-      [self endHandlingMessage];
-      return;
-   }
-   
-   self.triggeringMessage = triggeredMessage;
-   NSString *triggerText = [NSString stringWithFormat:NSLocalizedString(@"TRIGGERTEXT", nil), triggeredMessage.text, triggeredMessage.targetDescription];
-   NSInteger snoozeMinutes = [[NSUserDefaults standardUserDefaults] integerForKey:kTMPrefSnoozeMinutes];
-   NSString *format = NSLocalizedString(1 == snoozeMinutes ? @"TRIGGERSNOOZEMINUTE" : @"TRIGGERSNOOZEMINUTES", nil);
-   NSString *snoozeText = [NSString stringWithFormat:format, snoozeMinutes];
-   UIActionSheet *triggerAction = [[[UIActionSheet alloc]
-      initWithTitle:triggerText
-      delegate:self
-      cancelButtonTitle:NSLocalizedString(@"TRIGGERDELETE", nil) // bottom, black
-      destructiveButtonTitle:NSLocalizedString(@"TRIGGERSEND", nil) // top, red, 0
-      otherButtonTitles:snoozeText, // middle, grey, 1
-      nil
-   ] autorelease];
-   [triggerAction showFromTabBar:TWAppDelegate().tabBarController.tabBar];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-   (void)actionSheet;
-   //twlog("action sheet clickedButtonAtIndex %i", buttonIndex);
-
-   switch (buttonIndex)
-   {
-      case kTriggerSendButton:
-         {            
-         [self.sentMessages addObject:[self.triggeringMessage sentMessage]];
-         [[NSNotificationCenter defaultCenter] postNotificationName:kSentMessagesChangedNotification object:self];
-
-         [self.storedMessages removeObject:self.triggeringMessage];
-         TMMessage *nextMessage = [self.triggeringMessage nextScheduled];
-         if (nextMessage)
-         {
-#if USE_APNS
-            // notification will come as scheduled, we imagine
-            [self.storedMessages addObject:nextMessage];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-            [self save];
-#elif USE_LOCAL_NOTIFICATIONS
-            // always add them as UILocalNotification can't schedule random reminders
-            [self addMessage:nextMessage];
-#else
-#error how shall we handle scheduling next?
-#endif USE_APNS
-         }
-         else
-         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-            [self save];
-         }
-         
-         // this will presumably leave the application -- nope, 
-         [self.triggeringMessage trigger];
-         }
-         break;
-         
-      case kTriggerSnoozeButton:
-         {
-#if USE_LOCAL_NOTIFICATIONS
-         TMMessage *snoozed = [self.triggeringMessage snoozedMessage];
-         [self.storedMessages removeObject:self.triggeringMessage];
-         // always add them as UILocalNotification can't schedule random reminders
-         [self addMessage:snoozed];
-#else
-#error how shall we handle snoozing?
-#endif USE_LOCAL_NOTIFICATIONS
-         [self endHandlingMessage];
-         }
-        break;
-         
-      case kTriggerDeleteButton:
-         [self.storedMessages removeObject:self.triggeringMessage];
-         [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-         [self save];
-         [self endHandlingMessage];
-         break;
-         
-      default:
-         twlog("what should button index %i do?", buttonIndex);
-         break;
-   }
-}
-
-- (void)pollingTimerFired:(NSTimer *)timer
-{
-   (void)timer;
-   
-   if (self.currentlyHandlingMessage)
-      return;
-   
-   for (TMMessage *message in self.storedMessages)
-      if ([message triggerIfFired])
-         return;
-   
-   // nothing pending, so make sure badge goes away
-   [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-
-}
-
-#if USE_APNS
-- (void)TWURLConnectionDidFinish:(TWURLConnection *)dataReceiver
-{
-   (void)dataReceiver;
-   
-   [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-   
-   NSData* receivedData = [dataReceiver receivedData];
-   NSString* result = [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease];
-   
-   if ([kConnection_Sync isEqual:[dataReceiver userInfo]])
-   {
-      if (!result.length)
-      {
-         if (self.storedMessages.count)
-         {
-            [self.storedMessages removeAllObjects];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kStoredMessagesChangedNotification object:self];
-            [self save];
-         }
-         twlog("sync(active) handled -- no actives");
-      }
-      else
-      {
-         NSArray *actives = [result componentsSeparatedByString:@","];
-         [self handleSyncResults:actives];          
-         twlog("sync(active) handled -- %d actives", actives.count);
-      }
-   }
-   else if ([kConnection_Missing isEqual:[dataReceiver userInfo]])
-   {
-      NSArray *fields = [result componentsSeparatedByString:@"\n"];
-      [self handleMissingResults:fields];          
-      twlog("sync(missing) handled -- %d fields", fields.count);
-   }
-   else if ([kConnection_ILime isEqual:[dataReceiver userInfo]])
-   {
-      twlog("sync(ilime) handled");
-   }
-   else
-   {
-      twlog("what TMDataModel connection is %@?", [dataReceiver userInfo]);
-   }
-   
-#if DEBUG
-   twlog("TWURLConnectionDidFinish: %@", result);
-#endif DEBUG
-}
-#endif USE_APNS
-*/
 @end

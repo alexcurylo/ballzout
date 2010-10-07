@@ -35,7 +35,11 @@ enum{
 	b2Vec2	finalPosition;
 	b2Vec2	velocity;
 	BOOL	goingForward;
+
+   UIColor *platformColor;
 }
+
+@property (nonatomic, retain) UIColor *platformColor;
 
 //-(CCAction*) getAction;
 

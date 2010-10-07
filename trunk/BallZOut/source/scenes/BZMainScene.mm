@@ -15,6 +15,8 @@
 #import "BZSimpleButton.h"
 #import "BZMoreGamesScene.h"
 #import "BZOptionsScene.h"
+#import "BZInstructionsScene.h"
+#import "BZGameCenterFAILScene.h"
 
 //
 // This is an small Scene that makes the trasition smoother from the Defaul.png image to the menu scene
@@ -31,7 +33,7 @@
 
 - (id)init
 {
-	if( (self = [super init]) )
+	if ( (self = [super init]) )
    {
       // background is splash screen
       
@@ -45,18 +47,19 @@
       
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"buttons.plist"];
 
-      BZSimpleButton *itemPlay = [BZSimpleButton
+      itemPlay_ = [BZSimpleButton
        simpleButtonAtPosition:ccp(size.width/2, 290)
-       image:@"button_playgame.png"
+       imageFrame:@"button_playgame.png"
        target:self
        selector:@selector(buttonPlayGame:)
        ];
-      [self addChild:itemPlay z:5];
-      [itemPlay startWaving];
-       
+      [self addChild:itemPlay_ z:5];
+      // seems to be only crossfade that makes this jump
+      [self waveIfSafe];
+     
       BZSimpleButton *itemInstructions = [BZSimpleButton
          simpleButtonAtPosition:ccp(kPositionLeftScreenEdge,200)
-         image:@"button_instructions.png"
+         imageFrame:@"button_instructions.png"
          target:self
          selector:@selector(buttonInstructions:)
       ];
@@ -64,7 +67,7 @@
 
       BZSimpleButton *itemOptions = [BZSimpleButton
          simpleButtonAtPosition:ccp(kPositionRightScreenEdge,145)
-         image:@"button_options.png"
+         imageFrame:@"button_options.png"
          target:self
          selector:@selector(buttonOptions:)
          ];
@@ -72,7 +75,7 @@
 
       BZSimpleButton *itemLeaderboard = [BZSimpleButton
          simpleButtonAtPosition:ccp(kPositionLeftScreenEdge,85)
-         image:@"button_leaderboard.png"
+         imageFrame:@"button_leaderboard.png"
          target:self
          selector:@selector(buttonLeaderboard:)
          ];
@@ -80,7 +83,7 @@
 
       BZSimpleButton *itemAchievements = [BZSimpleButton
          simpleButtonAtPosition:ccp(kPositionLeftScreenEdge,30)
-         image:@"button_achievements.png"
+         imageFrame:@"button_achievements.png"
          target:self
          selector:@selector(buttonAchievements:)
          ];
@@ -88,7 +91,7 @@
 
       BZSimpleButton *itemMoreGames = [BZSimpleButton
          simpleButtonAtPosition:ccp(kPositionRightScreenEdge,kPositionBottomScreenEdge)
-         image:@"button_moregames.png"
+         imageFrame:@"button_moregames.png"
          target:self
          selector:@selector(buttonMoreGames:)
          ];
@@ -162,18 +165,25 @@
       [self addChild:menu z:0];
        */
   
-      static BOOL playedStartupEffect = NO;
-      if (!playedStartupEffect)
-      {
-         [[SimpleAudioEngine sharedEngine] playEffect:@"startup.wav"];
-         playedStartupEffect = YES;
-      }
+      
+      [[NSNotificationCenter defaultCenter] addObserver:self
+         selector:@selector(gameCenterLoginResolved:)
+         name:kGameCenterLoginResolvedNotification
+         object:nil
+      ];
       
       // load resources once it's displayed
 		
-		[self schedule:@selector(loadSpritesAndSounds:) interval:0.2];
+		[self schedule:@selector(loadSpritesAndSounds:) interval:0.1];
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[super dealloc];
 }
 
 - (void)loadSpritesAndSounds:(ccTime)dt
@@ -188,25 +198,24 @@
       
       // Load all the sprites/platforms now
       //[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"sprites.plist"];
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"platforms.plist"];
+      //[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"platforms.plist"];
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"obstacles.plist"];
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"marbles.plist"];
 
+      // ui
+      // startup.wav not preloaded; it's already been played the once-only time by now
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"buttonpush.wav"];
+      
       // game
       // won't preload big ones where delay is ok: gameover.aif, gamewin.wav, levelwin.wav, loselife.wav
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"launch.wav"];
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"ballhit.wav"];
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"targetpop.wav"];
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"herosmash.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"pause.wav"];
+      //[[SimpleAudioEngine sharedEngine] preloadEffect:@"pause.wav"];
       
-      // ui
-      // startup.wav not preloaded; it's already been played the once-only time by now
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"buttonpush.wav"];
-      
- 
-      // need replacements, pop and ?? respectively
+       /*
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"you_are_hit.wav"];
-     /*
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"enemy_killed.wav"];
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"new_life.wav"];
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_star.wav"];
@@ -214,12 +223,46 @@
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"teleport.wav"];
       [[SimpleAudioEngine sharedEngine] preloadEffect:@"you_won.wav"];
        */
+
+      // play startup sound after preload
+      
+      [[SimpleAudioEngine sharedEngine] playEffect:@"startup.wav"];
    }
    
    [self unschedule:@selector(loadSpritesAndSounds:)];
    //[self schedule:@selector(startWaving:) interval:.5];
+   
+   //[self waveIfSafe];
 }
 
+/*
+- (void)onEnterTransitionDidFinish
+{
+ [super onEnterTransitionDidFinish];
+
+ [self performSelector:@selector(waveIfSafe) withObject:nil afterDelay:.5];
+}
+*/
+
+- (void)waveIfSafe;
+{
+   // this seemed to go off wacky behind dialogs sometimes
+   //if (!itemPlayWaving && TWDataModel().gameCenterLoginResolved)
+   // think we don't need to worry about that if we're not shaking?
+   if (!itemPlayWaving)
+   {
+      itemPlayWaving = YES;
+      [itemPlay_ startWaving];
+   }
+}
+
+- (void)gameCenterLoginResolved:(NSNotification *)note
+{
+   (void)note;
+   [self waveIfSafe];
+}
+
+/*
 -(void) wait1second:(ccTime)dt
 {
    (void)dt;
@@ -235,13 +278,72 @@
 	//[[CCDirector sharedDirector] replaceScene:[CCTransitionFadeDown transitionWithDuration:1.0f scene:destinationScene]];
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:1.0f scene:destinationScene backwards:NO]];
 }
+*/
 
 - (void)buttonPlayGame:(id)sender
 {
    (void)sender;
    
-   [TWDataModel() startNewGame];
+   // this crashes here, but not anywhere else???
+   // ah ... something to do with continue/newgame menu perhaps
+   //[itemPlay_ stopWaving];
+   
+   if (!TWDataModel().isGameSaved)
+   {
+      [self buttonNewGame:sender];
+   }
+   else
+   {
+      // remove current menu items
+      // assume all non-background objects have z at least 0
+      NSArray *childArray = self.children.getNSArray;
+      for (CCNode* node in childArray)
+         if (0 <= node.zOrder)
+            [node removeFromParentAndCleanup:YES];
+      
+      // add new/continue menu
+      BZMenuItem *itemContinue = [BZMenuItem
+       itemFromNormalSpriteFrameName:@"button_continuegame.png"
+       selectedSpriteFrameName:nil
+       target:self
+       selector:@selector(buttonContinueGame:)
+       ];
+      [itemContinue startWaving];
+      BZMenuItem *itemNew = [BZMenuItem
+         itemFromNormalSpriteFrameName:@"button_newgame.png"
+         selectedSpriteFrameName:nil
+         target:self
+         selector:@selector(buttonNewGame:)
+         ];
+      CCMenu *playMenu = [CCMenu menuWithItems:
+        itemContinue,
+        itemNew,
+        (id)nil
+        ];
+      //[playMenu setPosition:ccp(0,0)];
+      [self addChild:playMenu z:100];
+      [playMenu alignItemsVertically];
+   }
+}
 
+- (void)buttonNewGame:(id)sender
+{
+   (void)sender;
+   //[itemPlay_ stopWaving];
+  
+   [TWDataModel() startGame];
+   
+   id destinationScene = [BZLevelScene scene];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionShrinkGrow transitionWithDuration:1.0f scene:destinationScene]];
+}
+
+- (void)buttonContinueGame:(id)sender
+{
+   (void)sender;
+   //[itemPlay_ stopWaving];
+   
+   [TWDataModel() loadGame];
+   
    id destinationScene = [BZLevelScene scene];
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionShrinkGrow transitionWithDuration:1.0f scene:destinationScene]];
 }
@@ -249,14 +351,18 @@
 - (void)buttonInstructions:(id)sender
 {
    (void)sender;
+   //[itemPlay_ stopWaving];
    
-   //id destinationScene = [BZLevelScene scene];
-	//[[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:1.0f scene:destinationScene backwards:NO]];
+   id destinationScene = [BZInstructionsScene scene];
+	// nope, that uggily shows sprites out of bounds
+   //[[CCDirector sharedDirector] replaceScene:[CCTransitionMoveInL transitionWithDuration:1.0f scene:destinationScene]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionTurnOffTiles transitionWithDuration:0.25f scene:destinationScene]];
 }
 
 - (void)buttonOptions:(id)sender
 {
    (void)sender;
+   //[itemPlay_ stopWaving];
    
    id destinationScene = [BZOptionsScene scene];
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:1.0f scene:destinationScene backwards:NO]];
@@ -265,23 +371,34 @@
 - (void)buttonLeaderboard:(id)sender
 {
    (void)sender;
+   //[itemPlay_ stopWaving];
    
-   //id destinationScene = [BZLevelScene scene];
-	//[[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:1.0f scene:destinationScene backwards:NO]];
+   if (TWAppDelegate().showLeaderboard)
+      return;
+   
+   //twlog("buttonLeaderboard gameCenterManager FAIL!");
+   id destinationScene = [BZGameCenterFAILScene scene];
+   [[CCDirector sharedDirector] replaceScene:[CCTransitionRotoZoom transitionWithDuration:1.0f scene:destinationScene]];      
 }
 
 - (void)buttonAchievements:(id)sender
 {
    (void)sender;
+   //[itemPlay_ stopWaving];
+  
+   if (TWAppDelegate().showAchievements)
+      return;
    
-   //id destinationScene = [BZLevelScene scene];
-	//[[CCDirector sharedDirector] replaceScene:[CCTransitionPageTurn transitionWithDuration:1.0f scene:destinationScene backwards:NO]];
+   //twlog("buttonAchievements gameCenterManager FAIL!");
+   id destinationScene = [BZGameCenterFAILScene scene];
+   [[CCDirector sharedDirector] replaceScene:[CCTransitionRotoZoom transitionWithDuration:1.0f scene:destinationScene]];
 }
 
 - (void)buttonMoreGames:(id)sender
 {
    (void)sender;
-   
+   //[itemPlay_ stopWaving];
+  
    id destinationScene = [BZMoreGamesScene scene];
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5f scene:destinationScene]];
 }

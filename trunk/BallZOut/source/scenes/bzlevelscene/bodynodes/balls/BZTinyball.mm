@@ -22,9 +22,10 @@ NSString *kTinyballName = nil; // @"marble48.png";
 
 @implementation BZTinyball
 
-- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+//- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game
+- (id)initWithBody:(b2Body*)body params:(NSDictionary *)params scene:(BZLevelScene *)game
 {
-	if ( (self = [super initWithBody:body gameScene:game diameter:kTinyballWidth spriteFrame:kTinyballName]) )
+	if ( (self = [super initWithBody:body params:params gameScene:game diameter:kTinyballWidth spriteFrame:kTinyballName]) )
    {
 	}
    
