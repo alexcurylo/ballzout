@@ -13,6 +13,7 @@
 #import "BZLevelConstants.h"
 
 @class BZLevelScene;
+@class BZHeroball;
 
 #define kColorLayerHeight kTopHUDHeight
 
@@ -36,7 +37,7 @@
 
 	// joystick and joysprite. weak ref
 	//Joystick	*joystick;
-   CCSprite	*activeRing_;
+   CCSprite	*activeRing;
 
 	CCLabelBMFont	*score;
 	CCLabelBMFont	*lives;
@@ -79,7 +80,9 @@
 - (void)updateForceCycle;
 - (void)endForceCycle;
 
-- (void)showActiveRing:(b2Vec2)around;
+- (void)showActiveRing:(BZHeroball *)hero; //(b2Vec2)around;
+// for if active ball is knocked off
+- (void)removeActiveRing:(BZHeroball *)hero;
 - (void)hideActiveRing;
 - (BOOL)showingActiveRing;
 

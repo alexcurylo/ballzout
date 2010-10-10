@@ -80,7 +80,7 @@
    */
    
    //[self schedule:@selector(wait1second:) interval:1];
-   //[[SimpleAudioEngine sharedEngine] playEffect:@"gamewin.wav"];
+   //[[SimpleAudioEngine sharedEngine] playEffect:@"gamewin.caf"];
    
    [self gotoNextStage];
 }
@@ -211,8 +211,27 @@
    _trackingPowerSprite = nil;
    
    for (BZSimpleButton *bubble in self.bubbles)
-      [bubble removeFromParentAndCleanup:YES];
+   {
+      if (kTutorialStageCount <= tutorialStage)
+      {
+         // saw some irreproducible crashes as #7's were almost offscreen,
+         // guessing that was due to scene end timing although it doesn't seem
+         // to happen when interrupted in mid-tutorial? so we'll just remove those.
+         [bubble removeFromParentAndCleanup:YES];
+         continue;
+      }
+      id scaleBack = [CCScaleTo actionWithDuration:0.3f scale:.1f];
+      id done = [CCCallFuncN actionWithTarget:self selector:@selector(bubbleCleaned:)];
+      id seq = [CCSequence actions:scaleBack, done, (id)nil];
+      [bubble runAction:seq];
+   }
+   
    [self.bubbles removeAllObjects];
+}
+
+- (void)bubbleCleaned:(CCNode *)bubble
+{
+   [bubble removeFromParentAndCleanup:YES];
 }
 
 - (void)addBubble:(NSString *)file x:(CGFloat)x y:(CGFloat)y
@@ -223,6 +242,8 @@
       target:self
       selector:@selector(buttonBubble:)
       ];
+   [bubble setScale:.1f];
+   [bubble runAction:[CCScaleTo actionWithDuration:0.3f scale:1]];
    [self addChild:bubble z:75];
    [self.bubbles addObject:bubble];
 }

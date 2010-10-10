@@ -96,75 +96,6 @@
          selector:@selector(buttonMoreGames:)
          ];
       [self addChild:itemMoreGames z:0];
-
-      /*
-      BZMenuItem *itemPlay = [BZMenuItem
-         itemFromNormalSpriteFrameName:@"button_playgame.png"
-         selectedSpriteFrameName:@"button_playgame.png"
-         target:self
-         selector:@selector(buttonPlayGame:)
-      ];
- 		itemPlay.position = ccp(size.width/2,280);
-      itemPlay.anchorPoint = ccp(0,1);
-
-      CCMenuItem *itemInstructions = [BZMenuItem
-         itemFromNormalSpriteFrameName:@"button_instructions.png"
-         selectedSpriteFrameName:@"button_instructions.png"
-         target:self
-         selector:@selector(buttonPlayGame:)
-      ];
- 		itemInstructions.position = ccp(0,250);
-      itemInstructions.anchorPoint = ccp(0,1);
-      
-      CCMenuItem *itemOptions = [BZMenuItem
-         itemFromNormalSpriteFrameName:@"button_options.png"
-         selectedSpriteFrameName:@"button_options.png"
-         target:self
-         selector:@selector(buttonPlayGame:)
-      ];
- 		itemOptions.position = ccp(size.width - itemOptions.contentSize.width,190);
-      itemOptions.anchorPoint = ccp(0,1);
-      
-      CCMenuItem *itemLeaderboard = [BZMenuItem
-         itemFromNormalSpriteFrameName:@"button_leaderboard.png"
-         selectedSpriteFrameName:@"button_leaderboard.png"
-         target:self
-         selector:@selector(buttonPlayGame:)
-      ];
- 		itemLeaderboard.position = ccp(0,70);
-      itemLeaderboard.anchorPoint = ccp(0,1);
-      
-      CCMenuItem *itemAchievements = [BZMenuItem
-         itemFromNormalSpriteFrameName:@"button_achievements.png"
-         selectedSpriteFrameName:@"button_achievements.png"
-         target:self
-         selector:@selector(buttonPlayGame:)
-      ];
- 		itemAchievements.position = ccp(0,10);
-      itemAchievements.anchorPoint = ccp(0,1);
-      
-      CCMenuItem *itemMoreGames = [BZMenuItem
-         itemFromNormalSpriteFrameName:@"button_moregames.png"
-         selectedSpriteFrameName:@"button_moregames.png"
-         target:self
-         selector:@selector(buttonPlayGame:)
-      ];
- 		itemMoreGames.position = ccp(size.width - itemMoreGames.contentSize.width,100);
-      itemMoreGames.anchorPoint = ccp(0,1);
-		
-      CCMenu *menu = [CCMenu menuWithItems:
-         itemPlay,
-         itemInstructions,
-         itemOptions,
-         itemLeaderboard,
-         itemAchievements,
-         itemMoreGames,
-         (id)nil
-      ];
-		[menu setPosition:ccp(0,0)];
-      [self addChild:menu z:0];
-       */
-  
       
       [[NSNotificationCenter defaultCenter] addObserver:self
          selector:@selector(gameCenterLoginResolved:)
@@ -203,30 +134,30 @@
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"marbles.plist"];
 
       // ui
-      // startup.wav not preloaded; it's already been played the once-only time by now
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"buttonpush.wav"];
+      // startup.caf not preloaded; it's already been played the once-only time by now
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"buttonpush.caf"];
       
       // game
-      // won't preload big ones where delay is ok: gameover.aif, gamewin.wav, levelwin.wav, loselife.wav
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"launch.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"ballhit.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"targetpop.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"herosmash.wav"];
-      //[[SimpleAudioEngine sharedEngine] preloadEffect:@"pause.wav"];
+      // won't preload big ones where delay is ok: gameover.caf, gamewin.caf, levelwin.caf, loselife.caf
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"launch.caf"];
+      //[[SimpleAudioEngine sharedEngine] preloadEffect:@"ballhit.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"targetpop.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"herosmash.caf"];
+      //[[SimpleAudioEngine sharedEngine] preloadEffect:@"pause.caf"];
       
        /*
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"you_are_hit.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"enemy_killed.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"new_life.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_star.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"shoot.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"teleport.wav"];
-      [[SimpleAudioEngine sharedEngine] preloadEffect:@"you_won.wav"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"you_are_hit.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"enemy_killed.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"new_life.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"pickup_star.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"shoot.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"teleport.caf"];
+      [[SimpleAudioEngine sharedEngine] preloadEffect:@"you_won.caf"];
        */
 
       // play startup sound after preload
       
-      [[SimpleAudioEngine sharedEngine] playEffect:@"startup.wav"];
+      [[SimpleAudioEngine sharedEngine] playEffect:@"startup.caf"];
    }
    
    [self unschedule:@selector(loadSpritesAndSounds:)];
@@ -331,10 +262,14 @@
    (void)sender;
    //[itemPlay_ stopWaving];
   
+//#warning testing CrashReporter
+//   int CRASH = *(int*)0L;
+   
    [TWDataModel() startGame];
    
    id destinationScene = [BZLevelScene scene];
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionShrinkGrow transitionWithDuration:1.0f scene:destinationScene]];
+	//[[CCDirector sharedDirector] replaceScene:[CCTransitionShrinkGrow transitionWithDuration:1.0f scene:destinationScene]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5f scene:destinationScene]];
 }
 
 - (void)buttonContinueGame:(id)sender
@@ -345,7 +280,8 @@
    [TWDataModel() loadGame];
    
    id destinationScene = [BZLevelScene scene];
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionShrinkGrow transitionWithDuration:1.0f scene:destinationScene]];
+	//[[CCDirector sharedDirector] replaceScene:[CCTransitionShrinkGrow transitionWithDuration:1.0f scene:destinationScene]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:0.5f scene:destinationScene]];
 }
 
 - (void)buttonInstructions:(id)sender

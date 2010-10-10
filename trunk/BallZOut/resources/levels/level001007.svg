@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="320"
+   height="480"
+   id="svg001001"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="level001007.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   style="display:inline"
+   game_config="gravity_x=0,gravity_y=0">
+  <defs
+     id="defs2824">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 300 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="800 : 300 : 1"
+       inkscape:persp3d-origin="400 : 200 : 1"
+       id="perspective2826" />
+    <inkscape:perspective
+       id="perspective3630"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3684"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4666"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4666-9"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4782"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4782-0"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4813"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4835"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4857"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4879"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2854"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3042"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3042-3"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3042-0"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3042-4"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3868"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3890"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.3184595"
+     inkscape:cx="43.359887"
+     inkscape:cy="236.30337"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1109"
+     inkscape:window-height="890"
+     inkscape:window-x="482"
+     inkscape:window-y="53"
+     inkscape:window-maximized="0"
+     borderlayer="false" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="dimensions"
+     style="display:inline"
+     transform="translate(0,160)">
+    <rect
+       style="fill:#d40000"
+       id="rect4013"
+       width="320"
+       height="440"
+       x="0"
+       y="-120"
+       ry="0.9482758" />
+  </g>
+  <g
+     inkscape:label="physics:static"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline"
+     transform="translate(0,160)">
+    <rect
+       game_data="object=platform,objectParams=color:terraCotta"
+       y="91.918686"
+       x="253.91849"
+       height="126.84486"
+       width="126.84486"
+       id="rect3057"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1.15513754px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.65533454,-0.75533876,0.75533876,0.65533454,0,0)" />
+    <rect
+       transform="matrix(0.65533454,-0.75533876,0.75533876,0.65533454,0,0)"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1.15513754px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3015"
+       width="126.84486"
+       height="126.84486"
+       x="28.722887"
+       y="-159.54024"
+       game_data="object=platform,objectParams=color:terraCotta" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3035"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       game_data="object=smallball,objectParams=color:red"
+       transform="matrix(1.0224054,0,0,-1.2496065,-277.47818,362.84333)" />
+    <path
+       transform="matrix(1.0224054,0,0,-1.2496065,-327.9158,466.75248)"
+       game_data="object=smallball,objectParams=color:lime"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3037"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3051"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=smallball,objectParams=color:yellow"
+       transform="matrix(1.0224054,0,0,-1.2496065,-258.13741,324.92029)" />
+    <path
+       transform="matrix(1.0224054,0,0,-1.2496065,-238.41743,362.84333)"
+       game_data="object=smallball,objectParams=color:yellow"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3053"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3055"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=smallball,objectParams=color:yellow"
+       transform="matrix(1.0224054,0,0,-1.2496065,-255.86203,401.52484)" />
+    <path
+       transform="matrix(1.0224054,0,0,-1.2496065,-296.81892,401.52484)"
+       game_data="object=smallball,objectParams=color:yellow"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3057"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3059"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=smallball,objectParams=color:yellow"
+       transform="matrix(1.0224054,0,0,-1.2496065,-316.53891,362.84333)" />
+    <path
+       transform="matrix(1.0224054,0,0,-1.2496065,-296.81892,324.92029)"
+       game_data="object=smallball,objectParams=color:yellow"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3061"
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3063"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       game_data="object=smallball,objectParams=color:lime"
+       transform="matrix(1.0224054,0,0,-1.2496065,-264.96355,484.95554)" />
+    <path
+       transform="matrix(1.0224054,0,0,-1.2496065,-231.59127,509.98476)"
+       game_data="object=smallball,objectParams=color:lime"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3065"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3067"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       game_data="object=smallball,objectParams=color:lime"
+       transform="matrix(1.0224054,0,0,-1.2496065,-361.28808,443.2402)" />
+    <rect
+       style="fill:#00ff00"
+       id="rect3069"
+       width="110.73529"
+       height="6.826148"
+       x="-122.08621"
+       y="205.39767"
+       ry="0.9482758"
+       game_data="object=platform,objectParams=color:mintGreen"
+       transform="matrix(0.49365288,-0.86965903,0.86965903,0.49365288,0,0)" />
+    <rect
+       game_data="object=platform,objectParams=color:mintGreen"
+       ry="0.9482758"
+       y="194.43669"
+       x="-68.847466"
+       height="6.826148"
+       width="69.778404"
+       id="rect3071"
+       style="fill:#00ff00"
+       transform="matrix(0.25337843,-0.96736724,0.96736724,0.25337843,0,0)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3073"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       game_data="object=tinyball,objectParams=color:lime"
+       transform="matrix(0.71000372,0,0,-0.86778232,-72.930598,428.06676)" />
+    <path
+       transform="matrix(0.71000372,0,0,-0.86778232,-226.1397,296.09456)"
+       game_data="object=tinyball,objectParams=color:lime"
+       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3075"
+       style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+  </g>
+</svg>

@@ -24,6 +24,7 @@
 #import "SimpleAudioEngine.h"
 #import "BallZOutAppDelegate.h"
 #import "BZMenuItem.h"
+#import "BZHeroball.h"
 
 //#import "GameConfiguration.h"
 //import "Joystick.h"
@@ -152,16 +153,7 @@
 		[self addChild:lives z:1];
 		[lives setAnchorPoint:ccp(1,0.5f)];
 		[lives setPosition:ccp(s.width-5.5f, s.height-20.5f)];		
-      
-      // active ring
-      CCSpriteFrame *ringFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"circle-yellow-for48.png"];
-      activeRing_ = [CCSprite spriteWithSpriteFrame:ringFrame];
-      activeRing_.visible = NO;
-		[self addChild:activeRing_ z:1];
-      id rot1 = [CCRotateBy actionWithDuration:2 angle:360];
-      id repeat_4ever = [CCRepeatForever actionWithAction:rot1];
-      [activeRing_ runAction:repeat_4ever];
-
+ 
       self.shootForce = kShootForceDefault;
 	}
 	
@@ -219,7 +211,7 @@
    
    [level setPaused:YES];
     
-	//[[SimpleAudioEngine sharedEngine] playEffect:@"pause.wav"];
+	//[[SimpleAudioEngine sharedEngine] playEffect:@"pause.caf"];
 
    BZMenuItem *itemContinue = [BZMenuItem
       itemFromNormalSpriteFrameName:@"button_continue.png"
@@ -260,7 +252,7 @@
    
    [TWDataModel() endGame:level.game];
    
-	//[[SimpleAudioEngine sharedEngine] playEffect:@"buttonpush.wav"];
+	//[[SimpleAudioEngine sharedEngine] playEffect:@"buttonpush.caf"];
    id destinationScene = [BZMainScene scene];
 	// this seems to be the cause of jumpiness
    //[[CCDirector sharedDirector] replaceScene: [CCTransitionCrossFade transitionWithDuration:1 scene:destinationScene]];
@@ -323,24 +315,61 @@
    self.nextForceCycle = nil;
 }
 
-- (void)showActiveRing:(b2Vec2)around
+- (void)showActiveRing:(BZHeroball *)hero //((b2Vec2)around
 {
+   if (nil == hero)
+      return;
+   
+   /*
+    b2Vec2 around = hero.body->GetPosition();
    CGPoint where = {
       around.x * kPhysicsPTMRatio,
       around.y * kPhysicsPTMRatio,
    };
    activeRing_.position = where;
-   activeRing_.visible = YES;
+   */
+   [self hideActiveRing];
+   
+   // active ring
+   CCSpriteFrame *ringFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"circle-yellow-for48.png"];
+   activeRing = [CCSprite spriteWithSpriteFrame:ringFrame];
+   //activeRing_.visible = NO;
+   //[self addChild:activeRing_ z:1];
+   id rot1 = [CCRotateBy actionWithDuration:2 angle:360];
+   id repeat_4ever = [CCRepeatForever actionWithAction:rot1];
+   [activeRing runAction:repeat_4ever];
+   
+   [hero addChild:activeRing];
+   activeRing.position = ccp(hero.contentSize.width/2, hero.contentSize.height/2);
+   //twlog("showed ring: %@", hero);
+
+   //activeRing_.visible = YES;
+}
+
+// for if active ball is knocked off
+- (void)removeActiveRing:(BZHeroball *)hero
+{
+   for (CCNode *node in hero.children)
+      if (node == activeRing)
+      {
+         [self hideActiveRing];
+         return;
+      }
 }
 
 - (void)hideActiveRing
 {
-   activeRing_.visible = NO;
+   //twlog("hid ring: %@", activeRing.parent);
+   [activeRing removeFromParentAndCleanup:YES];
+   activeRing = nil;
+   
+   //activeRing_.visible = NO;
 }
 
 - (BOOL)showingActiveRing
 {
-   return activeRing_.visible;
+   //return activeRing_.visible;
+   return nil != activeRing;
 }
 
 #pragma mark Touch Handling

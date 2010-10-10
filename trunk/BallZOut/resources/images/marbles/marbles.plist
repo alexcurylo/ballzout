@@ -7,7 +7,7 @@
 		<key>ball25-aqua.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 374}, {25, 25}}</string>
+			<string>{{451, 396}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -20,7 +20,7 @@
 		<key>ball25-blue.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 347}, {25, 25}}</string>
+			<string>{{451, 477}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -33,7 +33,7 @@
 		<key>ball25-gold.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 266}, {25, 25}}</string>
+			<string>{{451, 450}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -46,7 +46,7 @@
 		<key>ball25-green.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 293}, {25, 25}}</string>
+			<string>{{451, 288}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -59,7 +59,7 @@
 		<key>ball25-lime.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 320}, {25, 25}}</string>
+			<string>{{451, 315}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -72,7 +72,7 @@
 		<key>ball25-pink.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 239}, {25, 25}}</string>
+			<string>{{451, 369}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -85,7 +85,7 @@
 		<key>ball25-purple.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 428}, {25, 25}}</string>
+			<string>{{451, 423}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -98,7 +98,7 @@
 		<key>ball25-red.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 401}, {25, 25}}</string>
+			<string>{{395, 485}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -111,7 +111,7 @@
 		<key>ball25-yellow.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 212}, {25, 25}}</string>
+			<string>{{451, 342}, {25, 25}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -124,7 +124,7 @@
 		<key>ball36-aqua.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 2}, {36, 36}}</string>
+			<string>{{221, 436}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -137,7 +137,7 @@
 		<key>ball36-blue.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 116}, {36, 36}}</string>
+			<string>{{451, 154}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -150,7 +150,7 @@
 		<key>ball36-gold.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 428}, {36, 36}}</string>
+			<string>{{451, 116}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -163,7 +163,7 @@
 		<key>ball36-green.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 352}, {36, 36}}</string>
+			<string>{{395, 447}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -176,7 +176,7 @@
 		<key>ball36-lime.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 40}, {36, 36}}</string>
+			<string>{{451, 40}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -189,7 +189,7 @@
 		<key>ball36-pink.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 78}, {36, 36}}</string>
+			<string>{{395, 409}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -202,7 +202,7 @@
 		<key>ball36-purple.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 466}, {36, 36}}</string>
+			<string>{{451, 2}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -215,7 +215,7 @@
 		<key>ball36-red.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 390}, {36, 36}}</string>
+			<string>{{451, 192}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -228,7 +228,7 @@
 		<key>ball36-yellow.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{221, 436}, {36, 36}}</string>
+			<string>{{451, 78}, {36, 36}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -241,7 +241,7 @@
 		<key>ball48-aqua.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{268, 389}, {48, 48}}</string>
+			<string>{{268, 439}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -254,7 +254,7 @@
 		<key>ball48-blue.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{268, 439}, {48, 48}}</string>
+			<string>{{268, 389}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -267,7 +267,7 @@
 		<key>ball48-gold.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 252}, {48, 48}}</string>
+			<string>{{395, 59}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -293,7 +293,7 @@
 		<key>ball48-lime.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 302}, {48, 48}}</string>
+			<string>{{395, 109}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -306,7 +306,7 @@
 		<key>ball48-pink.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 102}, {48, 48}}</string>
+			<string>{{395, 159}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -319,7 +319,7 @@
 		<key>ball48-purple.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 2}, {48, 48}}</string>
+			<string>{{395, 209}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -332,7 +332,7 @@
 		<key>ball48-red.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 52}, {48, 48}}</string>
+			<string>{{395, 359}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -345,7 +345,7 @@
 		<key>ball48-silver.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 152}, {48, 48}}</string>
+			<string>{{395, 259}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -358,7 +358,7 @@
 		<key>ball48-yellow.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{395, 202}, {48, 48}}</string>
+			<string>{{395, 309}, {48, 48}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -371,7 +371,7 @@
 		<key>ball71-aqua.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{322, 367}, {71, 71}}</string>
+			<string>{{322, 148}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -384,7 +384,7 @@
 		<key>ball71-blue.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{148, 436}, {71, 71}}</string>
+			<string>{{75, 436}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -397,7 +397,7 @@
 		<key>ball71-gold.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{322, 2}, {71, 71}}</string>
+			<string>{{322, 367}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -423,7 +423,7 @@
 		<key>ball71-lime.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{75, 436}, {71, 71}}</string>
+			<string>{{322, 2}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -436,7 +436,7 @@
 		<key>ball71-pink.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{322, 221}, {71, 71}}</string>
+			<string>{{322, 294}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -449,7 +449,7 @@
 		<key>ball71-purple.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{322, 294}, {71, 71}}</string>
+			<string>{{322, 75}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -462,7 +462,7 @@
 		<key>ball71-red.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{322, 75}, {71, 71}}</string>
+			<string>{{148, 436}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -475,7 +475,7 @@
 		<key>ball71-yellow.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{322, 148}, {71, 71}}</string>
+			<string>{{322, 221}, {71, 71}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -488,7 +488,7 @@
 		<key>button_continue.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 119}, {318, 109}}</string>
+			<string>{{2, 111}, {318, 109}}</string>
 			<key>offset</key>
 			<string>{0, -2}</string>
 			<key>rotated</key>
@@ -501,7 +501,7 @@
 		<key>button_gameover.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 230}, {318, 107}}</string>
+			<string>{{2, 2}, {318, 107}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -527,7 +527,7 @@
 		<key>button_tryagain.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 2}, {318, 115}}</string>
+			<string>{{2, 222}, {318, 115}}</string>
 			<key>offset</key>
 			<string>{1, -0}</string>
 			<key>rotated</key>
@@ -553,7 +553,7 @@
 		<key>heart28.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 184}, {26, 26}}</string>
+			<string>{{451, 260}, {26, 26}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -576,10 +576,23 @@
 			<key>sourceSize</key>
 			<string>{32, 32}</string>
 		</dict>
+		<key>skull.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{395, 2}, {54, 55}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {54, 55}}</string>
+			<key>sourceSize</key>
+			<string>{54, 55}</string>
+		</dict>
 		<key>trophy28.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{445, 154}, {26, 28}}</string>
+			<string>{{451, 230}, {26, 28}}</string>
 			<key>offset</key>
 			<string>{1, -0}</string>
 			<key>rotated</key>

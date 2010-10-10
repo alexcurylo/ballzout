@@ -14,8 +14,9 @@ enum
    
    kArenaFileCount = 16,
 
-   kGameLevelCount = 4,
    kTutorialLevelCount = 1,
+   kGameLevelCount = 20,
+   kGameBeginLevel = 1,
 };
 
 @interface BZGame : NSObject < NSCoding >
@@ -36,9 +37,11 @@ enum
    
    NSInteger achievementAllBalls;
    NSInteger achievementAllLives;
+   NSInteger achievementObstacles;
    NSInteger achievementSkillz;
    NSInteger achievement3Ballz;
    NSInteger achievement5Ballz;
+   NSInteger achievement7Ballz;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -68,7 +71,7 @@ enum
 - (NSString *)currentLevelFileName;
 - (NSString *)currentArenaFileName;
 
-- (void)targetOut;
+- (NSString *)targetOut;
 - (void)ballShot;
 - (void)ballStopped;
 - (void)ballOut;

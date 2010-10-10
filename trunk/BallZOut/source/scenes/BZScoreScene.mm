@@ -103,8 +103,8 @@
       [itemContinue startWaving];
       
 		//[self schedule:@selector(wait1second:) interval:1];
-      //sfxID_ = [[SimpleAudioEngine sharedEngine] playEffect:@"levelwin.wav"];
-      winSound = [[[SimpleAudioEngine sharedEngine] soundSourceForFile:@"levelwin.wav"] retain];
+      //sfxID_ = [[SimpleAudioEngine sharedEngine] playEffect:@"levelwin.caf"];
+      winSound = [[[SimpleAudioEngine sharedEngine] soundSourceForFile:@"levelwin.caf"] retain];
       [winSound play];
 	}
 	return self;

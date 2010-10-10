@@ -32,7 +32,7 @@ params:(NSDictionary *)params
 - (void)outsideBounds
 {
 	//[game_ increaseScore:kScoreBallOut];
-	[game_ targetBallOut];
+	[game_ targetBallOut:self];
 	[game_ removeTargetball:self];
 
    [super outsideBounds];

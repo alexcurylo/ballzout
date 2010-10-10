@@ -276,12 +276,16 @@
 
 - (void)removeHeroball:(BZHeroball *)heroball
 {
+   [self.hud removeActiveRing:heroball];
+   CCSprite *skull = [CCSprite spriteWithSpriteFrameName:@"skull.png"];
+   [self runBallOutAnimation:skull around:heroball.position];
+
    [self.heroballs removeObject:heroball];
-   
+
    [self.game ballOut];
    
    if (kLevelStatePlaying == levelState_)
-      [[SimpleAudioEngine sharedEngine] playEffect: @"herosmash.wav"];
+      [[SimpleAudioEngine sharedEngine] playEffect: @"herosmash.caf"];
    
    // is it time to ghost out obstacles?
    if (1 == self.game.levelBalls)
@@ -317,10 +321,13 @@
    if (NSNotFound == [self.heroballs indexOfObject:heroball])
       return;
 
-   // in motion?
-   if (heroball.inMotion)
+   // in motion? Or resetting?
+   if (heroball.isMoving || heroball.resetting)
       return;
 
+   heroball.shooting = NO;
+
+   // does nothing, for now
    [self.game ballStopped];
 
    b2Body *ballBody = heroball.body;
@@ -357,14 +364,41 @@
          }
       }
    }
+ 
+   heroball.body->SetActive(false);
+   heroball.properties = BN_PROPERTY_NONE;
+   heroball.opacity = 128;
+   heroball.resetting = YES;
+
+   CGPoint where = ccp(
+      emptySlot.x * kPhysicsPTMRatio,
+      emptySlot.y * kPhysicsPTMRatio
+   );
+   id move = [CCMoveTo actionWithDuration:0.3 position:where];
+   id wait = [CCDelayTime actionWithDuration:0.05];
+   id done = [CCCallFuncN actionWithTarget:self selector:@selector(heroResetAnimationDone:)];
+   id sequence = [CCSequence actions:move, wait, done, (id)nil];
+   [heroball runAction:sequence];
+}
    
-   // ideally, it would move like in MythicMarbles
+- (void)heroResetAnimationDone:(BZHeroball *)heroball
+{
+   b2Body *ballBody = heroball.body;
+
+   heroball.resetting = NO;
+   heroball.opacity = 255;
+   heroball.properties = BN_PROPERTY_SPRITE_UPDATED_BY_PHYSICS;
+   heroball.body->SetActive(true);
+
    ballBody->SetLinearVelocity(b2Vec2());
    ballBody->SetAngularVelocity(0);
-	ballBody->SetTransform(emptySlot, 0);
-
-   if (heroball.isHero)
-      [self.hud showActiveRing:emptySlot];
+   b2Vec2 heroSlot(
+      heroball.position.x / kPhysicsPTMRatio,
+      heroball.position.y / kPhysicsPTMRatio
+   );
+	ballBody->SetTransform(heroSlot, 0);
+   if (!self.hud.showingActiveRing)
+      [self.hud showActiveRing:self.readyHeroball];
 }
 
 - (BZHeroball *)readyHeroball
@@ -376,7 +410,8 @@
       {
          if (ball.isHero)
          {
-             if (ball.inMotion)
+             //if (ball.isMoving || ball.resetting)
+             if (ball.shooting || ball.resetting)
                 return nil;
             return ball;
          }
@@ -729,7 +764,7 @@
                 ];
             [self addChild:gameOver z:100];
             [gameOver startWaving];
-            [[SimpleAudioEngine sharedEngine] playEffect:@"gameover.aif"];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"gameover.caf"];
          }
          else
          {
@@ -744,7 +779,7 @@
                 ];
             [self addChild:tryAgain z:100];
             [tryAgain startWaving];
-            [[SimpleAudioEngine sharedEngine] playEffect:@"loselife.wav"];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"loselife.caf"];
         }
       }
 
@@ -790,7 +825,7 @@
       {
          BZHeroball *hero = self.readyHeroball;
          if (hero)
-            [self.hud showActiveRing:hero.body->GetPosition()];
+            [self.hud showActiveRing:hero]; //.body->GetPosition()];
       }
 }
 
@@ -860,12 +895,54 @@
 }
 */
 
-- (void)targetBallOut
+- (void)targetBallOut:(BZBall *)targetball
 {
 	//[game_ increaseScore:kScoreBallOut];
-   [self.game targetOut];
+   NSString *scoreString = [self.game targetOut];
+   
+   if (scoreString.length)
+   {
+		CCLabelBMFont *score = [CCLabelBMFont labelWithString:scoreString fntFile:@"bubblegum.fnt"];
+      [score setColor:ccc3(64,64,64)];
+      [self runBallOutAnimation:score around:targetball.position];
+   }
+   
 	[hud_ onUpdateScore:self.game.score];
-	[[SimpleAudioEngine sharedEngine] playEffect: @"targetpop.wav"];
+	[[SimpleAudioEngine sharedEngine] playEffect: @"targetpop.caf"];
+}
+
+- (void)runBallOutAnimation:(CCNode *)animation around:(CGPoint)where
+{
+   [self addChild:animation z:90];
+   [animation setScale:.1f];
+   CGSize winSize = [[CCDirector sharedDirector] winSize];
+   winSize.height -= kTopHUDHeight;
+   CGPoint animationPosition = ccp(
+      (where.x >= winSize.width) ? winSize.width : MAX(0,where.x),
+      (where.y >= winSize.height) ? winSize.height : MAX(0,where.y)
+   );
+   // throws annoying shadow warnings
+   //{ animationPosition.x = MIN(winSize.width, MAX(0,targetball.position.x)); }
+   //{ animationPosition.y = MIN(winSize.height, MAX(0,targetball.position.y)); }
+   
+   CGPoint animationAnchor = ccp(
+      animationPosition.x / winSize.width,
+      animationPosition.y / winSize.height
+   );
+   [animation setAnchorPoint:animationAnchor];
+   [animation setPosition:animationPosition];		
+   
+   id scaleTo = [CCScaleTo actionWithDuration:0.1f scale:1];
+   id wait = [CCDelayTime actionWithDuration:0.3f];
+   id scaleBack = [CCScaleTo actionWithDuration:0.1f scale:.1f];
+   id done = [CCCallFuncN actionWithTarget:self selector:@selector(ballOutAnimationDone:)];
+   id seq = [CCSequence actions:scaleTo, wait, scaleBack, done, (id)nil];
+   [animation runAction:seq];
+}
+
+- (void)ballOutAnimationDone:(CCNode *)animation
+{
+   [animation removeFromParentAndCleanup:YES];
 }
 
 /*
@@ -1044,7 +1121,7 @@
          continue;
     
       // can't select a moving heroball
-      if (ball.inMotion)
+      if (ball.isMoving)
          return NO;
       
       // selecting current one is redundant
@@ -1153,6 +1230,7 @@
       return;
    }
    
+   ball.shooting = YES;
    [self.hud endForceCycle];
    [self.hud hideActiveRing];
    
@@ -1181,7 +1259,7 @@
    impulse *= shootForce;
    ball.body->ApplyLinearImpulse(impulse, ballPosition );
    //ball.body->ApplyTorque(5);
-	[[SimpleAudioEngine sharedEngine] playEffect:@"launch.wav"];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"launch.caf"];
    [self.game ballShot];
 
    /*

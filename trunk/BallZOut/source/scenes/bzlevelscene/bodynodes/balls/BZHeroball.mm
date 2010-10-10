@@ -27,6 +27,8 @@ NSString *kHeroballName = @"ball48-silver.png";
 @implementation BZHeroball
 
 @synthesize isHero = isHero_;
+@synthesize shooting = shooting_;
+@synthesize resetting = resetting_;
 
 // when placed in scene file
 //- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game

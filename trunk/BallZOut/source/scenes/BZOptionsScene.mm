@@ -125,7 +125,7 @@
        ];
       
 		//[self schedule:@selector(wait1second:) interval:1];
-      //[[SimpleAudioEngine sharedEngine] playEffect:@"gamewin.wav"];
+      //[[SimpleAudioEngine sharedEngine] playEffect:@"gamewin.caf"];
 	}
 	return self;
 }

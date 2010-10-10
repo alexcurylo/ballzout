@@ -30,7 +30,7 @@
 	if (self != nil)
    {
       lives = kGameLivesCount;
-      level = 1;
+      level = kGameBeginLevel;
       score = 0;
    }
 	return self;
@@ -57,9 +57,11 @@
    [coder encodeInteger:shotMultiplier forKey:@"shotMultiplier"];
    [coder encodeInteger:achievementAllBalls forKey:@"achievementAllBalls"];
    [coder encodeInteger:achievementAllLives forKey:@"achievementAllLives"];
+   [coder encodeInteger:achievementObstacles forKey:@"achievementObstacles"];
    [coder encodeInteger:achievementSkillz forKey:@"achievementSkillz"];
    [coder encodeInteger:achievement3Ballz forKey:@"achievement3Ballz"];
    [coder encodeInteger:achievement5Ballz forKey:@"achievement5Ballz"];
+   [coder encodeInteger:achievement7Ballz forKey:@"achievement7Ballz"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -78,9 +80,11 @@
    shotMultiplier = [decoder decodeIntegerForKey:@"shotMultiplier"];
    achievementAllBalls = [decoder decodeIntegerForKey:@"achievementAllBalls"];
    achievementAllLives = [decoder decodeIntegerForKey:@"achievementAllLives"];
+   achievementObstacles = [decoder decodeIntegerForKey:@"achievementObstacles"];
    achievementSkillz = [decoder decodeIntegerForKey:@"achievementSkillz"];
    achievement3Ballz = [decoder decodeIntegerForKey:@"achievement3Ballz"];
    achievement5Ballz = [decoder decodeIntegerForKey:@"achievement5Ballz"];
+   achievement7Ballz = [decoder decodeIntegerForKey:@"achievement7Ballz"];
 
    return self;
 }
@@ -108,31 +112,49 @@
    return name;
 }
 
-- (void)targetOut
+- (NSString *)targetOut
 {
    NSInteger ballScore = kScoreOneBallOut * shotMultiplier;
+
+   NSString *scoreString = nil;
+   // bubblegum.png doesn't have anything but numbers
+   //if (1 < shotMultiplier)
+      //scoreString = [NSString stringWithFormat:NSLocalizedString(@"COMBOSCORE", nil), shotMultiplier, ballScore];
+   //else
+      scoreString = [NSString stringWithFormat:@"%d", ballScore];
+
    score += ballScore;
    levelScore += ballScore;
    if (1 == shotMultiplier)
       levelAccurateShots++;
    levelMaxMultiplier = MAX(shotMultiplier, levelMaxMultiplier);
-   if (shotMultiplier >= 4)
+   if (shotMultiplier >= (1 << 3))
    {
       // do at end of level so as not to interrupt play
       //if (!achievement3Ballz)
          //[TWDataModel() reportAchievement:kAchievementCombo3 percent:100];
-      //twlog("achieved achievement3Ballz!");
+      twlog("achieved achievement3Ballz!");
       achievement3Ballz++;
    }
-   if (shotMultiplier >= 16)
+   if (shotMultiplier >= (1 << 5))
    {
       // do at end of level so as not to interrupt play
      // if (!achievement5Ballz)
          //[TWDataModel() reportAchievement:kAchievementCombo5 percent:100];
-      //twlog("achieved achievement5Ballz!");
+      twlog("achieved achievement5Ballz!");
       achievement5Ballz++;
    }
+   if (shotMultiplier >= (1 << 7))
+   {
+      // do at end of level so as not to interrupt play
+      // if (!achievement7Ballz)
+      //[TWDataModel() reportAchievement:kAchievementCombo7 percent:100];
+      twlog("achieved achievement7Ballz!");
+      achievement7Ballz++;
+   }
    shotMultiplier *= 2;
+   
+   return scoreString;
 }
 
 - (void)ballShot
@@ -200,6 +222,14 @@
          else if (10 == achievementAllLives)
             [TWDataModel() reportAchievement:kAchievementAllLives10 percent:100];
       }
+      if (1 < lives)
+      {
+         achievementObstacles++;
+         if (20 == achievementObstacles)
+            [TWDataModel() reportAchievement:kAchievementObstacles20 percent:100];
+         else if (10 == achievementObstacles)
+            [TWDataModel() reportAchievement:kAchievementObstacles10 percent:100];
+      }
       if (100.f <= self.levelAccuracy)
       {
          achievementSkillz++;
@@ -231,6 +261,11 @@
    {
       //twlog("level achievement5Ballz!");
       [TWDataModel() reportAchievement:kAchievementCombo5 percent:100];
+   }
+   if (achievement7Ballz)
+   {
+      //twlog("level achievement7Ballz!");
+      [TWDataModel() reportAchievement:kAchievementCombo7 percent:100];
    }
 }
 
