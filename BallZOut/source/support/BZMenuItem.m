@@ -103,7 +103,7 @@
 		[self runAction:zoomAction];
 	}
    
-	[[SimpleAudioEngine sharedEngine] playEffect:@"buttonpush.wav"];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"buttonpush.caf"];
 }
 
 - (void)unselected

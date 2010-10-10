@@ -162,8 +162,8 @@
      showgrid="false"
      inkscape:window-width="1676"
      inkscape:window-height="1083"
-     inkscape:window-x="33"
-     inkscape:window-y="26"
+     inkscape:window-x="13"
+     inkscape:window-y="22"
      inkscape:window-maximized="0"
      borderlayer="false" />
   <metadata
@@ -188,10 +188,10 @@
        style="fill:#d40000"
        id="rect4013"
        width="320"
-       height="480"
+       height="440"
        x="0"
-       y="-160"
-       ry="1.0344827" />
+       y="-120"
+       ry="0.9482758" />
   </g>
   <g
      inkscape:label="physics:static"
@@ -207,13 +207,13 @@
        sodipodi:cy="294.5"
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
-       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
-       game_data="object=mediumball,objectParams=color:gold"
-       transform="matrix(1.3632071,0,0,1.6661421,-455.50168,-562.28608)" />
-    <path
-       transform="matrix(1.3632071,0,0,1.6661421,-457.5601,-486.03907)"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
        game_data="object=mediumball,objectParams=color:pink"
-       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
+       transform="matrix(1.3632071,0,0,1.6661421,-581.40618,-407.56006)" />
+    <path
+       transform="matrix(1.3632071,0,0,1.6661421,-539.47389,-479.97139)"
+       game_data="object=mediumball,objectParams=color:red"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="16.5"
        sodipodi:cy="294.5"
@@ -229,41 +229,107 @@
        sodipodi:cy="294.5"
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
-       d="M 474,294.5 C 474,301.95584 466.6127,308 457.5,308 C 448.3873,308 441,301.95584 441,294.5 C 441,287.04416 448.3873,281 457.5,281 C 466.6127,281 474,287.04416 474,294.5 z"
-       game_data="object=mediumball,objectParams=color:lime"
-       transform="matrix(1.3632071,0,0,1.6661421,-455.70704,-402.25084)" />
-    <rect
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1.02718937px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="rect3031"
-       width="78.972809"
-       height="13.972811"
-       x="232.10263"
-       y="-81.559937"
-       game_data="object=movingplatform,objectParams=direction:vertical;color:richCarmine" />
-    <rect
-       y="133.84296"
-       x="45.521244"
-       height="13.972811"
-       width="78.972809"
-       id="rect3033"
-       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1.02718937px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       game_data="object=movingplatform,objectParams=direction:horizontal;color:robinEggBlue" />
-    <rect
-       style="fill:#800080;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="rect3035"
-       width="10"
-       height="502.85999"
-       x="5.3092265"
-       y="-9.2072906"
-       transform="translate(0,-160)"
-       game_data="object=platform,objectParams=color:razzmatazz" />
-    <rect
-       style="fill:#ffff00"
-       id="rect3037"
-       width="150"
-       height="10"
-       x="31.855358"
-       y="-112.32272"
-       game_data="object=platform1,objectParams=angular:5;color:blazeOrange" />
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=mediumball,objectParams=color:pink"
+       transform="matrix(1.3632071,0,0,1.6661421,-344.97174,-410.59391)" />
+    <path
+       transform="matrix(1.0224054,0,0,1.2496065,-304.03815,-331.80903)"
+       game_data="object=smallball,objectParams=color:aqua"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path5417"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path5423"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=smallball,objectParams=color:aqua"
+       transform="matrix(1.0224054,0,0,1.2496065,-304.53888,-241.03207)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3021"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=tinyball,objectParams=color:yellow"
+       transform="matrix(0.71000372,0,0,0.86778232,-114.80069,-176.53726)" />
+    <path
+       transform="matrix(0.71000372,0,0,0.86778232,-209.60831,-173.50342)"
+       game_data="object=tinyball,objectParams=color:yellow"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3023"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3025"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=mediumball,objectParams=color:pink"
+       transform="matrix(1.3632071,0,0,1.6661421,-461.35242,-519.41135)" />
+    <path
+       transform="matrix(1.3632071,0,0,1.6661421,-382.47248,-480.72985)"
+       game_data="object=mediumball,objectParams=color:red"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3027"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       transform="matrix(1.3632071,0,0,1.6661421,-537.95697,-326.76228)"
+       game_data="object=mediumball,objectParams=color:red"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3029"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3031"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=mediumball,objectParams=color:pink"
+       transform="matrix(1.3632071,0,0,1.6661421,-455.28473,-296.42384)" />
+    <path
+       transform="matrix(1.3632071,0,0,1.6661421,-380.95556,-335.86381)"
+       game_data="object=mediumball,objectParams=color:red"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3033"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
   </g>
 </svg>

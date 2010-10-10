@@ -62,11 +62,11 @@
 }
 
 // moving at a non-trivial rate?
-- (BOOL)inMotion
+- (BOOL)isMoving
 {
    float lengthSquared = body_->GetLinearVelocity().LengthSquared();
-   BOOL inMotion = kPhysicsShotEndedLengthSquared < lengthSquared;
-   return inMotion;
+   BOOL isMoving = kPhysicsShotEndedLengthSquared < lengthSquared;
+   return isMoving;
 }
 
 // covering a point?

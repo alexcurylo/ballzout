@@ -131,6 +131,7 @@ typedef enum
 - (void)addHeroball:(BZHeroball *)heroball;
 - (void)removeHeroball:(BZHeroball *)heroball;
 - (void)resetHeroball:(BZHeroball *)heroball;
+- (void)heroResetAnimationDone:(BZHeroball *)heroball;
 - (BZHeroball *)readyHeroball;
 
 - (void)addTargetball:(BZBall *)targetball;
@@ -151,7 +152,9 @@ typedef enum
 
 // game events
 //- (void)levelFinished;
-- (void)targetBallOut;
+- (void)targetBallOut:(BZBall *)targetball;
+- (void)runBallOutAnimation:(CCNode *)animation around:(CGPoint)where;
+- (void)ballOutAnimationDone:(CCNode *)animation;
 //- (void)increaseScore:(int)score;
 //- (void)increaseLife:(int)lives;
 - (void)buttonTryAgain:(id)sender;

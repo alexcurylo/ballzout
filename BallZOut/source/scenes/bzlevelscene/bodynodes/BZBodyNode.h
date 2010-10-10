@@ -95,7 +95,9 @@ enum {
 @property (readwrite,nonatomic) int preferredParent;
 
 /** properties of the node */
-@property (readonly, nonatomic) unsigned int properties;
+//@property (readonly, nonatomic) unsigned int properties;
+// why was this readonly? We'd like to change it whilst doing animation, like resetting heroball
+@property (readwrite, nonatomic) unsigned int properties;
 
 
 /** initializes the node with a box2d body */
@@ -112,7 +114,7 @@ enum {
 -(void) setParameters:(NSDictionary*)params;
 
 // moving at a non-trivial rate?
-- (BOOL)inMotion;
+- (BOOL)isMoving;
 
 // covering a point?
 - (BOOL)coversPoint:(b2Vec2)point;

@@ -10,12 +10,10 @@
 
 #import "BZLevelScene.h"
 
-/*
  enum
 {
-   kTutorialStageCount = 3,
+   kTutorialStageCount = 7,
 };
-*/
 
 @interface BZInstructionsScene : BZLevelScene
 {
@@ -53,6 +51,7 @@
 
 - (void)gotoNextStage;
 - (void)cleanBubbles;
+- (void)bubbleCleaned:(CCNode *)bubble;
 - (void)addBubble:(NSString *)file x:(CGFloat)x y:(CGFloat)y;
 - (void)addTapperFor:(CGFloat)windup x:(CGFloat)x y:(CGFloat)y;
 - (void)tapWindupEnd:(CCSprite *)tapper;

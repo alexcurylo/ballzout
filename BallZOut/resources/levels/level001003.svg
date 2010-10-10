@@ -14,7 +14,7 @@
    id="svg001001"
    version="1.1"
    inkscape:version="0.48.0 r9654"
-   sodipodi:docname="level001001.svg"
+   sodipodi:docname="level001003.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    style="display:inline"
    game_config="gravity_x=0,gravity_y=0">
@@ -155,17 +155,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3184595"
-     inkscape:cx="243.13463"
-     inkscape:cy="189.38041"
+     inkscape:cx="104.03676"
+     inkscape:cy="205.96493"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
-     inkscape:window-width="1676"
-     inkscape:window-height="1083"
-     inkscape:window-x="13"
-     inkscape:window-y="22"
+     inkscape:window-width="1032"
+     inkscape:window-height="760"
+     inkscape:window-x="691"
+     inkscape:window-y="246"
      inkscape:window-maximized="0"
-     borderlayer="false" />
+     borderlayer="false"
+     inkscape:snap-grids="false"
+     inkscape:snap-to-guides="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -188,10 +190,10 @@
        style="fill:#d40000"
        id="rect4013"
        width="320"
-       height="480"
-       x="0"
-       y="-160"
-       ry="1.0344827" />
+       height="440"
+       x="0.75846094"
+       y="-117.72462"
+       ry="0.9482758" />
   </g>
   <g
      inkscape:label="physics:static"
@@ -199,83 +201,15 @@
      id="layer1"
      style="display:inline"
      transform="translate(0,160)">
-    <path
-       sodipodi:type="arc"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path3803-9"
-       sodipodi:cx="457.5"
-       sodipodi:cy="294.5"
-       sodipodi:rx="16.5"
-       sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=mediumball,objectParams=color:gold"
-       transform="matrix(1.3632071,0,0,1.6661421,-557.8939,-478.85538)" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#00b500;fill-opacity:1"
-       id="path5398"
-       sodipodi:cx="164.58601"
-       sodipodi:cy="102.28647"
-       sodipodi:rx="34.889202"
-       sodipodi:ry="33.37228"
-       d="M 199.47522,102.28647 A 34.889202,33.37228 0 1 1 129.69681,102.28647 A 34.889202,33.37228 0 1 1 199.47522,102.28647 z"
-       transform="matrix(1.0175068,0,0,1.0637571,-14.912463,-167.58761)"
-       game_data="object=largeball,objectParams=color:green" />
-    <path
-       transform="matrix(1.3632071,0,0,1.6661421,-470.45394,-470.11139)"
-       game_data="object=mediumball,objectParams=color:pink"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       sodipodi:ry="13.5"
-       sodipodi:rx="16.5"
-       sodipodi:cy="294.5"
-       sodipodi:cx="457.5"
-       id="path5413"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       sodipodi:type="arc" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5415"
-       sodipodi:cx="457.5"
-       sodipodi:cy="294.5"
-       sodipodi:rx="16.5"
-       sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=mediumball,objectParams=color:lime"
-       transform="matrix(1.3632071,0,0,1.6661421,-385.92863,-478.85539)" />
-    <path
-       transform="matrix(1.0224054,0,0,1.2496065,-408.70577,-280.23368)"
-       game_data="object=smallball,objectParams=color:pink"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       sodipodi:ry="13.5"
-       sodipodi:rx="16.5"
-       sodipodi:cy="294.5"
-       sodipodi:cx="457.5"
-       id="path5417"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       sodipodi:type="arc" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5419"
-       sodipodi:cx="457.5"
-       sodipodi:cy="294.5"
-       sodipodi:rx="16.5"
-       sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=smallball,objectParams=color:red"
-       transform="matrix(1.0224054,0,0,1.2496065,-346.76913,-272.21835)" />
-    <path
-       transform="matrix(1.0224054,0,0,1.2496065,-211.23718,-279.50501)"
-       game_data="object=smallball,objectParams=color:blue"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       sodipodi:ry="13.5"
-       sodipodi:rx="16.5"
-       sodipodi:cy="294.5"
-       sodipodi:cx="457.5"
-       id="path5421"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       sodipodi:type="arc" />
+    <rect
+       transform="matrix(-9.226893e-4,-0.99999957,0.99999756,-0.00220717,0,0)"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:0.62766206px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3027"
+       width="85.715576"
+       height="55.420479"
+       x="-105.1577"
+       y="128.64413"
+       game_data="object=platform,objectParams=color:tangerine" />
     <path
        sodipodi:type="arc"
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
@@ -285,22 +219,11 @@
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=smallball,objectParams=color:yellow"
-       transform="matrix(1.0224054,0,0,1.2496065,-266.61583,-274.40435)" />
+       game_data="object=smallball,objectParams=color:purple"
+       transform="matrix(1.0224054,0,0,1.2496065,-421.34186,-352.94122)" />
     <path
-       sodipodi:type="arc"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5425"
-       sodipodi:cx="457.5"
-       sodipodi:cy="294.5"
-       sodipodi:rx="16.5"
-       sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=tinyball,objectParams=color:aqua"
-       transform="matrix(0.71000372,0,0,0.86778232,-277.11133,-110.55116)" />
-    <path
-       transform="matrix(0.71000372,0,0,0.86778232,-234.63752,-102.96655)"
-       game_data="object=tinyball,objectParams=color:blue"
+       transform="matrix(0.71000372,0,0,0.86778232,-275.25134,-81.589642)"
+       game_data="object=tinyball,objectParams=color:green"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="16.5"
@@ -310,18 +233,7 @@
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc" />
     <path
-       sodipodi:type="arc"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5429"
-       sodipodi:cx="457.5"
-       sodipodi:cy="294.5"
-       sodipodi:rx="16.5"
-       sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=tinyball,objectParams=color:gold"
-       transform="matrix(0.71000372,0,0,0.86778232,-192.16371,-98.415785)" />
-    <path
-       transform="matrix(0.71000372,0,0,0.86778232,-147.41452,-99.174246)"
+       transform="matrix(0.71000372,0,0,0.86778232,-219.38253,-101.75886)"
        game_data="object=tinyball,objectParams=color:green"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
        sodipodi:ry="13.5"
@@ -332,59 +244,132 @@
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc" />
     <path
-       sodipodi:type="arc"
-       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5433"
-       sodipodi:cx="457.5"
-       sodipodi:cy="294.5"
-       sodipodi:rx="16.5"
-       sodipodi:ry="13.5"
-       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=tinyball,objectParams=color:lime"
-       transform="matrix(0.71000372,0,0,0.86778232,-107.97455,-103.72501)" />
-    <path
-       transform="matrix(0.71000372,0,0,0.86778232,-67.017661,-109.7927)"
+       transform="matrix(0.71000372,0,0,0.86778232,-192.92217,-278.92949)"
        game_data="object=tinyball,objectParams=color:pink"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="16.5"
        sodipodi:cy="294.5"
        sodipodi:cx="457.5"
-       id="path5435"
+       id="path3031"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <rect
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:0.71031815px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3016"
+       width="150.43604"
+       height="13.393835"
+       x="29.323481"
+       y="-23.505682"
+       transform="matrix(0.92692661,-0.37524266,0.37524266,0.92692661,0,0)"
+       game_data="object=platform,objectParams=color:tan" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3020"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=tinyball,objectParams=color:pink"
+       transform="matrix(0.71000372,0,0,0.86778232,-144.38067,-279.68795)" />
+    <path
+       transform="matrix(1.0224054,0,0,1.2496065,-421.34186,-303.05434)"
+       game_data="object=smallball,objectParams=color:purple"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3022"
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc" />
     <path
        sodipodi:type="arc"
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5437"
+       id="path3024"
        sodipodi:cx="457.5"
        sodipodi:cy="294.5"
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=tinyball,objectParams=color:purple"
-       transform="matrix(0.71000372,0,0,0.86778232,-217.19292,-70.352733)" />
+       game_data="object=smallball,objectParams=color:purple"
+       transform="matrix(1.0224054,0,0,1.2496065,-421.34186,-253.16745)" />
     <path
-       transform="matrix(0.71000372,0,0,0.86778232,-167.89296,-67.318889)"
-       game_data="object=tinyball,objectParams=color:red"
+       transform="matrix(1.0224054,0,0,1.2496065,-193.34186,-352.94122)"
+       game_data="object=smallball,objectParams=color:purple"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
        sodipodi:ry="13.5"
        sodipodi:rx="16.5"
        sodipodi:cy="294.5"
        sodipodi:cx="457.5"
-       id="path5439"
+       id="path3026"
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        sodipodi:type="arc" />
     <path
        sodipodi:type="arc"
        style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       id="path5441"
+       id="path3028"
        sodipodi:cx="457.5"
        sodipodi:cy="294.5"
        sodipodi:rx="16.5"
        sodipodi:ry="13.5"
        d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
-       game_data="object=tinyball,objectParams=color:yellow"
-       transform="matrix(0.71000372,0,0,0.86778232,-121.62684,-70.352733)" />
+       game_data="object=smallball,objectParams=color:purple"
+       transform="matrix(1.0224054,0,0,1.2496065,-193.34186,-303.05434)" />
+    <path
+       transform="matrix(1.0224054,0,0,1.2496065,-193.34186,-253.16745)"
+       game_data="object=smallball,objectParams=color:purple"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3030"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3032"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=tinyball,objectParams=color:green"
+       transform="matrix(0.71000372,0,0,0.86778232,-167.51375,-112.13577)" />
+    <path
+       transform="matrix(0.71000372,0,0,0.86778232,-115.64494,-101.75886)"
+       game_data="object=tinyball,objectParams=color:green"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       sodipodi:ry="13.5"
+       sodipodi:rx="16.5"
+       sodipodi:cy="294.5"
+       sodipodi:cx="457.5"
+       id="path3034"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="path3036"
+       sodipodi:cx="457.5"
+       sodipodi:cy="294.5"
+       sodipodi:rx="16.5"
+       sodipodi:ry="13.5"
+       d="M 474,294.5 A 16.5,13.5 0 1 1 441,294.5 A 16.5,13.5 0 1 1 474,294.5 z"
+       game_data="object=tinyball,objectParams=color:green"
+       transform="matrix(0.71000372,0,0,0.86778232,-59.776128,-81.589642)" />
+    <rect
+       game_data="object=platform,objectParams=color:tan"
+       transform="matrix(0.92238982,0.3862603,-0.3862603,0.92238982,0,0)"
+       y="-142.29401"
+       x="112.58241"
+       height="13.393835"
+       width="150.43604"
+       id="rect3042"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:0.71031815px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>

@@ -9,9 +9,13 @@
 @interface BZHeroball : BZBall
 {
    BOOL isHero_;
+   BOOL shooting_;
+   BOOL resetting_;
 }
 
-@property (readwrite, nonatomic) BOOL isHero;
+@property (nonatomic) BOOL isHero;
+@property (nonatomic) BOOL shooting;
+@property (nonatomic) BOOL resetting;
 
 // when placed in scene file
 //- (id)initWithBody:(b2Body*)body gameScene:(BZLevelScene*)game;

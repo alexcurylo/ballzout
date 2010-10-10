@@ -20,6 +20,9 @@ NSString *kAchievementPerfectSkillz5 = @"ballzout.skillz5";
 NSString *kAchievementPerfectSkillz10 = @"ballzout.skillz10";
 NSString *kAchievementCombo3 = @"ballzout.combo3";
 NSString *kAchievementCombo5 = @"ballzout.combo5";
+NSString *kAchievementCombo7 = @"ballzout.combo7";
+NSString *kAchievementObstacles10 = @"ballzout.obstacles10";
+NSString *kAchievementObstacles20 = @"ballzout.obstacles20";
 
 NSString *kGameCenterEnableChangeNotification = @"GCEnableChange";
 NSString *kGameCenterLoginResolvedNotification = @"GCLoginResolved";

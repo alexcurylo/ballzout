@@ -15,6 +15,9 @@ extern NSString *kAchievementPerfectSkillz5; // = @"ballzout.skillz5";
 extern NSString *kAchievementPerfectSkillz10; // = @"ballzout.skillz10";
 extern NSString *kAchievementCombo3; // = @"ballzout.combo3";
 extern NSString *kAchievementCombo5; // = @"ballzout.combo5";
+extern NSString *kAchievementCombo7; // = @"ballzout.combo7";
+extern NSString *kAchievementObstacles10; // = @"ballzout.obstacles10";
+extern NSString *kAchievementObstacles20; // = @"ballzout.obstacles20";
 
 extern NSString *kGameCenterEnableChangeNotification; // = @"GCEnableChange";
 extern NSString *kGameCenterLoginResolvedNotification; // = @"GCLoginResolved";

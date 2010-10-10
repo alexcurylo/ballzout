@@ -12,30 +12,67 @@
 \
 BUGS\
 \
-\
 NEED\
-\
-Lots of levels. 35? 50?\
-\
-Sort out sound format. And sounds from downloads.\
-\pard\pardeftab720\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://www.cocos2d-iphone.org/forum/topic/8705"}}{\fldrslt \cf0 Sound Music - what file type to use? \'ab cocos2d for iPhone}}\
-\pard\pardeftab720\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://www.cocos2d-iphone.org/wiki/doku.php/cocosdenshion:faq#what_values_can_i_use_for_gain"}}{\fldrslt \cf0 cocosdenshion:faq - cocos2d for iPhone}}\
-\
-Test that Crash Reporter actually works.\
 \
 MISSING STUFF\
 \
 Polish:\
 \
-- animate balls back to slot\
-- show twinkles hitting balls, 'tick' sound\
-// http://groups.google.com/group/levelsvg-support/browse_thread/thread/c2432a0aa2c8ae00\
-- show animation/particlefx when balls go offscreen, skull for hero?\
-- show score when balls go offscreen in a little zoom animation (200 > COMBO X2/400 > COMBO X3/800 > ...)\
+****** SUBMIT:\
 \
-- animation on tutorial balloons\
+Description.\
+\
+****** ONCE SUBMITTED:\
+\
+Website (Feedback). Video. Press Release. Mac demo? Contest?\
+\
+\
+***** FOR LATER:\
+\
+More levels.\
+\
+crashes in [CCScheduler tick] just before last bubbles disappear and ready to play shown in tutorial??? -- "fixed"? by making stage 7 bubbles disappear instead of animate.\
+\
+- show twinkles hitting balls, \
+// http://groups.google.com/group/levelsvg-support/browse_thread/thread/c2432a0aa2c8ae00\
+- show animation/particlefx when balls go offscreen\
+\
+- 'tick' sound on ball/platform collision, make it not suck\
+\
+- ghost obstacles are additive with each other's colors; we really want to make them clip or make lighter or something.\
+\
+- save remembers number of balls, not targets or positions\
+asked Richard Q:\
+- saving\
+asked list:\
+- saving\
+CCNode will be NSCoding-able in 1.1 or later; Box2D who knows\
+\pard\pardeftab720\ql\qnatural
+{\field{\*\fldinst{HYPERLINK "http://groups.google.com/group/levelsvg-support/browse_thread/thread/9e6169a580f96d94/b4253512f38d2c70#b4253512f38d2c70"}}{\fldrslt \cf0 Save/restore Box2D + cocos2d state? - LevelSVG support | Google Groups}}\
+\
+Options: Music(or iPod)(or mod)(or CoreMidi), on/volume, FX volume?\
+\pard\pardeftab720\ql\qnatural
+{\field{\*\fldinst{HYPERLINK "http://www.cocos2d-iphone.org/wiki/doku.php/cocosdenshion:faq#what_values_can_i_use_for_gain"}}{\fldrslt \cf0 cocosdenshion:faq - cocos2d for iPhone}}\
+\
+Support/Review?\
+\
+About/Credits to get at from title?\
+\
+- should achievement reports send partial percentages?\
+\
+- should check GC authentication on activate? (turning airplane mode on then reactivating doesn't trigger stashed achievement sending...)\
+\
+- should load a saved game straightaway and pause it?\
+\
+- moving obstacles should keep moving while ghosted?\
+\
+- fix up textures in platforms, see about triangles/arbitrary polygons/circles\
+\
+- some more backgrounds\
+\
+- head to head play -- can we get physics to be consistent?\
+   Nope, don't need that; have them challenge to each play an unlocked level, first to finish (or last to lose) wins, obstacles do not become transparent. Should have a leaderboard for that.\
+- level designer for iPad using DrawKit; email levels to iPhone\
 \
 Layout:\
 \
@@ -54,40 +91,8 @@ Bonuses: (make this an IAP?)\
 - +1 ball\
 - +1 life\
 \
-****** SUBMIT:\
-\
-Description.\
-Screenshots.\
-Categories: Games > Action/Puzzle\
-Keywords: ball,balls,ballz,out,marble,marbles,puzzle,strategy,physics\
-\
-****** ONCE SUBMITTED:\
-\
-Website (Feedback). Video. Press Release. Mac demo?\
-\
-\
-***** FOR LATER:\
-\
-More levels.\
-\
-- save remembers number of balls, not targets or positions\
-asked Richard Q:\
-- saving\
-asked list:\
-- saving\
-CCNode will be NSCoding-able in 1.1 or later; Box2D who knows\
-\pard\pardeftab720\ql\qnatural
-{\field{\*\fldinst{HYPERLINK "http://groups.google.com/group/levelsvg-support/browse_thread/thread/9e6169a580f96d94/b4253512f38d2c70#b4253512f38d2c70"}}{\fldrslt \cf0 Save/restore Box2D + cocos2d state? - LevelSVG support | Google Groups}}\
-\
-Options: Music(or iPod), on/volume, FX volume?\
-Support/Review?\
-About/Credits to get at from title?\
-- should achievement reports send partial percentages?\
-- should check GC authentication on activate? (turning airplane mode on then reactivating doesn't trigger stashed achievement sending...)\
-- should load a saved game straightaway and pause it?\
-- moving obstacles should keep moving while ghosted?\
-\
 *****************************\
+\
 SVG support\
 \
 Inkscape objects:"\

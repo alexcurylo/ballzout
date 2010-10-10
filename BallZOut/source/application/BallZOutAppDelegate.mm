@@ -15,6 +15,8 @@
 //#import "HelloWorldScene.h"
 #import "BZRootViewController.h"
 
+//#define DISPLAY_FPS 1
+
 // for crashes
 // #define CRASH_REPORTER_URL [NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"]
 // woah ... the redirect loses our POST arguments??

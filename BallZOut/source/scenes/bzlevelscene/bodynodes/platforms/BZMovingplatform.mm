@@ -220,11 +220,15 @@
 	
 	b2Vec2 destPos;
 	if( goingForward ) {
-		body_->SetTransform( finalPosition, 0 );
+		//body_->SetTransform( finalPosition, 0 );
+      // for rotated platforms ...alex
+		body_->SetTransform( finalPosition, body_->GetAngle() );
 		body_->SetLinearVelocity( -velocity );
 		goingForward = NO;
 	} else {
-		body_->SetTransform( origPosition, 0 );
+		//body_->SetTransform( origPosition, 0 );
+      // for rotated platforms ...alex
+		body_->SetTransform( origPosition, body_->GetAngle() );
 		body_->SetLinearVelocity( velocity );
 		goingForward = YES;
 	}
