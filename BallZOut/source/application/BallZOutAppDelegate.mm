@@ -89,10 +89,19 @@ NSString *kBZPrefCurrentGame = @"BZCurrentGame";
    //http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:effects
 	// kEAGLColorFormatRGB565 made waviness go all black!
 	//
+/* http://www.cocos2d-iphone.org/forum/topic/10518
+    // PageTurnTransition needs a depth buffer of 16 or 24 bits
+    // These means that openGL z-order will be taken into account
+    // On the other hand "Flip" transitions doesn't work with DepthBuffer > 0
+    EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
+    pixelFormat:kEAGLColorFormatRGBA8
+    depthFormat:GL_DEPTH_COMPONENT24_OES];
+*/    
 	EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
       //pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
       pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
-      depthFormat:0						// GL_DEPTH_COMPONENT16_OES
+      //depthFormat:0						// GL_DEPTH_COMPONENT16_OES
+      depthFormat:GL_DEPTH_COMPONENT24_OES						// GL_DEPTH_COMPONENT16_OES
    preserveBackbuffer:NO];
 	
 	// Enable multiple touches, or not
